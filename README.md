@@ -42,15 +42,26 @@ frame_src --MsgSend--> detector --MsgSend--> controller
   latency for every frame. Frames later than the deadline (15 ms by default),
   frames that never arrive, and a starved controller all count as failures.
 
-`attacker` runs one of five attacks against the live pipeline:
+`attacker` runs one of six attacks against the live pipeline:
 
 | Mode | Behaviour |
 |---|---|
 | `cpu` | Threads that spin and never block |
 | `mem` | Allocates and keeps touching 300 MB |
 | `flood` | Sends junk messages to the detector as fast as it can |
+| `workflood` | Sends the detector requests that each cost real CPU |
 | `fd` | Exhausts file descriptors, channels and connections |
 | `crash` | Spawns a child that segfaults, and restarts it immediately |
+
+Two more processes support the pipeline:
+
+* `supervisor` starts the detector, restarts it when it dies, and prints how
+  long each restart took. It can also kill the detector on a schedule, to test
+  recovery (`KILL_AT=<seconds>`, with `SUPERVISE=1` to restart it).
+* `sieged` is a resource manager that publishes the live status as
+  `/dev/siege`. The controller pushes a status line to it every second over
+  native message passing, and `cat /dev/siege` returns the latest one, for
+  example `state=GREEN t=4 profile=none frames=49 late=0 ...`.
 
 ## Hardening profiles
 
@@ -77,6 +88,31 @@ A CPU hog at priority 20 against a pipeline at priority 10 (5-second runs,
 
 Without hardening, the pipeline is starved for the whole attack. With any of
 the three profiles it keeps its deadlines.
+
+### An attacker that uses no CPU
+
+`workflood` burns almost no CPU itself. It sends the detector requests that
+cost real work, from a priority above the pipeline's. The detector serves
+higher-priority senders first and runs at the priority of the client it is
+serving, so the camera's frames (priority 10) wait behind the flood
+(priority 30). In two runs per profile:
+
+| Profile | Runs passed | What the controller saw |
+|---|---|---|
+| `none` | 0 / 2 | 10 to 16 silences, longest 320 to 640 ms, about two thirds of frames never delivered |
+| `prio` | 2 / 2 | normal, longest gap 28 ms |
+
+### Recovery
+
+In single runs, with the detector killed two seconds in:
+
+| Setup | Result |
+|---|---|
+| No supervisor | Fails. The detector is never replaced and the pipeline goes quiet. |
+| `SUPERVISE=1` | Passes. The detector was serving again 6 ms after it died; the controller saw a 41 ms gap and lost one frame. |
+
+The controller reports silences longer than 100 ms as `OUTAGE` lines, and a
+run also fails if any silence exceeds the recovery budget (500 ms by default).
 
 ## Build and run
 
@@ -105,9 +141,14 @@ Automated runs from the host:
 
 ```sh
 scripts/qnxrun.py "PROFILE=prio ATK=cpu ATK_PRIO=20 pipeline.sh 5"
-scripts/matrix.py --profile none --runs 4     # every attack, repeated
-scripts/matrix.py --profile prio --runs 4
+scripts/matrix.py --profile none --runs 4 --json none.json   # every attack, repeated
+scripts/matrix.py --profile prio --runs 4 --json prio.json
+scripts/report.py none.json prio.json --out report          # report.md and report.html
 ```
+
+`report.py` writes a Markdown report and a self-contained HTML dashboard. The
+findings in it are fixed rules over the measured numbers, so the same data
+always gives the same report.
 
 `image/ram.build` contains absolute paths to the SDK and the build output on
 the build machine (`/home/siddhartha07/...`); change them to match your
@@ -124,6 +165,10 @@ account.
   `image/pipeline.sh`)
 * Kernel objects: `ChannelCreate`, `ConnectAttach`, `spawnl`
   (`pipeline/attacker.c`)
+* Resource manager: `resmgr_attach`, `iofunc`, `message_attach` and
+  `name_attach` on one dispatch loop, serving `/dev/siege`
+  (`pipeline/sieged.c`)
+* Process supervision: `spawnvp`, `waitpid`, `kill` (`pipeline/supervisor.c`)
 * Boot image: custom `mkifs` buildfile with `startup-qemu-virt`,
   `procnto-smp-instr`, a startup script and the pipeline binaries, run
   entirely from RAM (`image/ram.build`)
@@ -149,9 +194,10 @@ account.
   conditions; do not read absolute latencies as hardware numbers.
 * The detector and the frames are synthetic.
 * Adaptive partitioning is not part of the free SDP, so it is not used.
-* Not yet built: a supervisor with recovery-time measurement, a `/dev/siege`
-  resource manager, a host dashboard and generated report, and a config file
-  to point Siege at other pipelines.
+* Results are from a handful of runs per scenario. Compare failure rates, not
+  single runs.
+* Not yet built: a config file and launcher to point Siege at other
+  pipelines. The scenarios live in `scripts/matrix.py`.
 
 ## Licence
 
