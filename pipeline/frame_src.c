@@ -64,9 +64,18 @@ int main(int argc, char **argv)
          * starved camera shows up as latency instead of hiding itself. */
         f.t_capture_ns = next;
 
+        /* The detector may die and be restarted under a new channel. Reconnect
+         * by name, without waiting, and count frames sent into the gap. */
+        if (coid == -1) coid = name_open(DET_NAME, 0);
+        if (coid == -1) { dropped++; continue; }
+
         timeout_send_reply(IPC_TIMEOUT_NS);
-        if (MsgSend(coid, &f, sizeof f, &reply, sizeof reply) == -1) dropped++;
-        else sent++;
+        if (MsgSend(coid, &f, sizeof f, &reply, sizeof reply) == -1) {
+            dropped++;
+            if (errno != ETIMEDOUT) { name_close(coid); coid = -1; }
+        } else {
+            sent++;
+        }
     }
 
     /* Tell the detector (and through it the controller) we are done. */
