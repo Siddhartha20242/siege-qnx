@@ -1,0 +1,79 @@
+/* Synthetic camera: emits a deterministic 32x32 frame every period.
+ *
+ * A bright 5x5 blob moves along a fixed path over low-level noise from a
+ * seeded generator, so every run sees identical input.
+ */
+#include "common.h"
+
+static uint32_t lcg_state = 0x5EED1234u;
+
+static uint32_t lcg(void)
+{
+    lcg_state = lcg_state * 1664525u + 1013904223u;
+    return lcg_state >> 16;
+}
+
+static void make_frame(frame_msg_t *f, uint32_t n)
+{
+    int bx = 4 + (int)((n * 1) % 24);
+    int by = 4 + (int)((n * 2) % 24);
+
+    for (int y = 0; y < FRAME_H; y++)
+        for (int x = 0; x < FRAME_W; x++)
+            f->px[y * FRAME_W + x] = (uint8_t)(lcg() & 0x0F);
+
+    for (int y = by - 2; y <= by + 2; y++)
+        for (int x = bx - 2; x <= bx + 2; x++)
+            f->px[y * FRAME_W + x] = 200;
+}
+
+int main(int argc, char **argv)
+{
+    int duration_s = 10, prio = 10, c;
+
+    while ((c = getopt(argc, argv, "d:P:")) != -1) {
+        if (c == 'd') duration_s = atoi(optarg);
+        else if (c == 'P') prio = atoi(optarg);
+    }
+    set_prio_report("frame_src", prio);
+
+    int coid = open_name(DET_NAME, 50);
+    if (coid == -1) {
+        fprintf(stderr, "frame_src: cannot find %s\n", DET_NAME);
+        return 1;
+    }
+
+    uint32_t total = (uint32_t)duration_s * (uint32_t)(1000000000ULL / FRAME_PERIOD_NS);
+    uint32_t sent = 0, dropped = 0;
+    frame_msg_t f;
+    uint8_t reply;
+
+    f.type = MSG_FRAME;
+    f.pad = 0;
+
+    uint64_t next = now_ns();
+    for (uint32_t n = 0; n < total; n++) {
+        next += FRAME_PERIOD_NS;
+        struct timespec ts = { .tv_sec = (time_t)(next / 1000000000ULL),
+                               .tv_nsec = (long)(next % 1000000000ULL) };
+        clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts, NULL);
+
+        make_frame(&f, n);
+        f.seq = n;
+        /* Stamp the instant the frame was due, not when we got to run, so a
+         * starved camera shows up as latency instead of hiding itself. */
+        f.t_capture_ns = next;
+
+        timeout_send_reply(IPC_TIMEOUT_NS);
+        if (MsgSend(coid, &f, sizeof f, &reply, sizeof reply) == -1) dropped++;
+        else sent++;
+    }
+
+    /* Tell the detector (and through it the controller) we are done. */
+    uint16_t stop = MSG_STOP;
+    timeout_send_reply(1000000000ULL);
+    MsgSend(coid, &stop, sizeof stop, &reply, sizeof reply);
+
+    printf("SRC frames=%u sent=%u dropped=%u\n", total, sent, dropped);
+    return 0;
+}
