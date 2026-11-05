@@ -1,0 +1,614 @@
+[
+ {
+  "profile": "isolate",
+  "scenario": "baseline (no attacker)",
+  "atk": "",
+  "atk_prio": 10,
+  "extra": "",
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1514,
+    "p99": 2980,
+    "max": 8754,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2004,
+    "p99": 3707,
+    "max": 4622,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1704,
+    "p99": 3100,
+    "max": 13299,
+    "outages": 0,
+    "max_gap_ms": 32,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "cpu hog   @prio 10",
+  "atk": "cpu",
+  "atk_prio": 10,
+  "extra": "",
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2020,
+    "p99": 5858,
+    "max": 13146,
+    "outages": 0,
+    "max_gap_ms": 30,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1806,
+    "p99": 3288,
+    "max": 13592,
+    "outages": 0,
+    "max_gap_ms": 31,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 1,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1197,
+    "p99": 4265,
+    "max": 17418,
+    "outages": 0,
+    "max_gap_ms": 36,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "cpu hog   @prio 20",
+  "atk": "cpu",
+  "atk_prio": 20,
+  "extra": "",
+  "runs": [
+   {
+    "fail": false,
+    "late": 1,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1237,
+    "p99": 9930,
+    "max": 15931,
+    "outages": 0,
+    "max_gap_ms": 34,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1892,
+    "p99": 3214,
+    "max": 7500,
+    "outages": 0,
+    "max_gap_ms": 25,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1784,
+    "p99": 3128,
+    "max": 6734,
+    "outages": 0,
+    "max_gap_ms": 23,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "flood     @prio 10",
+  "atk": "flood",
+  "atk_prio": 10,
+  "extra": "",
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1789,
+    "p99": 2943,
+    "max": 8576,
+    "outages": 0,
+    "max_gap_ms": 25,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1902,
+    "p99": 4610,
+    "max": 9080,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1789,
+    "p99": 2960,
+    "max": 3308,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "flood     @prio 20",
+  "atk": "flood",
+  "atk_prio": 20,
+  "extra": "",
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1812,
+    "p99": 2870,
+    "max": 3176,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1754,
+    "p99": 3572,
+    "max": 7036,
+    "outages": 0,
+    "max_gap_ms": 25,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1722,
+    "p99": 2764,
+    "max": 8980,
+    "outages": 0,
+    "max_gap_ms": 26,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "workflood @prio 30",
+  "atk": "workflood",
+  "atk_prio": 30,
+  "extra": "",
+  "runs": [
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 1,
+    "p50": 1261,
+    "p99": 2497,
+    "max": 2497,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 1,
+    "p50": 1294,
+    "p99": 9284,
+    "max": 9284,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 1,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 2,
+    "p50": 1708,
+    "p99": 8852,
+    "max": 8852,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 1,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "mem hog   @prio 10",
+  "atk": "mem",
+  "atk_prio": 10,
+  "extra": "",
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1520,
+    "p99": 2930,
+    "max": 4069,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1725,
+    "p99": 3070,
+    "max": 8643,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1990,
+    "p99": 3396,
+    "max": 8264,
+    "outages": 0,
+    "max_gap_ms": 26,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "fd exhaust@prio 10",
+  "atk": "fd",
+  "atk_prio": 10,
+  "extra": "",
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1700,
+    "p99": 2914,
+    "max": 3044,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1774,
+    "p99": 3104,
+    "max": 9358,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1249,
+    "p99": 2359,
+    "max": 2513,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "crash loop@prio 10",
+  "atk": "crash",
+  "atk_prio": 10,
+  "extra": "",
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1994,
+    "p99": 3216,
+    "max": 4197,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1846,
+    "p99": 3242,
+    "max": 7230,
+    "outages": 0,
+    "max_gap_ms": 25,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2085,
+    "p99": 3250,
+    "max": 8049,
+    "outages": 0,
+    "max_gap_ms": 26,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "crash loop@prio 20",
+  "atk": "crash",
+  "atk_prio": 20,
+  "extra": "",
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1645,
+    "p99": 2968,
+    "max": 6848,
+    "outages": 0,
+    "max_gap_ms": 25,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1527,
+    "p99": 2686,
+    "max": 8095,
+    "outages": 0,
+    "max_gap_ms": 26,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1229,
+    "p99": 2549,
+    "max": 7672,
+    "outages": 0,
+    "max_gap_ms": 26,
+    "abandoned": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "kill detector, no supervisor",
+  "atk": "",
+  "atk_prio": 10,
+  "extra": "KILL_AT=2",
+  "runs": [
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1270,
+    "p99": 2152,
+    "max": 2152,
+    "outages": 0,
+    "max_gap_ms": 20,
+    "abandoned": 1,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1542,
+    "p99": 3774,
+    "max": 3774,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 1,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1420,
+    "p99": 2538,
+    "max": 2538,
+    "outages": 0,
+    "max_gap_ms": 20,
+    "abandoned": 1,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "profile": "isolate",
+  "scenario": "kill detector, supervised",
+  "atk": "",
+  "atk_prio": 10,
+  "extra": "SUPERVISE=1 KILL_AT=2",
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 1567,
+    "p99": 2507,
+    "max": 5569,
+    "outages": 0,
+    "max_gap_ms": 39,
+    "abandoned": 0,
+    "restart_ms": 3,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 1300,
+    "p99": 2352,
+    "max": 2576,
+    "outages": 0,
+    "max_gap_ms": 39,
+    "abandoned": 0,
+    "restart_ms": 3,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 1744,
+    "p99": 2749,
+    "max": 5783,
+    "outages": 0,
+    "max_gap_ms": 40,
+    "abandoned": 0,
+    "restart_ms": 3,
+    "outage_ms": null
+   }
+  ]
+ }
+]

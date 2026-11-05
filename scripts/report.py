@@ -51,19 +51,24 @@ def ms(us):
     return "-" if us is None else (f"{us/1000:.1f} ms" if us < 1e6 else f"{us/1e6:.1f} s")
 
 # ---- findings: rules over the numbers -----------------------------------------
-broken, contained, fixed_by, unfixed = [], [], {}, []
+def never_recovered(c):
+    return bool(c) and any(x["abandoned"] for x in c["runs"])
+
+broken, intermittent, contained = [], [], []
+fixed, reduced, not_fixed = {}, {}, {}
 for sc in scenarios:
     base = cell.get((sc, "none"))
     if not base or sc.startswith("baseline"):
         continue
     if rate(base) >= 0.5:
         broken.append(sc)
-        fixes = [p for p in profiles if p != "none" and rate(cell.get((sc, p))) == 0
-                 and cell.get((sc, p))]
-        fixed_by[sc] = fixes
-        if not fixes:
-            unfixed.append(sc)
-    elif rate(base) == 0 and "kill detector" not in sc:
+        others = [p for p in profiles if p != "none" and cell.get((sc, p))]
+        fixed[sc] = [p for p in others if rate(cell[(sc, p)]) == 0]
+        reduced[sc] = [p for p in others if 0 < rate(cell[(sc, p)]) < rate(base)]
+        not_fixed[sc] = [p for p in others if rate(cell[(sc, p)]) >= rate(base)]
+    elif rate(base) > 0:
+        intermittent.append(sc)
+    elif "kill detector" not in sc:
         contained.append(sc)
 
 findings = []
@@ -74,11 +79,26 @@ if base:
                      "Timing is emulated, so read results as relative, not as hardware latencies."))
 for sc in broken:
     b = cell[(sc, "none")]
-    fx = fixed_by[sc]
-    txt = (f"{sc.strip()} breaks the unhardened pipeline in {b['fails']}/{b['n']} runs "
+    name = sc.strip()
+    if never_recovered(b):
+        txt = (f"{name}: the pipeline went silent and never recovered in {b['fails']}/{b['n']} runs "
+               "(the controller gave up after 3 s). Scheduling profiles cannot help; a supervisor can.")
+        findings.append(("break", txt))
+        continue
+    txt = (f"{name} breaks the unhardened pipeline in {b['fails']}/{b['n']} runs "
            f"(worst frame {ms(b['worst'])}, longest silence {b['gap']} ms).")
-    txt += (f" Restored by: {', '.join(fx)}." if fx else " No profile restored it.")
+    if fixed[sc]:
+        txt += f" Restored by: {', '.join(fixed[sc])}."
+    if reduced[sc]:
+        txt += " Reduced by: " + ", ".join(f"{p} ({cell[(sc, p)]['fails']}/{cell[(sc, p)]['n']} runs still failed)"
+                                           for p in reduced[sc]) + "."
+    if not_fixed[sc]:
+        txt += f" Not helped by: {', '.join(not_fixed[sc])}."
     findings.append(("break", txt))
+for sc in intermittent:
+    c = cell[(sc, "none")]
+    findings.append(("noise", f"{sc.strip()} failed {c['fails']}/{c['n']} runs (worst frame {ms(c['worst'])}); "
+                     "isolated spikes like this also occur in clean runs under emulation, so treat it as noise unless it repeats."))
 if contained:
     findings.append(("ok", "Contained by QNX without any hardening (0 failed runs): "
                      + "; ".join(s.strip() for s in contained) + "."))
@@ -90,11 +110,6 @@ for sc in scenarios:
             findings.append(("ok", f"Supervised restart: the detector was back in "
                              f"{statistics.median(c['restart']):.0f} ms (median of {len(c['restart'])} runs); "
                              f"the controller saw a worst gap of {max(gaps)} ms."))
-    if "no supervisor" in sc:
-        c = cell.get((sc, "none"))
-        if c:
-            findings.append(("break", f"Without a supervisor a killed detector is never replaced: "
-                             f"{c['fails']}/{c['n']} runs failed."))
 
 # ---- markdown ------------------------------------------------------------------
 md = ["# Siege report", "",
