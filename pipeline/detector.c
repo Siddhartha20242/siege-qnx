@@ -10,7 +10,9 @@ static const int8_t kernel[9] = { -1, -1, -1,
                                   -1,  8, -1,
                                   -1, -1, -1 };
 
-static void detect(const uint8_t *px, int16_t *bx, int16_t *by, int32_t *best)
+/* px is read through a volatile pointer so repeated passes are real work and
+ * cannot be folded into one by the compiler. */
+static void detect(const volatile uint8_t *px, int16_t *bx, int16_t *by, int32_t *best)
 {
     int32_t top = -1;
     int16_t tx = 0, ty = 0;
@@ -27,9 +29,11 @@ static void detect(const uint8_t *px, int16_t *bx, int16_t *by, int32_t *best)
     *bx = tx; *by = ty; *best = top;
 }
 
+static volatile int32_t work_sink;   /* keeps MSG_WORK compute from being optimised away */
+
 int main(int argc, char **argv)
 {
-    int prio = 10, passes = 20, c;
+    int prio = 10, passes = 3, c;
 
     while ((c = getopt(argc, argv, "P:w:")) != -1) {
         if (c == 'P') prio = atoi(optarg);
@@ -60,6 +64,20 @@ int main(int argc, char **argv)
             timeout_send_reply(1000000000ULL);
             MsgSend(ctl, &stop, sizeof stop, &reply, sizeof reply);
             break;
+        }
+
+        if (f.type == MSG_WORK) {           /* shared-service abuse: burn CPU, then reply */
+            int16_t wx, wy;
+            int32_t ws;
+            /* The client says how many passes it wants; that is the abuse. */
+            uint32_t n = f.seq ? f.seq : (uint32_t)passes;
+            if (n > 2000) n = 2000;
+            for (uint32_t i = 0; i < n; i++)
+                detect(f.px, &wx, &wy, &ws);
+            work_sink = ws + wx + wy;
+            reply = 1;
+            MsgReply(rcvid, 0, &reply, 1);
+            continue;
         }
 
         if (f.type != MSG_FRAME) {          /* junk from a misbehaving client */

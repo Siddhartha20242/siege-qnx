@@ -4,6 +4,7 @@
  *   attacker -m cpu   [-n threads] [-a cpumask]  busy-loop threads that never block
  *   attacker -m mem   [-n megabytes] allocate and keep touching memory
  *   attacker -m flood [-n threads]   hammer the detector with junk messages
+ *   attacker -m workflood [-n n]     send the detector requests that cost real CPU
  *   attacker -m fd    [-n unused]    exhaust fds, channels and connections
  *   attacker -m crash                spawn a child that crashes, forever
  *
@@ -111,6 +112,9 @@ static int mode_mem(int mb)
 /* ---- flood: queue junk messages at the detector ----------------------- */
 
 static volatile uint32_t flood_sent, flood_rejected, flood_timeout;
+static uint16_t flood_type = MSG_JUNK;
+static volatile int flood_errno, first_errno;
+static volatile uint32_t first_fail_at, flood_reconnects;
 
 static void *flood_thread(void *arg)
 {
@@ -121,7 +125,8 @@ static void *flood_thread(void *arg)
 
     frame_msg_t junk;
     memset(&junk, 0x55, sizeof junk);
-    junk.type = MSG_JUNK;
+    junk.type = flood_type;
+    junk.seq = flood_type == MSG_WORK ? 150 : 0;   /* passes the detector must run */
     uint8_t reply;
 
     while (running()) {
@@ -129,17 +134,26 @@ static void *flood_thread(void *arg)
         flood_sent++;
         if (MsgSend(coid, &junk, sizeof junk, &reply, sizeof reply) == -1) {
             if (errno == ETIMEDOUT) flood_timeout++;
-            else flood_rejected++;
+            else {
+                if (!first_fail_at) { first_fail_at = flood_sent; first_errno = errno; }
+                flood_rejected++; flood_errno = errno;
+                if (errno != EINVAL) {          /* connection lost: reconnect */
+                    name_close(coid);
+                    coid = open_name(DET_NAME, 5);
+                    flood_reconnects++;
+                    if (coid == -1) return NULL;
+                }
+            }
         }
     }
     return NULL;
 }
 
-static int mode_flood(int n)
+static int mode_flood(int n, const char *label)
 {
     run_threads(flood_thread, n);
-    printf("ATK mode=flood threads=%d sent=%u rejected=%u timed_out=%u\n",
-           n, flood_sent, flood_rejected, flood_timeout);
+    printf("ATK mode=%s threads=%d sent=%u rejected=%u timed_out=%u last_errno=%d first_fail_at=%u first_errno=%d reconnects=%u\n",
+           label, n, flood_sent, flood_rejected, flood_timeout, flood_errno, first_fail_at, first_errno, flood_reconnects);
     return 0;
 }
 
@@ -225,7 +239,8 @@ int main(int argc, char **argv)
     int rc;
     if (!strcmp(mode, "cpu"))        rc = mode_cpu(n < 0 ? 2 : n);
     else if (!strcmp(mode, "mem"))   rc = mode_mem(n < 0 ? 300 : n);
-    else if (!strcmp(mode, "flood")) rc = mode_flood(n < 0 ? 2 : n);
+    else if (!strcmp(mode, "flood")) rc = mode_flood(n < 0 ? 2 : n, "flood");
+    else if (!strcmp(mode, "workflood")) { flood_type = MSG_WORK; rc = mode_flood(n < 0 ? 2 : n, "workflood"); }
     else if (!strcmp(mode, "fd"))    rc = mode_fd(n);
     else if (!strcmp(mode, "crash")) rc = mode_crash();
     else if (!strcmp(mode, "child")) return crash_child();
