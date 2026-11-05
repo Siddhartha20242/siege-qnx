@@ -76,18 +76,27 @@ Set with `PROFILE=` in `image/pipeline.sh`.
 
 ## Result
 
-A CPU hog at priority 20 against a pipeline at priority 10 (5-second runs,
-15 ms deadline, 2% late-frame tolerance, three runs per profile):
+All twelve scenarios were run against all four profiles, three runs each
+(5-second runs, 15 ms deadline, 2% late-frame tolerance). The full table and
+generated findings are in [`docs/report.md`](docs/report.md) and
+[`docs/report.html`](docs/report.html); the raw runs are in `docs/results/`.
 
-| Profile | Runs passed | Late frames | Median latency |
-|---|---|---|---|
-| `none` | 0 / 3 | 80% | about 2,580 ms |
-| `prio` | 3 / 3 | 0% | about 2 ms |
-| `isolate` | 3 / 3 | 0% | about 2 ms |
-| `budget` | 3 / 3 | 0.4 to 0.8% | about 4 ms |
+A CPU hog at priority 20 against a pipeline at priority 10:
 
-Without hardening, the pipeline is starved for the whole attack. With any of
-the three profiles it keeps its deadlines.
+| Profile | Failed runs | Median latency |
+|---|---|---|
+| `none` | 3 / 3 | about 2,530 ms |
+| `prio` | 1 / 3 (one run with a 162 ms spike) | about 1.4 ms |
+| `isolate` | 0 / 3 | about 1.8 ms |
+| `budget` | 0 / 3 | about 3.4 ms |
+
+Without hardening, the pipeline is starved for the whole attack. Every profile
+restores it.
+
+The other attacks at the default priority (CPU hog, message flood, memory
+hog, descriptor exhaustion, crash loop) did not break the unhardened
+pipeline: QNX contained them. One flood run out of three showed a 61 ms
+spike, which also appears in clean runs under emulation.
 
 ### An attacker that uses no CPU
 
@@ -95,21 +104,29 @@ the three profiles it keeps its deadlines.
 cost real work, from a priority above the pipeline's. The detector serves
 higher-priority senders first and runs at the priority of the client it is
 serving, so the camera's frames (priority 10) wait behind the flood
-(priority 30). In two runs per profile:
+(priority 30). Failed runs out of three:
 
-| Profile | Runs passed | What the controller saw |
-|---|---|---|
-| `none` | 0 / 2 | 10 to 16 silences, longest 320 to 640 ms, about two thirds of frames never delivered |
-| `prio` | 2 / 2 | normal, longest gap 28 ms |
+| Profile | Failed runs |
+|---|---|
+| `none` | 3 / 3 |
+| `prio` | 0 / 3 |
+| `isolate` | 3 / 3 |
+| `budget` | 3 / 3 |
+
+Only raising the pipeline's priority fixes it. Giving the pipeline its own CPU
+does not, and neither does capping the attacker's CPU, because the attacker
+barely uses any: the damage is done through the shared detector's message
+queue. Each mitigation covers a different failure, which is why Siege tests
+them against each attack instead of assuming one is enough.
 
 ### Recovery
 
-In single runs, with the detector killed two seconds in:
+With the detector killed two seconds in, three runs each:
 
 | Setup | Result |
 |---|---|
-| No supervisor | Fails. The detector is never replaced and the pipeline goes quiet. |
-| `SUPERVISE=1` | Passes. The detector was serving again 6 ms after it died; the controller saw a 41 ms gap and lost one frame. |
+| No supervisor | Fails 3 / 3. The detector is never replaced; the controller gives up after 3 s of silence. No scheduling profile changes this. |
+| `SUPERVISE=1` | Passes 3 / 3. The detector was serving again 6 ms after it died (median); the controller's worst silence was 41 ms. |
 
 The controller reports silences longer than 100 ms as `OUTAGE` lines, and a
 run also fails if any silence exceeds the recovery budget (500 ms by default).
@@ -141,10 +158,21 @@ Automated runs from the host:
 
 ```sh
 scripts/qnxrun.py "PROFILE=prio ATK=cpu ATK_PRIO=20 pipeline.sh 5"
-scripts/matrix.py --profile none --runs 4 --json none.json   # every attack, repeated
-scripts/matrix.py --profile prio --runs 4 --json prio.json
+scripts/calibrate.py                                        # measure the noise floor, suggest a deadline
+scripts/matrix.py --profile none --json none.json           # every scenario in siege.json, repeated
+scripts/matrix.py --profile prio --json prio.json
 scripts/report.py none.json prio.json --out report          # report.md and report.html
 ```
+
+Scenarios, run counts, the deadline and the tolerance live in `siege.json`:
+to test a new attack or fault, add an entry to its `scenarios` list.
+
+`calibrate.py` runs the clean pipeline repeatedly with a very large deadline
+and reports the worst frame it saw. On the setup used here, ten clean runs had
+a median latency of 1.5 ms and a worst single frame of 12.2 ms, and it
+recommended a 20 ms deadline. The 15 ms deadline used for the reported results
+sits closer to that noise than the recommendation, which is why the verdict
+uses a 2% late-frame budget instead of requiring zero misses.
 
 `report.py` writes a Markdown report and a self-contained HTML dashboard. The
 findings in it are fixed rules over the measured numbers, so the same data
@@ -196,8 +224,9 @@ account.
 * Adaptive partitioning is not part of the free SDP, so it is not used.
 * Results are from a handful of runs per scenario. Compare failure rates, not
   single runs.
-* Not yet built: a config file and launcher to point Siege at other
-  pipelines. The scenarios live in `scripts/matrix.py`.
+* Scenarios and profiles are data in `siege.json`, but pointing Siege at a
+  different pipeline is not supported yet: the launcher in `image/pipeline.sh`
+  is specific to the reference pipeline.
 
 ## Licence
 
