@@ -35,7 +35,11 @@
 #define MSG_FRAME (_IO_MAX + 1)
 #define MSG_DET   (_IO_MAX + 2)
 #define MSG_STOP  (_IO_MAX + 3)
+#define MSG_WORK  (_IO_MAX + 4)        /* expensive request, used by workflood */
 #define MSG_JUNK  (_IO_MAX + 9)        /* used only by the flood attacker */
+#define MSG_STATS (_IO_MAX + 10)       /* controller -> /dev/siege status text */
+
+#define RM_NAME  "siege_rm"            /* name of the /dev/siege resource manager */
 
 typedef struct {
     uint16_t type;
@@ -53,6 +57,12 @@ typedef struct {
     int16_t  x, y;
     int32_t  score;
 } det_msg_t;
+
+typedef struct {
+    uint16_t type;
+    uint16_t pad;
+    char     text[240];
+} stats_msg_t;
 
 static inline uint64_t now_ns(void)
 {

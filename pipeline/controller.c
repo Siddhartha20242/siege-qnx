@@ -1,12 +1,19 @@
 /* Controller: turns detections into a steering command and checks deadlines.
  *
  * For every detection it measures capture -> command latency. A frame is a
- * deadline failure if it is late (> DEADLINE_NS) or never arrives (sequence
- * gap). It prints one SUMMARY line per second and a FINAL line at the end.
+ * deadline failure if it is late (> deadline) or never arrives (sequence gap
+ * without a long outage). A silence longer than OUTAGE_NS is reported as an
+ * outage together with its length, which is the recovery time when a service
+ * dies and is restarted.
+ *
+ * Output: one SUMMARY line per second, OUTAGE lines, then FINAL and RESULT.
+ * Each SUMMARY is also sent to the /dev/siege resource manager when present.
  */
 #include "common.h"
 
 #define MAX_SAMPLES 65536
+#define OUTAGE_NS   100000000ULL    /* silence that counts as an outage */
+#define ABANDON_NS  3000000000ULL   /* give up if nothing arrives this long */
 
 static uint32_t lat_all[MAX_SAMPLES];
 static uint32_t lat_win[MAX_SAMPLES];
@@ -21,18 +28,35 @@ typedef struct {
     uint32_t frames, late, lost, stalls;
 } counts_t;
 
-static void report(const char *tag, uint32_t t, const counts_t *c,
-                   uint32_t *lat, uint32_t n)
+typedef struct {
+    uint32_t p50, p99, mx;
+} pct_t;
+
+static pct_t percentiles(uint32_t *lat, uint32_t n)
 {
-    uint32_t p50 = 0, p99 = 0, mx = 0;
+    pct_t p = {0, 0, 0};
     if (n) {
         qsort(lat, n, sizeof lat[0], cmp_u32);
-        p50 = lat[n / 2];
-        p99 = lat[(n * 99) / 100 >= n ? n - 1 : (n * 99) / 100];
-        mx = lat[n - 1];
+        p.p50 = lat[n / 2];
+        p.p99 = lat[(n * 99) / 100 >= n ? n - 1 : (n * 99) / 100];
+        p.mx = lat[n - 1];
     }
-    printf("%s t=%u frames=%u late=%u lost=%u stalls=%u p50_us=%u p99_us=%u max_us=%u\n",
-           tag, t, c->frames, c->late, c->lost, c->stalls, p50, p99, mx);
+    return p;
+}
+
+static int rm_coid = -1;
+
+/* Best effort: never let a missing or slow status device stall the controller. */
+static void send_status(const char *line)
+{
+    if (rm_coid == -1) return;
+    stats_msg_t m;
+    uint8_t reply;
+    memset(&m, 0, sizeof m);
+    m.type = MSG_STATS;
+    strncpy(m.text, line, sizeof m.text - 1);
+    timeout_send_reply(2000000ULL);
+    MsgSend(rm_coid, &m, sizeof m, &reply, sizeof reply);
 }
 
 int main(int argc, char **argv)
@@ -40,23 +64,29 @@ int main(int argc, char **argv)
     int prio = 10, c;
     uint64_t deadline_ns = DEADLINE_NS;
     uint32_t tol_permille = 20;      /* tolerated late+lost frames: 2.0% */
+    uint32_t recovery_ms = 500;      /* longest tolerated silence */
 
-    while ((c = getopt(argc, argv, "P:D:T:")) != -1) {
+    while ((c = getopt(argc, argv, "P:D:T:R:")) != -1) {
         if (c == 'P') prio = atoi(optarg);
         else if (c == 'D') deadline_ns = (uint64_t)atoi(optarg) * 1000000ULL;
         else if (c == 'T') tol_permille = (uint32_t)atoi(optarg);
+        else if (c == 'R') recovery_ms = (uint32_t)atoi(optarg);
     }
     set_prio_report("controller", prio);
     setvbuf(stdout, NULL, _IOLBF, 0);
 
     name_attach_t *att = name_attach(NULL, CTL_NAME, 0);
     if (!att) { perror("controller: name_attach"); return 1; }
+    rm_coid = name_open(RM_NAME, 0);
+
+    const char *profile = getenv("PROFILE");
+    if (!profile) profile = "none";
 
     counts_t all = {0}, win = {0};
     uint32_t n_all = 0, n_win = 0, secs = 0;
-    uint32_t expect = 0;
-    int started = 0;
-    uint64_t t0 = 0, next_report = 0;
+    uint32_t expect = 0, outages = 0, outage_frames = 0, max_gap_ms = 0;
+    int started = 0, abandoned = 0;
+    uint64_t t0 = 0, next_report = 0, last = 0;
     int16_t cmd = 0;
     union { uint16_t type; det_msg_t d; } m;
     uint8_t reply = 1;
@@ -67,7 +97,10 @@ int main(int argc, char **argv)
         int rcvid = MsgReceive(att->chid, &m, sizeof m, NULL);
 
         if (rcvid == -1 && errno == ETIMEDOUT) {
-            if (started) { all.stalls++; win.stalls++; }
+            if (started) {
+                all.stalls++; win.stalls++;
+                if (now_ns() - last > ABANDON_NS) { abandoned = 1; break; }
+            }
             continue;
         }
         if (rcvid <= 0) continue;
@@ -80,17 +113,28 @@ int main(int argc, char **argv)
         if (m.type != MSG_DET) continue;
 
         uint64_t now = now_ns();
+        uint64_t gap_ns = started ? now - last : 0;
         if (!started) {
             started = 1;
             t0 = now;
             next_report = now + 1000000000ULL;
         }
+        last = now;
+        if ((uint32_t)(gap_ns / 1000000ULL) > max_gap_ms)
+            max_gap_ms = (uint32_t)(gap_ns / 1000000ULL);
 
-        /* Frames the pipeline never delivered count as missed deadlines. */
+        /* Frames the pipeline never delivered: a long silence is an outage
+         * (recovery time), a short gap is plain loss. */
         if (m.d.seq > expect) {
             uint32_t gap = m.d.seq - expect;
-            all.lost += gap;
-            win.lost += gap;
+            if (gap_ns > OUTAGE_NS) {
+                outages++;
+                outage_frames += gap;
+                printf("OUTAGE ms=%u frames=%u\n", (unsigned)(gap_ns / 1000000ULL), gap);
+            } else {
+                all.lost += gap;
+                win.lost += gap;
+            }
         }
         expect = m.d.seq + 1;
 
@@ -107,7 +151,18 @@ int main(int argc, char **argv)
 
         if (now >= next_report) {
             secs = (uint32_t)((now - t0) / 1000000000ULL);
-            report("SUMMARY", secs, &win, lat_win, n_win);
+            pct_t p = percentiles(lat_win, n_win);
+            printf("SUMMARY t=%u frames=%u late=%u lost=%u stalls=%u p50_us=%u p99_us=%u max_us=%u\n",
+                   secs, win.frames, win.late, win.lost, win.stalls, p.p50, p.p99, p.mx);
+
+            uint32_t wbad = win.late + win.lost;
+            uint32_t wtot = win.frames + win.lost;
+            const char *state = (wtot && wbad * 1000 <= wtot * tol_permille) ? "GREEN" : "RED";
+            char st[240];
+            snprintf(st, sizeof st, "state=%s t=%u profile=%s frames=%u late=%u lost=%u p50_us=%u p99_us=%u max_us=%u\n",
+                     state, secs, profile, win.frames, win.late, win.lost, p.p50, p.p99, p.mx);
+            send_status(st);
+
             memset(&win, 0, sizeof win);
             n_win = 0;
             next_report += 1000000000ULL;
@@ -115,14 +170,25 @@ int main(int argc, char **argv)
     }
 
     secs = started ? (uint32_t)((now_ns() - t0) / 1000000000ULL) : 0;
-    report("FINAL", secs, &all, lat_all, n_all);
+    pct_t p = percentiles(lat_all, n_all);
+    printf("FINAL t=%u frames=%u late=%u lost=%u stalls=%u p50_us=%u p99_us=%u max_us=%u outages=%u outage_frames=%u max_gap_ms=%u abandoned=%d\n",
+           secs, all.frames, all.late, all.lost, all.stalls, p.p50, p.p99, p.mx,
+           outages, outage_frames, max_gap_ms, abandoned);
+
     /* Emulation produces rare isolated outliers, so the verdict is a late-frame
      * budget rather than "zero misses": PASS if at most tol_permille of frames
-     * were late or lost and the controller was never starved. */
+     * were late or lost, no silence exceeded the recovery budget, and the
+     * pipeline never went quiet for good. */
     uint32_t total = all.frames + all.lost;
     uint32_t bad = all.late + all.lost;
     uint32_t late_pm = total ? (uint32_t)(((uint64_t)bad * 1000) / total) : 1000;
-    int pass = all.stalls == 0 && total && late_pm <= tol_permille;
-    printf("RESULT %s late_pm=%u tol_pm=%u\n", pass ? "PASS" : "FAIL", late_pm, tol_permille);
+    int pass = !abandoned && total && late_pm <= tol_permille && max_gap_ms <= recovery_ms;
+    printf("RESULT %s late_pm=%u tol_pm=%u max_gap_ms=%u recovery_ms=%u\n",
+           pass ? "PASS" : "FAIL", late_pm, tol_permille, max_gap_ms, recovery_ms);
+
+    char st[240];
+    snprintf(st, sizeof st, "state=%s final frames=%u late=%u lost=%u outages=%u max_gap_ms=%u p99_us=%u\n",
+             pass ? "GREEN" : "RED", all.frames, all.late, all.lost, outages, max_gap_ms, p.p99);
+    send_status(st);
     return 0;
 }
