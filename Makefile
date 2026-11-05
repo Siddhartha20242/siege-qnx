@@ -3,7 +3,7 @@
 CC      = qcc -Vgcc_ntoaarch64le
 CFLAGS  = -O2 -Wall -Wextra -std=gnu11
 BIN     = build/bin
-PROGS   = frame_src detector controller attacker probe
+PROGS   = frame_src detector controller attacker probe supervisor sieged
 
 all: $(addprefix $(BIN)/,$(PROGS))
 
