@@ -1,0 +1,84 @@
+[search=/home/siddhartha07/qnx800/target/qnx/aarch64le:/home/siddhartha07/qnx800/target/qnx/aarch64le/boot/sys:/home/siddhartha07/qnx800/target/qnx:.]
+[+dupignore]
+[+optional]
+[uid=0 gid=0 dperms=0555 perms=0555]
+
+[image=0x40080000]
+[virtual=aarch64le,raw] boot = {
+    startup-qemu-virt
+    PATH=/proc/boot
+    LD_LIBRARY_PATH=/proc/boot
+    [+keeplinked uid=0 gid=0 perms=0700] CONFIG_PATH=/proc/boot procnto-smp-instr -mr -d 0777 -u 0777
+}
+
+[+script] startup-script = {
+    procmgr_symlink /proc/boot/ldqnx-64.so.2 /usr/lib/ldqnx-64.so.2
+    TERM=qansi
+    HOME=/tmp
+    setconf TIMEZONE UTC0
+    display_msg "Siege image: starting"
+    pipe -U 24:24
+    waitfor /dev/pipe
+    slogger2 -U 21:21
+    waitfor /dev/slog
+    devc-serpl011 -e -F 0x9000000,33
+    waitfor /dev/ser1
+    on -d -t /dev/ser1 ksh -l
+    display_msg "Startup complete"
+    uname -a
+    reopen /dev/ser1
+}
+
+# Utilities
+toybox=usr/bin/toybox
+[type=link] cat=toybox
+[type=link] ls=toybox
+[type=link] echo=toybox
+[type=link] sleep=toybox
+[type=link] grep=toybox
+[type=link] rm=toybox
+[type=link] uname=toybox
+[type=link] mkdir=toybox
+[type=link] cp=toybox
+[type=link] head=toybox
+[type=link] tail=toybox
+[type=link] wc=toybox
+[type=link] sort=toybox
+[type=link] kill=toybox
+bin/on
+[type=link] waitfor=on
+bin/ksh
+[type=link] sh=ksh
+bin/pidin
+bin/slog2info
+bin/slogger2
+sbin/pipe
+sbin/devc-serpl011
+usr/bin/getconf
+[type=link] setconf=getconf
+
+[-autolink]
+lib/libc.so.6
+usr/lib/ldqnx-64.so.2
+lib/libgcc_s.so.1
+lib/libm.so.3
+lib/libslog2.so.1
+[type=link] libslog2.so=libslog2.so.1
+lib/libslog2shim.so.1
+lib/libsecpol.so.1
+lib/libjson.so.1
+lib/libslog2parse.so.1
+lib/libjail.so.1
+lib/libregex.so.1
+lib/libfsnotify.so.1
+usr/lib/libz.so.2
+[type=link] /bin/ksh=/proc/boot/ksh
+[type=link] /bin/sh=/proc/boot/ksh
+
+# Siege pipeline (built by `make` into build/bin on the VM)
+[perms=0555] frame_src=/home/siddhartha07/siege/src/build/bin/frame_src
+[perms=0555] detector=/home/siddhartha07/siege/src/build/bin/detector
+[perms=0555] controller=/home/siddhartha07/siege/src/build/bin/controller
+[perms=0555] attacker=/home/siddhartha07/siege/src/build/bin/attacker
+[perms=0555] probe=/home/siddhartha07/siege/src/build/bin/probe
+[perms=0555] pipeline.sh=image/pipeline.sh
