@@ -1,30 +1,32 @@
 # Three more attackers
 
-Added after the main report: a memory-bandwidth streamer (`membw`), a swarm of
-100-microsecond timers (`timerstorm`) and a kernel-call storm (`kcall`). 5 runs
-each, 20 ms deadline, QNX SDP 8.0 in QEMU. Raw runs are in `results/new-*.json`
-and `results/new5-*.json`. The first three rows were run against all four profiles
-and the last two against `none` and `prio` only.
+A memory-bandwidth streamer (`membw`), a swarm of 100-microsecond timers
+(`timerstorm`) and a kernel-call storm (`kcall`). 20 ms deadline, QNX SDP 8.0 in
+QEMU. Raw runs: `results/new-*.json` (5 runs each) and `results/deep2-*.json` (15
+runs each, the table below). `timerstorm` was run 5 times per profile only.
+
+Failed runs out of 15 (95% Wilson interval for the failure rate in brackets):
 
 | Attacker | No hardening | `prio` | `isolate` | `budget` |
 |---|---|---|---|---|
-| memory bandwidth @ prio 20 | 5/5 failed | 0/5 | 1/5 | 0/5 |
-| timer storm @ prio 20 | 0/5 | 0/5 | 0/5 | 0/5 |
-| kernel-call storm @ prio 20 | 5/5 failed | 1/5 | 0/5 | 0/5 |
-| memory bandwidth @ prio 5 | 1/5 | 0/5 | | |
-| kernel-call storm @ prio 5 | 0/5 | 0/5 | | |
+| memory bandwidth @ prio 20 | 15/15 (78-100%) | 0/15 (0-20%) | 0/15 (0-20%) | 1/15 (1-30%) |
+| kernel-call storm @ prio 20 | 15/15 (78-100%) | 0/15 (0-20%) | 0/15 (0-20%) | 0/15 (0-20%) |
+| memory bandwidth @ prio 5 | 0/15 (0-20%) | 0/15 (0-20%) | 0/15 (0-20%) | 0/15 (0-20%) |
+| kernel-call storm @ prio 5 | 0/15 (0-20%) | 1/15 (1-30%) | 0/15 (0-20%) | 0/15 (0-20%) |
+| timer storm @ prio 20 (5 runs) | 0/5 | 0/5 | 0/5 | 0/5 |
 
-What this does and does not show:
+What this shows and does not show:
 
-* The two attackers that failed the unhardened pipeline at priority 20 never block,
-  so they behave as CPU hogs above the pipeline's priority. That is the known
-  priority-starvation pattern, not a new one. Raising the pipeline's priority fixes it.
-* The test that could separate memory bandwidth from CPU use is the priority-5 run,
-  where the pipeline always wins the CPU. There, 1 of 5 unhardened runs failed (worst
-  frame 76 ms) and none failed with `prio`. That is too small a difference to call a
-  bandwidth effect, and QEMU's memory timing is not hardware's. It is recorded as
-  not observed, not as absent.
+* The two attackers that fail the unhardened pipeline at priority 20 never block, so
+  they behave as CPU hogs above the pipeline's priority. That is the known
+  priority-starvation pattern, not a new one, and raising the pipeline's priority,
+  giving it its own CPU, or capping the attacker's CPU all fix it.
+* At priority 5, where the pipeline always wins the CPU, neither attacker broke it in
+  15 runs. The 1 of 5 failure seen earlier for memory bandwidth did not repeat, so it
+  was noise. No memory-bandwidth effect was observed. QEMU's memory timing is not
+  hardware's, so this says nothing about a real board.
+* The two single failures in the table (one `budget` run, one `prio` run with a worst frame
+  of 125 ms) are within what the emulator does on its own; the baseline also has
+  occasional frames over 30 ms. They are not explained.
 * A swarm of fast timers did not break the pipeline in any profile in 5 runs. A real
-  interrupt storm needs a driver and hardware, so this is only a user-space stand-in.
-* The 1 of 5 failures under `prio` for the kernel-call storm is noise-sized and is
-  not explained.
+  interrupt storm needs a driver and hardware; this is only a user-space stand-in.
