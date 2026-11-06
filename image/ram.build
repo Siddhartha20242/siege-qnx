@@ -83,4 +83,6 @@ usr/lib/libz.so.2
 [perms=0555] probe=build/bin/probe
 [perms=0555] supervisor=build/bin/supervisor
 [perms=0555] sieged=build/bin/sieged
+[perms=0555] ticker=build/bin/ticker
 [perms=0555] pipeline.sh=image/pipeline.sh
+[perms=0555] harness.sh=image/harness.sh

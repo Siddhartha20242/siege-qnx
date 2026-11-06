@@ -5,9 +5,14 @@ CFLAGS  = -O2 -Wall -Wextra -std=gnu11
 BIN     = build/bin
 PROGS   = frame_src detector controller attacker probe supervisor sieged
 
-all: $(addprefix $(BIN)/,$(PROGS))
+EXAMPLES = ticker
+
+all: $(addprefix $(BIN)/,$(PROGS) $(EXAMPLES))
 
 $(BIN)/%: pipeline/%.c pipeline/common.h | $(BIN)
+	$(CC) $(CFLAGS) -o $@ $<
+
+$(BIN)/ticker: examples/ticker/ticker.c pipeline/common.h | $(BIN)
 	$(CC) $(CFLAGS) -o $@ $<
 
 $(BIN):
