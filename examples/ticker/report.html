@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Siege report</title>
+<style>
+:root{--bg:#fff;--fg:#1c2330;--mute:#5d6778;--line:#dfe3ea;--ok:#d9f2e3;--okx:#106a3a;--warn:#fdf0cf;--warnx:#7a5200;--bad:#fbdcdc;--badx:#8c1d1d}
+@media(prefers-color-scheme:dark){:root{--bg:#12161d;--fg:#e6e9ef;--mute:#9aa4b5;--line:#2a313d;--ok:#16382a;--okx:#8fe0b0;--warn:#3d3112;--warnx:#f0cf75;--bad:#43191b;--badx:#ff9a9a}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
+main{max-width:980px;margin:0 auto;padding:24px 16px}
+h1{font-size:24px;margin:0 0 4px} p.sub{color:var(--mute);margin:0 0 20px}
+.wrap{overflow-x:auto} table{border-collapse:collapse;width:100%;min-width:640px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+thead th small,td small{display:block;color:var(--mute);font-weight:400;font-size:12px}
+td.ok{background:var(--ok);color:var(--okx)} td.warn{background:var(--warn);color:var(--warnx)}
+td.bad{background:var(--bad);color:var(--badx)} td.na{color:var(--mute)}
+td b{font-size:18px} td small{color:inherit;opacity:.8}
+ul{padding-left:20px} li{margin:6px 0} li.break{color:var(--badx)} li.ok{color:var(--okx)}
+</style></head><body><main>
+<h1>Siege report</h1>
+<p class="sub">Failed runs / total runs per attack and hardening profile. Green: all runs met their deadlines. Red: the pipeline failed in most runs.</p>
+<div class="wrap"><table><thead><tr><th>Scenario</th><th>none<small>default round-robin priority 10</small></th><th>prio<small>pipeline at priority 40</small></th></tr></thead><tbody><tr><th>baseline (no attacker)</th><td class="ok"><b>0/3</b><small>p50 1.4 ms · worst 11.0 ms</small></td><td class="ok"><b>0/3</b><small>p50 2.1 ms · worst 4.0 ms</small></td></tr><tr><th>cpu hog   @prio 10</th><td class="bad"><b>3/3</b><small>p50 1.8 ms · worst 11.0 ms</small></td><td class="ok"><b>0/3</b><small>p50 2.0 ms · worst 3.6 ms</small></td></tr><tr><th>cpu hog   @prio 20</th><td class="bad"><b>3/3</b><small>p50 2.5 s · worst 5.0 s</small></td><td class="ok"><b>0/3</b><small>p50 1.7 ms · worst 2.9 ms</small></td></tr><tr><th>crash loop@prio 20</th><td class="bad"><b>3/3</b><small>p50 1.7 ms · worst 11.4 ms</small></td><td class="ok"><b>0/3</b><small>p50 1.5 ms · worst 3.4 ms</small></td></tr></tbody></table></div>
+<h2>Findings</h2><ul><li class="noise">Baseline: 0/3 runs failed with no attacker; median latency 1.4 ms, worst frame 11.0 ms. Timing is emulated, so read results as relative, not as hardware latencies.</li><li class="break">cpu hog   @prio 10 breaks the unhardened pipeline in 3/3 runs (worst frame 11.0 ms). Restored by: prio.</li><li class="break">cpu hog   @prio 20 breaks the unhardened pipeline in 3/3 runs (worst frame 5.0 s). Restored by: prio.</li><li class="break">crash loop@prio 20 breaks the unhardened pipeline in 3/3 runs (worst frame 11.4 ms). Restored by: prio.</li></ul>
+<p class="sub">Generated from measured runs by fixed rules. QEMU timing is emulated: compare across rows, not against hardware.</p>
+</main></body></html>

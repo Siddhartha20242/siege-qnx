@@ -1,0 +1,17 @@
+{
+  "pipeline": {"command": "ticker -d {dur}"},
+  "deadline_ms": 5,
+  "tolerance_permille": 20,
+  "duration_s": 5,
+  "runs": 3,
+  "profiles": {
+    "none": {},
+    "prio": {"PIPE_PRIO": 40}
+  },
+  "scenarios": [
+    {"label": "baseline (no attacker)"},
+    {"label": "cpu hog   @prio 10", "attacker": "cpu", "prio": 10},
+    {"label": "cpu hog   @prio 20", "attacker": "cpu", "prio": 20},
+    {"label": "crash loop@prio 20", "attacker": "crash", "prio": 20}
+  ]
+}
