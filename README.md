@@ -4,8 +4,8 @@ Stress-testing for real-time isolation on QNX 8.0.
 
 A real-time pipeline is only as safe as its worst neighbour. Siege runs a
 camera-to-steering pipeline on QNX, attacks it with misbehaving processes
-(a CPU hog, an inference-style compute neighbour, a message flood, memory and
-descriptor exhaustion, a crash loop), measures every frame against its
+(a CPU hog, an inference-style compute neighbour, a message flood, a lock held
+by a low-priority process, memory and descriptor exhaustion, a crash loop), measures every frame against its
 deadline, and shows which QNX mechanisms restore the deadlines. The same
 attack can be replayed with and without a hardening profile, so the effect of
 each mechanism is measured, not assumed.
@@ -347,7 +347,14 @@ ticker did not, because its deadline is tighter and it has no slack.
 * Boot image: custom `mkifs` buildfile with `startup-qemu-virt`,
   `procnto-smp-instr`, a startup script and the pipeline binaries, run
   entirely from RAM (`image/ram.build`)
-* Diagnostics: `pidin`, `slogger2`
+* Locks and shared memory: `shm_open`, `mmap`, `pthread_mutexattr_setpshared`,
+  `pthread_mutexattr_setprotocol` with `PTHREAD_PRIO_NONE` and
+  `PTHREAD_PRIO_INHERIT`, for the priority-inversion scenario
+  (`pipeline/attacker.c`, `pipeline/common.h`, `pipeline/detector.c`)
+* Observation: `pidin` sampling of live priorities (`scripts/mechanism_proof.py`),
+  and kernel event tracing with `tracelogger` on the instrumented kernel and the
+  host `traceprinter` (`scripts/trace_capture.py`)
+* Diagnostics: `slogger2`
 
 ## How the measurements are kept honest
 

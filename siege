@@ -14,6 +14,7 @@
     ./siege init NAME         start a config for your own program
     ./siege hw install HOST   put Siege on a real QNX target (see docs/hardware.md)
     ./siege selftest          run the tests for the Python tooling
+    ./siege presubmit         check the repository against the contest's submission rules
 
 Each command passes its remaining arguments to the script behind it, for
 example `./siege test --profile prio --runs 10 --json prio.json`.
@@ -249,6 +250,8 @@ def main():
         return init(rest)
     if cmd == "hw":
         return hw(rest)
+    if cmd == "presubmit":
+        return subprocess.run([sys.executable, os.path.join(SCRIPTS, "presubmit.py")] + rest).returncode
     if cmd == "selftest":
         return subprocess.run([sys.executable, "-W", "error::ResourceWarning", "-m", "unittest", "discover", "-s",
                                os.path.join(ROOT, "tests"), "-v"] + rest).returncode
