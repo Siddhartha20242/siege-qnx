@@ -66,6 +66,8 @@ service. Failed runs out of total:
 | Pipe traffic at priority 30 | 5/5 | 0/5 |
 | CPU hog at priority 20 | 5/5 | 0/5 |
 
+The same pipeline configured as a 30 Hz front-camera driver-assistance stack sharing a machine with lower-criticality software gives the same picture (9 scenarios, 4 profiles, 5 runs each, 36 of 36 matched their expectation): raising the pipeline's priority fixed everything observed, and a flood of the shared detector is the case that CPU affinity and CPU budgets do not fix. See [`docs/adas-isolation.md`](docs/adas-isolation.md), which also maps the findings to freedom-from-interference vocabulary and states what it does not show.
+
 The same findings with the trained network as the detector (`DET_MODEL=cnn`,
 5 runs each; [`examples/cnn/`](examples/cnn/)). The network found the object
 correctly in 35544 of 35544 checked frames (100.00%), attacked or not:

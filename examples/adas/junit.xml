@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="siege-budget" tests="9" failures="0">
+    <testcase classname="siege.budget" name="baseline (no QM load)">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 3.1 ms</system-out>
+    </testcase>
+    <testcase classname="siege.budget" name="QM cpu load @prio 10">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 45.7 ms</system-out>
+    </testcase>
+    <testcase classname="siege.budget" name="QM cpu load @prio 20">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 40.4 ms</system-out>
+    </testcase>
+    <testcase classname="siege.budget" name="QM perception neighbour @prio 20">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 31.9 ms</system-out>
+    </testcase>
+    <testcase classname="siege.budget" name="QM client floods shared detector @prio 30">
+      <system-out>FAIL as expected: 5/5 runs failed, worst frame 37.3 ms</system-out>
+    </testcase>
+    <testcase classname="siege.budget" name="QM memory load @prio 10">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 7.1 ms</system-out>
+    </testcase>
+    <testcase classname="siege.budget" name="QM service crash loop @prio 20">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 23.1 ms</system-out>
+    </testcase>
+    <testcase classname="siege.budget" name="lock shared with QM task (default mutex)">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 5.0 ms</system-out>
+    </testcase>
+    <testcase classname="siege.budget" name="detector killed, supervised">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 44.8 ms</system-out>
+    </testcase>
+  </testsuite>
+  <testsuite name="siege-isolate" tests="9" failures="0">
+    <testcase classname="siege.isolate" name="baseline (no QM load)">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 34.9 ms</system-out>
+    </testcase>
+    <testcase classname="siege.isolate" name="QM cpu load @prio 10">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 24.9 ms</system-out>
+    </testcase>
+    <testcase classname="siege.isolate" name="QM cpu load @prio 20">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 20.9 ms</system-out>
+    </testcase>
+    <testcase classname="siege.isolate" name="QM perception neighbour @prio 20">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 24.0 ms</system-out>
+    </testcase>
+    <testcase classname="siege.isolate" name="QM client floods shared detector @prio 30">
+      <system-out>FAIL as expected: 5/5 runs failed, worst frame 4.3 ms</system-out>
+    </testcase>
+    <testcase classname="siege.isolate" name="QM memory load @prio 10">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 18.1 ms</system-out>
+    </testcase>
+    <testcase classname="siege.isolate" name="QM service crash loop @prio 20">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 21.9 ms</system-out>
+    </testcase>
+    <testcase classname="siege.isolate" name="lock shared with QM task (default mutex)">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 63.0 ms</system-out>
+    </testcase>
+    <testcase classname="siege.isolate" name="detector killed, supervised">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 21.8 ms</system-out>
+    </testcase>
+  </testsuite>
+  <testsuite name="siege-none" tests="9" failures="0">
+    <testcase classname="siege.none" name="baseline (no QM load)">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 8.6 ms</system-out>
+    </testcase>
+    <testcase classname="siege.none" name="QM cpu load @prio 10">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 34.0 ms</system-out>
+    </testcase>
+    <testcase classname="siege.none" name="QM cpu load @prio 20">
+      <system-out>FAIL as expected: 5/5 runs failed, worst frame 21.1 ms</system-out>
+    </testcase>
+    <testcase classname="siege.none" name="QM perception neighbour @prio 20">
+      <system-out>FAIL as expected: 5/5 runs failed, worst frame 43.2 ms</system-out>
+    </testcase>
+    <testcase classname="siege.none" name="QM client floods shared detector @prio 30">
+      <system-out>FAIL as expected: 5/5 runs failed, worst frame 15.6 ms</system-out>
+    </testcase>
+    <testcase classname="siege.none" name="QM memory load @prio 10">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 55.7 ms</system-out>
+    </testcase>
+    <testcase classname="siege.none" name="QM service crash loop @prio 20">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 11.2 ms</system-out>
+    </testcase>
+    <testcase classname="siege.none" name="lock shared with QM task (default mutex)">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 7.2 ms</system-out>
+    </testcase>
+    <testcase classname="siege.none" name="detector killed, supervised">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 31.0 ms</system-out>
+    </testcase>
+  </testsuite>
+  <testsuite name="siege-prio" tests="9" failures="0">
+    <testcase classname="siege.prio" name="baseline (no QM load)">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 8.6 ms</system-out>
+    </testcase>
+    <testcase classname="siege.prio" name="QM cpu load @prio 10">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 6.8 ms</system-out>
+    </testcase>
+    <testcase classname="siege.prio" name="QM cpu load @prio 20">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 13.1 ms</system-out>
+    </testcase>
+    <testcase classname="siege.prio" name="QM perception neighbour @prio 20">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 4.7 ms</system-out>
+    </testcase>
+    <testcase classname="siege.prio" name="QM client floods shared detector @prio 30">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 8.1 ms</system-out>
+    </testcase>
+    <testcase classname="siege.prio" name="QM memory load @prio 10">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 28.0 ms</system-out>
+    </testcase>
+    <testcase classname="siege.prio" name="QM service crash loop @prio 20">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 23.5 ms</system-out>
+    </testcase>
+    <testcase classname="siege.prio" name="lock shared with QM task (default mutex)">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 7.8 ms</system-out>
+    </testcase>
+    <testcase classname="siege.prio" name="detector killed, supervised">
+      <system-out>PASS as expected: 0/5 runs failed, worst frame 15.8 ms</system-out>
+    </testcase>
+  </testsuite>
+</testsuites>

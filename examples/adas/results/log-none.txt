@@ -1,0 +1,9 @@
+baseline (no QM load)          fail 0/5  worst_max_ms=8.6  median_p50_ms=1.6  late_frames=0
+QM cpu load @prio 10           fail 0/5  worst_max_ms=34.0  median_p50_ms=3.0  late_frames=1
+QM cpu load @prio 20           fail 5/5  worst_max_ms=21.1  median_p50_ms=1.8  late_frames=0
+QM perception neighbour @prio 20 fail 5/5  worst_max_ms=43.2  median_p50_ms=2.0  late_frames=42
+QM client floods shared detector @prio 30 fail 5/5  worst_max_ms=15.6  median_p50_ms=2.2  late_frames=0
+QM memory load @prio 10        fail 0/5  worst_max_ms=55.7  median_p50_ms=2.1  late_frames=1
+QM service crash loop @prio 20 fail 0/5  worst_max_ms=11.2  median_p50_ms=2.2  late_frames=0
+lock shared with QM task (default mutex) fail 0/5  worst_max_ms=7.2  median_p50_ms=1.7  late_frames=0
+detector killed, supervised    fail 0/5  worst_max_ms=31.0  median_p50_ms=1.4  late_frames=0

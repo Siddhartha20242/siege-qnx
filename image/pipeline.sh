@@ -76,7 +76,7 @@ else
 fi
 DET_PID=$!
 waitfor /dev/name/local/siege_det 5
-${PIPE_CPU:+on -C $PIPE_CPU} frame_src -d $DUR -P $SRC_PRIO &
+${PIPE_CPU:+on -C $PIPE_CPU} frame_src -d $DUR -P $SRC_PRIO ${FRAME_MS:+-p $FRAME_MS} &
 SRC_PID=$!
 ATK_PIDS=""
 

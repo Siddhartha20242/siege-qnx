@@ -33,10 +33,12 @@ static void make_frame(frame_msg_t *f, uint32_t n)
 int main(int argc, char **argv)
 {
     int duration_s = 10, prio = 10, c;
+    uint64_t period_ns = FRAME_PERIOD_NS;
 
-    while ((c = getopt(argc, argv, "d:P:")) != -1) {
+    while ((c = getopt(argc, argv, "d:P:p:")) != -1) {
         if (c == 'd') duration_s = atoi(optarg);
         else if (c == 'P') prio = atoi(optarg);
+        else if (c == 'p' && atoi(optarg) > 0) period_ns = (uint64_t)atoi(optarg) * 1000000ULL;   /* frame period, ms */
     }
     set_prio_report("frame_src", prio);
 
@@ -46,7 +48,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    uint32_t total = (uint32_t)duration_s * (uint32_t)(1000000000ULL / FRAME_PERIOD_NS);
+    uint32_t total = (uint32_t)duration_s * (uint32_t)(1000000000ULL / period_ns);
     uint32_t sent = 0, dropped = 0;
     frame_msg_t f;
     uint8_t reply;
@@ -56,7 +58,7 @@ int main(int argc, char **argv)
 
     uint64_t next = now_ns();
     for (uint32_t n = 0; n < total; n++) {
-        next += FRAME_PERIOD_NS;
+        next += period_ns;
         struct timespec ts = { .tv_sec = (time_t)(next / 1000000000ULL),
                                .tv_nsec = (long)(next % 1000000000ULL) };
         clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts, NULL);

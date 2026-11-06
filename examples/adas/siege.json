@@ -1,0 +1,74 @@
+{
+  "deadline_ms": 33,
+  "tolerance_permille": 20,
+  "recovery_ms": 500,
+  "duration_s": 5,
+  "runs": 5,
+  "profiles": [
+    "none",
+    "prio",
+    "isolate",
+    "budget"
+  ],
+  "env": {
+    "FRAME_MS": 33
+  },
+  "scenarios": [
+    {
+      "label": "baseline (no QM load)"
+    },
+    {
+      "label": "QM cpu load @prio 10",
+      "attacker": "cpu",
+      "prio": 10
+    },
+    {
+      "label": "QM cpu load @prio 20",
+      "attacker": "cpu",
+      "prio": 20,
+      "expect": {
+        "none": "fail"
+      }
+    },
+    {
+      "label": "QM perception neighbour @prio 20",
+      "attacker": "ai",
+      "prio": 20,
+      "expect": {
+        "none": "fail"
+      }
+    },
+    {
+      "label": "QM client floods shared detector @prio 30",
+      "attacker": "workflood",
+      "prio": 30,
+      "expect": {
+        "none": "fail",
+        "isolate": "fail",
+        "budget": "fail"
+      }
+    },
+    {
+      "label": "QM memory load @prio 10",
+      "attacker": "mem",
+      "prio": 10
+    },
+    {
+      "label": "QM service crash loop @prio 20",
+      "attacker": "crash",
+      "prio": 20
+    },
+    {
+      "label": "lock shared with QM task (default mutex)",
+      "attacker": "pinv",
+      "prio": 8
+    },
+    {
+      "label": "detector killed, supervised",
+      "env": {
+        "SUPERVISE": 1,
+        "KILL_AT": 2
+      }
+    }
+  ]
+}
