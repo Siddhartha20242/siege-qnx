@@ -174,7 +174,7 @@ frame_src --MsgSend--> detector --MsgSend--> controller
   from `calibrate.py`), frames that never arrive, and a silence longer than
   the recovery budget all count as failures.
 
-`attacker` runs one of nine attacks against the live pipeline:
+`attacker` runs one of twelve attacks against the live pipeline:
 
 | Mode | Behaviour |
 |---|---|
@@ -187,6 +187,11 @@ frame_src --MsgSend--> detector --MsgSend--> controller
 | `pipeflood` | Pushes data through QNX's own `pipe` manager as fast as it can |
 | `fd` | Exhausts file descriptors, channels and connections |
 | `crash` | Spawns a child that segfaults, and restarts it immediately |
+| `membw` | Streams through a 32 MB buffer per thread, far larger than the caches |
+| `timerstorm` | Threads that wake every 100 microseconds and sleep again (a user-space stand-in for a noisy interrupt source) |
+| `kcall` | Threads that only yield and read the clock, entering the kernel as fast as they can |
+
+The last three are covered in [`docs/more-attackers.md`](docs/more-attackers.md).
 
 Two more processes support the pipeline:
 

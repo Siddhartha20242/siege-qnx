@@ -274,6 +274,89 @@ static int mode_mem(int mb)
     return 0;
 }
 
+/* ---- membw: stream through a buffer larger than the caches ------------- */
+
+static volatile uint64_t membw_bytes;
+
+static void *membw_thread(void *arg)
+{
+    (void)arg;
+    enum { BUF = 32 << 20 };
+    uint64_t *buf = malloc(BUF);
+    if (!buf) return NULL;
+    memset(buf, 1, BUF);
+    atk_set_prio();
+    uint64_t sum = 0;
+    while (running()) {
+        for (size_t i = 0; i < BUF / sizeof *buf; i += 8) { buf[i] += sum; sum += buf[i]; }
+        membw_bytes += BUF;
+    }
+    sink = sum;
+    free(buf);
+    return NULL;
+}
+
+static int mode_membw(int n)
+{
+    run_threads(membw_thread, n);
+    printf("ATK mode=membw threads=%d mb_streamed=%llu\n", n, (unsigned long long)(membw_bytes >> 20));
+    return 0;
+}
+
+/* ---- timerstorm: a swarm of very short periodic timers ------------------ *
+ * Each thread wakes every 100 microseconds, does almost nothing and sleeps
+ * again. The CPU it uses is small, but it forces a steady stream of timer
+ * interrupts and context switches. This is a user-space stand-in for a noisy
+ * interrupt source; a real interrupt storm needs a driver and real hardware. */
+
+static volatile uint64_t timer_wakes;
+
+static void *timerstorm_thread(void *arg)
+{
+    (void)arg;
+    atk_set_prio();
+    uint64_t next = now_ns();
+    while (running()) {
+        next += 100000;
+        struct timespec ts = { .tv_sec = (time_t)(next / 1000000000ULL), .tv_nsec = (long)(next % 1000000000ULL) };
+        clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts, NULL);
+        timer_wakes++;
+    }
+    return NULL;
+}
+
+static int mode_timerstorm(int n)
+{
+    run_threads(timerstorm_thread, n);
+    printf("ATK mode=timerstorm threads=%d wakeups=%llu\n", n, (unsigned long long)timer_wakes);
+    return 0;
+}
+
+/* ---- kcall: a storm of kernel calls ------------------------------------ *
+ * Threads that only yield and read the clock, as fast as they can. They never
+ * hold a CPU for long but keep entering the kernel and the scheduler. */
+
+static volatile uint64_t kcalls;
+
+static void *kcall_thread(void *arg)
+{
+    (void)arg;
+    atk_set_prio();
+    struct timespec ts;
+    while (running()) {
+        for (int i = 0; i < 1000; i++) { sched_yield(); clock_gettime(CLOCK_MONOTONIC, &ts); }
+        kcalls += 2000;
+    }
+    return NULL;
+}
+
+static int mode_kcall(int n)
+{
+    run_threads(kcall_thread, n);
+    printf("ATK mode=kcall threads=%d kernel_calls=%llu\n", n, (unsigned long long)kcalls);
+    return 0;
+}
+
 /* ---- flood: queue junk messages at the detector ----------------------- */
 
 static volatile uint32_t flood_sent, flood_rejected, flood_timeout;
@@ -409,6 +492,9 @@ int main(int argc, char **argv)
     else if (!strcmp(mode, "mem"))   rc = mode_mem(n < 0 ? 300 : n);
     else if (!strcmp(mode, "flood")) rc = mode_flood(n < 0 ? 2 : n, "flood");
     else if (!strcmp(mode, "workflood")) { flood_type = MSG_WORK; rc = mode_flood(n < 0 ? 2 : n, "workflood"); }
+    else if (!strcmp(mode, "membw")) rc = mode_membw(n < 0 ? 2 : n);
+    else if (!strcmp(mode, "timerstorm")) rc = mode_timerstorm(n < 0 ? 4 : n);
+    else if (!strcmp(mode, "kcall")) rc = mode_kcall(n < 0 ? 2 : n);
     else if (!strcmp(mode, "fd"))    rc = mode_fd(n);
     else if (!strcmp(mode, "crash")) rc = mode_crash();
     else if (!strcmp(mode, "child")) return crash_child();

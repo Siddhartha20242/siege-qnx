@@ -125,6 +125,37 @@
         "SUPERVISE": 1,
         "KILL_AT": 2
       }
+    },
+    {
+      "label": "memory bandwidth @prio 20",
+      "attacker": "membw",
+      "prio": 20,
+      "expect": {
+        "none": "fail"
+      }
+    },
+    {
+      "label": "timer storm @prio 20",
+      "attacker": "timerstorm",
+      "prio": 20
+    },
+    {
+      "label": "kernel-call storm @prio 20",
+      "attacker": "kcall",
+      "prio": 20,
+      "expect": {
+        "none": "fail"
+      }
+    },
+    {
+      "label": "memory bandwidth @prio 5",
+      "attacker": "membw",
+      "prio": 5
+    },
+    {
+      "label": "kernel-call storm @prio 5",
+      "attacker": "kcall",
+      "prio": 5
     }
   ]
 }

@@ -8,6 +8,7 @@ Where to start depends on what you want.
 |---|---|
 | [`report.html`](report.html) / [`report.md`](report.md) | The results: every attack against every hardening profile, with a per-run drill-down, charts, and an evidence table by interference channel |
 | [`patterns.md`](patterns.md) | Each finding as a named pattern: symptom, cause, how Siege shows it, what fixes it and what does not |
+| [`more-attackers.md`](more-attackers.md) | Memory-bandwidth, timer-storm and kernel-call attackers and what they did and did not show |
 | [`why-qnx.md`](why-qnx.md) | Which findings depend on how QNX works and which would hold on any fixed-priority scheduler, with the history behind priority inversion |
 | [`adas-isolation.md`](adas-isolation.md) | The same pipeline configured as a 30 Hz front-camera driver-assistance stack sharing a machine with lower-criticality software, and how the findings map to freedom-from-interference vocabulary |
 | [`test-report.html`](test-report.html) / [`test-report.md`](test-report.md) | The same evidence as a safety-style test record: numbered test cases, pass criteria, traceability, limits, sign-off. Evidence, not certification |
