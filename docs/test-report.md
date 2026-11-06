@@ -3,12 +3,12 @@
 | | |
 |---|---|
 | Document | Interference test record |
-| Date | 2026-11-06 |
-| Tool revision | `419592e + uncommitted changes` |
+| Date | 2026-11-07 |
+| Tool revision | `5e2376d + uncommitted changes` |
 | Test object | Reference camera - detector - controller pipeline on QNX SDP 8.0 |
 | Test environment | QEMU emulation (aarch64le, virt machine, 2 CPUs, software emulation) |
 | Configuration | deadline 20 ms, tolerance 2.0%, recovery budget 500 ms |
-| Result | 68 of 68 test cases matched their expected result |
+| Result | 92 of 92 test cases matched their expected result |
 
 > **Scope and status.** This document records evidence from stress tests of a stand-in pipeline on an emulator. It is not a safety case, not a proof of freedom from interference, and not a certification claim.
 
@@ -42,10 +42,10 @@ Derived requirements for this evaluation (not taken from a standard), each trace
 | TC-BAS-01/prio | baseline (no attacker) | prio | 5 | 0/5 (0-43%) | pass | pass | MATCH | 14.4 ms | 31 ms |
 | TC-BAS-01/isolate | baseline (no attacker) | isolate | 5 | 0/5 (0-43%) | pass | pass | MATCH | 9.5 ms | 25 ms |
 | TC-BAS-01/budget | baseline (no attacker) | budget | 5 | 0/5 (0-43%) | pass | pass | MATCH | 3.5 ms | 22 ms |
-| TC-EXE-01/none | cpu hog   @prio 10 | none | 5 | 0/5 (0-43%) | pass | pass | MATCH | 13.1 ms | 31 ms |
-| TC-EXE-01/prio | cpu hog   @prio 10 | prio | 5 | 0/5 (0-43%) | pass | pass | MATCH | 4.2 ms | 22 ms |
-| TC-EXE-01/isolate | cpu hog   @prio 10 | isolate | 5 | 0/5 (0-43%) | pass | pass | MATCH | 8.7 ms | 27 ms |
-| TC-EXE-01/budget | cpu hog   @prio 10 | budget | 5 | 0/5 (0-43%) | pass | pass | MATCH | 14.6 ms | 31 ms |
+| TC-EXE-01/none | cpu hog   @prio 10 | none | 15 | 8/15 (30-75%) | fail | fail | MATCH | 67.3 ms | 77 ms |
+| TC-EXE-01/prio | cpu hog   @prio 10 | prio | 15 | 0/15 (0-20%) | pass | pass | MATCH | 6.9 ms | 25 ms |
+| TC-EXE-01/isolate | cpu hog   @prio 10 | isolate | 15 | 0/15 (0-20%) | pass | pass | MATCH | 63.7 ms | 82 ms |
+| TC-EXE-01/budget | cpu hog   @prio 10 | budget | 15 | 0/15 (0-20%) | pass | pass | MATCH | 24.7 ms | 42 ms |
 | TC-EXE-02/none | cpu hog   @prio 20 | none | 15 | 15/15 (80-100%) | fail | fail | MATCH | 5.0 s | 5010 ms |
 | TC-EXE-02/prio | cpu hog   @prio 20 | prio | 15 | 0/15 (0-20%) | pass | pass | MATCH | 6.6 ms | 25 ms |
 | TC-EXE-02/isolate | cpu hog   @prio 20 | isolate | 15 | 0/15 (0-20%) | pass | pass | MATCH | 14.5 ms | 32 ms |
@@ -106,12 +106,36 @@ Derived requirements for this evaluation (not taken from a standard), each trace
 | TC-SVC-02/prio | kill detector, supervised | prio | 15 | 0/15 (0-20%) | pass | pass | MATCH | 3.3 ms | 40 ms |
 | TC-SVC-02/isolate | kill detector, supervised | isolate | 15 | 0/15 (0-20%) | pass | pass | MATCH | 20.5 ms | 41 ms |
 | TC-SVC-02/budget | kill detector, supervised | budget | 15 | 0/15 (0-20%) | pass | pass | MATCH | 3.7 ms | 41 ms |
+| TC-BAS-02/none | memory bandwidth @prio 20 | none | 15 | 15/15 (80-100%) | fail | fail | MATCH | 5.0 s | 5001 ms |
+| TC-BAS-02/prio | memory bandwidth @prio 20 | prio | 15 | 0/15 (0-20%) | pass | pass | MATCH | 20.7 ms | 39 ms |
+| TC-BAS-02/isolate | memory bandwidth @prio 20 | isolate | 15 | 0/15 (0-20%) | pass | pass | MATCH | 19.5 ms | 36 ms |
+| TC-BAS-02/budget | memory bandwidth @prio 20 | budget | 15 | 1/15 (1-30%) | pass | pass | MATCH | 77.2 ms | 94 ms |
+| TC-BAS-03/none | timer storm @prio 20 | none | 5 | 0/5 (0-43%) | pass | pass | MATCH | 10.8 ms | 25 ms |
+| TC-BAS-03/prio | timer storm @prio 20 | prio | 5 | 0/5 (0-43%) | pass | pass | MATCH | 61.0 ms | 77 ms |
+| TC-BAS-03/isolate | timer storm @prio 20 | isolate | 5 | 0/5 (0-43%) | pass | pass | MATCH | 15.1 ms | 34 ms |
+| TC-BAS-03/budget | timer storm @prio 20 | budget | 5 | 0/5 (0-43%) | pass | pass | MATCH | 76.8 ms | 95 ms |
+| TC-BAS-04/none | kernel-call storm @prio 20 | none | 15 | 15/15 (80-100%) | fail | fail | MATCH | 7.7 ms | 26 ms |
+| TC-BAS-04/prio | kernel-call storm @prio 20 | prio | 15 | 0/15 (0-20%) | pass | pass | MATCH | 62.9 ms | 78 ms |
+| TC-BAS-04/isolate | kernel-call storm @prio 20 | isolate | 15 | 0/15 (0-20%) | pass | pass | MATCH | 13.5 ms | 30 ms |
+| TC-BAS-04/budget | kernel-call storm @prio 20 | budget | 15 | 0/15 (0-20%) | pass | pass | MATCH | 18.2 ms | 35 ms |
+| TC-BAS-05/none | memory bandwidth @prio 5 | none | 15 | 0/15 (0-20%) | pass | pass | MATCH | 24.6 ms | 42 ms |
+| TC-BAS-05/prio | memory bandwidth @prio 5 | prio | 15 | 0/15 (0-20%) | pass | pass | MATCH | 62.0 ms | 78 ms |
+| TC-BAS-05/isolate | memory bandwidth @prio 5 | isolate | 15 | 0/15 (0-20%) | pass | pass | MATCH | 27.1 ms | 33 ms |
+| TC-BAS-05/budget | memory bandwidth @prio 5 | budget | 15 | 0/15 (0-20%) | pass | pass | MATCH | 27.0 ms | 45 ms |
+| TC-BAS-06/none | kernel-call storm @prio 5 | none | 15 | 0/15 (0-20%) | pass | pass | MATCH | 9.2 ms | 27 ms |
+| TC-BAS-06/prio | kernel-call storm @prio 5 | prio | 15 | 1/15 (1-30%) | pass | pass | MATCH | 125.4 ms | 141 ms |
+| TC-BAS-06/isolate | kernel-call storm @prio 5 | isolate | 15 | 0/15 (0-20%) | pass | pass | MATCH | 26.8 ms | 44 ms |
+| TC-BAS-06/budget | kernel-call storm @prio 5 | budget | 15 | 0/15 (0-20%) | pass | pass | MATCH | 55.0 ms | 68 ms |
+| TC-BAS-07/none | memory bandwidth @prio 10 | none | 15 | 10/15 (42-85%) | fail | fail | MATCH | 49.7 ms | 64 ms |
+| TC-BAS-07/prio | memory bandwidth @prio 10 | prio | 15 | 0/15 (0-20%) | pass | pass | MATCH | 39.2 ms | 57 ms |
+| TC-BAS-07/isolate | memory bandwidth @prio 10 | isolate | 15 | 0/15 (0-20%) | pass | pass | MATCH | 16.1 ms | 31 ms |
+| TC-BAS-07/budget | memory bandwidth @prio 10 | budget | 15 | 1/15 (1-30%) | pass | pass | MATCH | 61.4 ms | 78 ms |
 
 ## 4. Environment
 
 * Target: QEMU emulation (aarch64le, virt machine, 2 CPUs, software emulation).
 * Operating system: QNX SDP 8.0 (QNX Everywhere, non-commercial licence), toolchain `qcc -Vgcc_ntoaarch64le`.
-* Tool revision: `419592e + uncommitted changes`. Raw runs: `docs/results/`.
+* Tool revision: `5e2376d + uncommitted changes`. Raw runs: `docs/results/`.
 * Configurations under test: `none` (default round-robin, priority 10), `prio` (pipeline at priority 40), `isolate` (pipeline on CPU 1, attackers on CPU 0), `budget` (attackers capped by SCHED_SPORADIC, 10 ms per 100 ms).
 
 ## 5. Limits of this evidence

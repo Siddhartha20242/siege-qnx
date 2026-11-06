@@ -84,6 +84,7 @@ usr/lib/libz.so.2
 [perms=0555] controller=build/bin/controller
 [perms=0555] attacker=build/bin/attacker
 [perms=0555] probe=build/bin/probe
+[perms=0555] siegewrap=build/bin/siegewrap
 [perms=0555] supervisor=build/bin/supervisor
 [perms=0555] sieged=build/bin/sieged
 [perms=0555] ticker=build/bin/ticker

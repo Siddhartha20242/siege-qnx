@@ -26,6 +26,7 @@ headline scenarios; 5-second runs, 20 ms deadline). Failed runs out of total,
 | Attack | No hardening | `prio` | `isolate` | `budget` |
 |---|---|---|---|---|
 | CPU hog at priority 20 | **15/15** | 0/15 | 0/15 | 1/15 |
+| CPU hog at the same priority (10) | **8/15** | 0/15 | 0/15 | 0/15 |
 | `workflood` at priority 30 | **15/15** | 1/15 | **15/15** | **15/15** |
 | AI neighbour at priority 20 | **15/15** | 0/15 | 0/15 | 0/15 |
 | AI neighbour at the default priority | 0/15 | 0/15 | 0/15 | 0/15 |
@@ -35,7 +36,10 @@ headline scenarios; 5-second runs, 20 ms deadline). Failed runs out of total,
 | Detector killed, supervised | 0/15 | 0/15 | 0/15 | 0/15 |
 
 * **A CPU hog above the pipeline's priority starves it for the whole attack**
-  (median latency 2.5 s). Every profile restores it.
+  (median latency 2.5 s). Every profile restores it. **At the same priority it
+  breaks the pipeline in about half the runs** (8 of 15, and 11 of 15 in a
+  repeat). An earlier 5-run check passed all five, so treat the equal-priority
+  case as unstable under emulation; see [`docs/more-attackers.md`](docs/more-attackers.md).
 * **An attacker that uses almost no CPU still breaks it.** `workflood` sends a
   shared service expensive requests from a higher priority; QNX serves
   higher-priority senders first and runs the server at their priority. Only
@@ -321,6 +325,21 @@ second, and then starts the attackers against it.
    scripts/report.py none.json prio.json --out report
    ```
 
+**If you cannot change the program**, wrap it. `siegewrap` runs your command at a
+chosen priority and, beside it, a canary task that measures how late it wakes
+against when it was due. It also checks the program is still alive at the end or
+exited with status 0, and prints the two lines Siege reads for you:
+
+```json
+{"pipeline": {"command": "siegewrap -d {dur} -p 10 -- ./your_program"}}
+```
+
+It sees scheduling pressure and crashes, not the program's own deadlines, message
+queues or locks, so a pass means the program got the scheduling it needed, not that
+its output was on time. [`examples/wrap/`](examples/wrap/) runs it against a plain
+shell loop (no failures at baseline, 5/5 failed against a CPU hog at the same
+priority, 0/5 at priority 40).
+
 [`examples/ticker/ticker.c`](examples/ticker/ticker.c) is a second program, a
 single 100 Hz periodic task with a 5 ms deadline, about seventy lines long.
 Siege tests it with no changes to the attackers. It is more fragile than the
@@ -333,8 +352,9 @@ reference pipeline, which shows that the result is specific to each program
 | CPU hog at priority 20 | 3 / 3 | 0 / 3 |
 | Crash loop at priority 20 | 3 / 3 | 0 / 3 |
 
-The reference pipeline survived the same-priority hog and the crash loop. The
-ticker did not, because its deadline is tighter and it has no slack.
+The reference pipeline survived the crash loop, and the same-priority hog only
+some of the time (see above). The ticker failed every time, because its deadline
+is tighter and it has no slack.
 
 ## Where QNX is used
 
@@ -403,10 +423,11 @@ ticker did not, because its deadline is tighter and it has no slack.
   section above is how to change that.
 * **No adaptive partitioning.** It is not part of the free SDP. The `budget`
   profile uses `SCHED_SPORADIC` per-thread CPU budgets instead.
-* **Run counts.** Every scenario ran 5 times per profile and the headline
-  scenarios 15 times. The report shows 95% Wilson intervals.
-* **Programs under test** must print the `FINAL` and `RESULT` lines described
-  above and be added to the image with `image/local.build`.
+* **Run counts.** Most scenarios ran 5 times per profile and the headline
+  and equal-priority scenarios 15 times. The report shows 95% Wilson intervals.
+* **Programs under test** must be added to the image with `image/local.build`. They
+  either print the `FINAL` and `RESULT` lines described above, or are run through
+  `siegewrap`, which can only observe scheduling and liveness.
 
 ## Licence
 

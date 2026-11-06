@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 708 576" width="708" height="576" font-family="system-ui,sans-serif" font-size="13">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 708 756" width="708" height="756" font-family="system-ui,sans-serif" font-size="13">
 <text x="306.0" y="30" text-anchor="middle" font-weight="700" fill="#6e7781">none</text>
 <text x="418.0" y="30" text-anchor="middle" font-weight="700" fill="#6e7781">prio</text>
 <text x="530.0" y="30" text-anchor="middle" font-weight="700" fill="#6e7781">isolate</text>
@@ -13,14 +13,14 @@
 <rect x="588" y="58" width="108" height="26" rx="4" fill="#1a7f37"/>
 <text x="642.0" y="76" text-anchor="middle" fill="#fff" font-weight="700">0/5</text>
 <text x="8" y="106" fill="#6e7781">cpu hog   @prio 10</text>
-<rect x="252" y="88" width="108" height="26" rx="4" fill="#1a7f37"/>
-<text x="306.0" y="106" text-anchor="middle" fill="#fff" font-weight="700">0/5</text>
+<rect x="252" y="88" width="108" height="26" rx="4" fill="#cf222e"/>
+<text x="306.0" y="106" text-anchor="middle" fill="#fff" font-weight="700">8/15</text>
 <rect x="364" y="88" width="108" height="26" rx="4" fill="#1a7f37"/>
-<text x="418.0" y="106" text-anchor="middle" fill="#fff" font-weight="700">0/5</text>
+<text x="418.0" y="106" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
 <rect x="476" y="88" width="108" height="26" rx="4" fill="#1a7f37"/>
-<text x="530.0" y="106" text-anchor="middle" fill="#fff" font-weight="700">0/5</text>
+<text x="530.0" y="106" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
 <rect x="588" y="88" width="108" height="26" rx="4" fill="#1a7f37"/>
-<text x="642.0" y="106" text-anchor="middle" fill="#fff" font-weight="700">0/5</text>
+<text x="642.0" y="106" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
 <text x="8" y="136" fill="#6e7781">cpu hog   @prio 20</text>
 <rect x="252" y="118" width="108" height="26" rx="4" fill="#cf222e"/>
 <text x="306.0" y="136" text-anchor="middle" fill="#fff" font-weight="700">15/15</text>
@@ -156,4 +156,58 @@
 <text x="530.0" y="556" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
 <rect x="588" y="538" width="108" height="26" rx="4" fill="#1a7f37"/>
 <text x="642.0" y="556" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<text x="8" y="586" fill="#6e7781">memory bandwidth @prio 20</text>
+<rect x="252" y="568" width="108" height="26" rx="4" fill="#cf222e"/>
+<text x="306.0" y="586" text-anchor="middle" fill="#fff" font-weight="700">15/15</text>
+<rect x="364" y="568" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="418.0" y="586" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="476" y="568" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="530.0" y="586" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="588" y="568" width="108" height="26" rx="4" fill="#bf8700"/>
+<text x="642.0" y="586" text-anchor="middle" fill="#fff" font-weight="700">1/15</text>
+<text x="8" y="616" fill="#6e7781">timer storm @prio 20</text>
+<rect x="252" y="598" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="306.0" y="616" text-anchor="middle" fill="#fff" font-weight="700">0/5</text>
+<rect x="364" y="598" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="418.0" y="616" text-anchor="middle" fill="#fff" font-weight="700">0/5</text>
+<rect x="476" y="598" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="530.0" y="616" text-anchor="middle" fill="#fff" font-weight="700">0/5</text>
+<rect x="588" y="598" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="642.0" y="616" text-anchor="middle" fill="#fff" font-weight="700">0/5</text>
+<text x="8" y="646" fill="#6e7781">kernel-call storm @prio 20</text>
+<rect x="252" y="628" width="108" height="26" rx="4" fill="#cf222e"/>
+<text x="306.0" y="646" text-anchor="middle" fill="#fff" font-weight="700">15/15</text>
+<rect x="364" y="628" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="418.0" y="646" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="476" y="628" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="530.0" y="646" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="588" y="628" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="642.0" y="646" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<text x="8" y="676" fill="#6e7781">memory bandwidth @prio 5</text>
+<rect x="252" y="658" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="306.0" y="676" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="364" y="658" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="418.0" y="676" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="476" y="658" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="530.0" y="676" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="588" y="658" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="642.0" y="676" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<text x="8" y="706" fill="#6e7781">kernel-call storm @prio 5</text>
+<rect x="252" y="688" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="306.0" y="706" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="364" y="688" width="108" height="26" rx="4" fill="#bf8700"/>
+<text x="418.0" y="706" text-anchor="middle" fill="#fff" font-weight="700">1/15</text>
+<rect x="476" y="688" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="530.0" y="706" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="588" y="688" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="642.0" y="706" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<text x="8" y="736" fill="#6e7781">memory bandwidth @prio 10</text>
+<rect x="252" y="718" width="108" height="26" rx="4" fill="#cf222e"/>
+<text x="306.0" y="736" text-anchor="middle" fill="#fff" font-weight="700">10/15</text>
+<rect x="364" y="718" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="418.0" y="736" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="476" y="718" width="108" height="26" rx="4" fill="#1a7f37"/>
+<text x="530.0" y="736" text-anchor="middle" fill="#fff" font-weight="700">0/15</text>
+<rect x="588" y="718" width="108" height="26" rx="4" fill="#bf8700"/>
+<text x="642.0" y="736" text-anchor="middle" fill="#fff" font-weight="700">1/15</text>
 </svg>

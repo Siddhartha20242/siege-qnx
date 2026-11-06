@@ -30,3 +30,23 @@ What this shows and does not show:
   occasional frames over 30 ms. They are not explained.
 * A swarm of fast timers did not break the pipeline in any profile in 5 runs. A real
   interrupt storm needs a driver and hardware; this is only a user-space stand-in.
+
+## Equal priority (found by `./siege search`, then checked with 15 runs)
+
+`./siege search` ([`search.md`](search.md)) tried 60 random combinations of one to three
+attackers at priority 5 or 10 against the pipeline (priority 10). Nothing at priority 5
+broke it. At priority 10, two single attackers did, and no combination failed where its
+members passed alone, so it found no interaction failure.
+
+| At the same priority (10) | No hardening | `prio` | `isolate` | `budget` |
+|---|---|---|---|---|
+| memory bandwidth | 10/15 | 0/15 | 0/15 | 1/15 |
+| CPU hog | 8/15 (11/15 in a repeat) | 0/15 | 0/15 | 0/15 |
+| baseline, no attacker (repeat run) | 0/15 | | | |
+
+The CPU hog result contradicts an earlier 5-run check (0/5) that this repository's report
+and landscape used. The baseline is clean, so the pipeline is not simply flaky now. The
+likely cause is that equal-priority sharing is timeslice-based and its effect on a 20 ms
+deadline depends on how fast the emulated CPU runs, which changes with the load on the
+host Mac. I have not tested that explanation. Higher pipeline priority removed it in
+every run. The earlier documents have been updated to say so.

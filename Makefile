@@ -3,7 +3,7 @@
 CC      = qcc -Vgcc_ntoaarch64le
 CFLAGS  = -O2 -Wall -Wextra -std=gnu11
 BIN     = build/bin
-PROGS   = frame_src detector controller attacker probe supervisor sieged b64cat
+PROGS   = frame_src detector controller attacker probe supervisor sieged b64cat siegewrap
 
 EXAMPLES = ticker pipeprobe
 

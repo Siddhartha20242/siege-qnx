@@ -107,7 +107,8 @@ thread that wakes up waits for the running one's slice to end, which costs
 milliseconds. That is invisible against a 20 ms deadline and fatal against 5 ms.
 
 **Seen.** The reference pipeline (20 ms) at the same priority as a CPU hog:
-0/5. The `ticker` example (5 ms, [`examples/ticker`](../examples/ticker/)):
+8/15 failed with no hardening (11/15 in a repeat; an earlier 5-run check showed 0/5,
+so the effect is unstable under emulation), 0/15 at a higher priority. The `ticker` example (5 ms, [`examples/ticker`](../examples/ticker/)):
 **3/3 failed** against a same-priority CPU hog and against a crash loop. With
 the ticker at priority 40: 0/3.
 

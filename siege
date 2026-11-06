@@ -8,6 +8,7 @@
     ./siege test              run every scenario in siege.json, repeated
     ./siege report FILES      build report.md / report.html from results
     ./siege ci FILES          JUnit XML and an exit code for CI
+    ./siege search            find attack combinations that break the pipeline, shrunk to a core
     ./siege calibrate         measure the noise floor and suggest a deadline
     ./siege demo              the demo scenes as a typed terminal session
     ./siege boot              boot the image interactively in QEMU
@@ -29,6 +30,7 @@ TOOLS = {
     "boot": ("run.sh", "boot the image interactively in QEMU (-n skips the rebuild)"),
     "live": ("live.py", "browser dashboard that runs scenarios on QNX"),
     "test": ("matrix.py", "run every scenario in siege.json, repeated"),
+    "search": ("search.py", "random search for attack combinations that break the pipeline, shrunk to a minimal case"),
     "calibrate": ("calibrate.py", "measure the noise floor and suggest a deadline"),
     "report": ("report.py", "build report.md / report.html and charts from results"),
     "ci": ("junit.py", "JUnit XML and an exit code for CI"),

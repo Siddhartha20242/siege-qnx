@@ -1,0 +1,534 @@
+{
+ "profile": "none",
+ "seed": 20261107,
+ "trials": 60,
+ "confirm": 2,
+ "prios": [
+  5,
+  10
+ ],
+ "deadline_ms": 20,
+ "runs": [
+  {
+   "attackers": [
+    "crash",
+    "kcall",
+    "pipeflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "timerstorm"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "flood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "ai",
+    "mem",
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "ai",
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "mem",
+    "membw"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "kcall",
+    "mem"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "cpu",
+    "kcall",
+    "timerstorm"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "flood",
+    "kcall",
+    "membw"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "cpu",
+    "membw",
+    "pipeflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "kcall",
+    "mem",
+    "membw"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "crash",
+    "kcall"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "crash",
+    "timerstorm"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "ai"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "ai"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "fd",
+    "kcall"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "cpu",
+    "pipeflood",
+    "timerstorm"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "cpu",
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "crash",
+    "mem",
+    "pipeflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "flood",
+    "pipeflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "kcall"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "fd",
+    "kcall",
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "fd",
+    "pipeflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "ai",
+    "cpu",
+    "timerstorm"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "fd",
+    "timerstorm"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "cpu",
+    "membw",
+    "workflood"
+   ],
+   "prio": 10,
+   "failed": true
+  },
+  {
+   "attackers": [
+    "cpu",
+    "membw"
+   ],
+   "prio": 10,
+   "failed": true
+  },
+  {
+   "attackers": [
+    "cpu"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "membw"
+   ],
+   "prio": 10,
+   "failed": true
+  },
+  {
+   "attackers": [
+    "membw"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "kcall",
+    "timerstorm"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "kcall",
+    "pipeflood"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "cpu",
+    "flood",
+    "membw"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "ai",
+    "crash",
+    "membw"
+   ],
+   "prio": 10,
+   "failed": true
+  },
+  {
+   "attackers": [
+    "ai",
+    "crash"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "crash",
+    "membw"
+   ],
+   "prio": 10,
+   "failed": true
+  },
+  {
+   "attackers": [
+    "crash"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "kcall",
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "workflood"
+   ],
+   "prio": 10,
+   "failed": true
+  },
+  {
+   "attackers": [
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "ai",
+    "crash",
+    "timerstorm"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "fd",
+    "flood",
+    "mem"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "mem",
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "cpu",
+    "timerstorm"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "crash",
+    "kcall",
+    "mem"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "crash",
+    "membw"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "kcall",
+    "workflood"
+   ],
+   "prio": 10,
+   "failed": true
+  },
+  {
+   "attackers": [
+    "kcall"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "crash",
+    "fd"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "ai",
+    "flood",
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "cpu",
+    "kcall"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "cpu",
+    "mem",
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "crash",
+    "kcall",
+    "workflood"
+   ],
+   "prio": 10,
+   "failed": true
+  },
+  {
+   "attackers": [
+    "crash",
+    "kcall"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "crash",
+    "workflood"
+   ],
+   "prio": 10,
+   "failed": true
+  },
+  {
+   "attackers": [
+    "ai",
+    "kcall"
+   ],
+   "prio": 10,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "flood",
+    "mem",
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "crash"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "ai",
+    "cpu"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "pipeflood"
+   ],
+   "prio": 5,
+   "failed": false
+  },
+  {
+   "attackers": [
+    "kcall",
+    "membw",
+    "workflood"
+   ],
+   "prio": 5,
+   "failed": false
+  }
+ ],
+ "minimal": [
+  {
+   "attackers": [
+    "membw"
+   ],
+   "prio": 10,
+   "found_in": [
+    "membw"
+   ],
+   "kind": "known pattern (one attacker breaks it alone)",
+   "singles": {}
+  },
+  {
+   "attackers": [
+    "workflood"
+   ],
+   "prio": 10,
+   "found_in": [
+    "workflood",
+    "kcall",
+    "crash"
+   ],
+   "kind": "known pattern (one attacker breaks it alone)",
+   "singles": {}
+  }
+ ]
+}

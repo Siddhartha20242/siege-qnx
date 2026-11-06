@@ -108,6 +108,8 @@ for attack, desc in ATTACKS:
 (c_ok, c_n) = rule_check("cpu")[1]
 (f_ok, f_n) = rule_check("workflood")[1]
 md += ["",
+       "**Note (added later):** a 15-run check of the reference pipeline at equal priority against a CPU hog failed 8 of 15 runs, "
+       "and 11 of 15 in a repeat, so the equal-priority CPU cell below is unstable under emulation; see `more-attackers.md`.", "",
        "The boundary is where the pipeline's priority crosses the attacker's, and the **same-priority row is the interesting one**. "
        f"Against a CPU hog, equal priority is {verdict(c_ok, c_n)}, because round-robin scheduling shares the CPU between equals. "
        f"Against a flood of a shared service, equal priority is {verdict(f_ok, f_n)}. A likely reason, which these runs do not isolate: "

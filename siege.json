@@ -17,7 +17,10 @@
     {
       "label": "cpu hog   @prio 10",
       "attacker": "cpu",
-      "prio": 10
+      "prio": 10,
+      "expect": {
+        "none": "fail"
+      }
     },
     {
       "label": "cpu hog   @prio 20",
@@ -156,6 +159,14 @@
       "label": "kernel-call storm @prio 5",
       "attacker": "kcall",
       "prio": 5
+    },
+    {
+      "label": "memory bandwidth @prio 10",
+      "attacker": "membw",
+      "prio": 10,
+      "expect": {
+        "none": "fail"
+      }
     }
   ]
 }
