@@ -1,0 +1,72 @@
+# A minimal bootable QNX image that runs entirely from RAM.
+# Build with:  mkifs hello.build hello.ifs   (after: source ~/qnx800/qnxsdp-env.sh)
+
+[search=${QNX_TARGET}/aarch64le:${QNX_TARGET}/aarch64le/boot/sys:${QNX_TARGET}:.]
+[+dupignore]
+[+optional]
+[uid=0 gid=0 dperms=0555 perms=0555]
+
+# 1. The kernel and the board startup code. This image targets QEMU's "virt" machine.
+[image=0x40080000]
+[virtual=aarch64le,raw] boot = {
+    startup-qemu-virt
+    PATH=/proc/boot
+    LD_LIBRARY_PATH=/proc/boot
+    [+keeplinked uid=0 gid=0 perms=0700] CONFIG_PATH=/proc/boot procnto-smp-instr -mr -d 0777 -u 0777
+}
+
+# 2. What runs at boot: a serial console driver and a shell on it.
+[+script] startup-script = {
+    procmgr_symlink /proc/boot/ldqnx-64.so.2 /usr/lib/ldqnx-64.so.2
+    TERM=qansi
+    HOME=/tmp
+    display_msg "Booting"
+    pipe -U 24:24
+    waitfor /dev/pipe
+    slogger2 -U 21:21
+    waitfor /dev/slog
+    devc-serpl011 -e -F 0x9000000,33
+    waitfor /dev/ser1
+    on -d -t /dev/ser1 ksh -l
+    display_msg "Startup complete"
+    reopen /dev/ser1
+}
+
+# 3. Tools you will use at the prompt.
+toybox=usr/bin/toybox
+[type=link] ls=toybox
+[type=link] cat=toybox
+[type=link] echo=toybox
+[type=link] uname=toybox
+bin/on
+[type=link] waitfor=on
+bin/ksh
+[type=link] sh=ksh
+bin/pidin
+bin/slogger2
+sbin/pipe
+sbin/devc-serpl011
+usr/bin/getconf
+[type=link] setconf=getconf
+
+# 4. Shared libraries those programs need.
+[-autolink]
+lib/libc.so.6
+usr/lib/ldqnx-64.so.2
+lib/libgcc_s.so.1
+lib/libm.so.3
+lib/libslog2.so.1
+[type=link] libslog2.so=libslog2.so.1
+lib/libslog2shim.so.1
+lib/libsecpol.so.1
+lib/libjson.so.1
+lib/libslog2parse.so.1
+lib/libjail.so.1
+lib/libregex.so.1
+lib/libfsnotify.so.1
+usr/lib/libz.so.2
+[type=link] /bin/ksh=/proc/boot/ksh
+[type=link] /bin/sh=/proc/boot/ksh
+
+# 5. Your program, built beforehand with qcc.
+[perms=0555] hello=hello
