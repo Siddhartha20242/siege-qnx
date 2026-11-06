@@ -1,0 +1,38 @@
+# Example: run Siege on every change and fail the build if isolation regresses.
+#
+# QNX SDP 8.0 needs your own free licence, so this runs on a self-hosted runner
+# that already has the SDP, QEMU and the Ubuntu build machine set up (see the
+# codelab). Copy it to .github/workflows/siege.yml to use it.
+name: siege
+on: [push, pull_request]
+
+jobs:
+  isolation:
+    runs-on: [self-hosted, qnx]
+    env:
+      SIEGE_VM: ${{ vars.SIEGE_VM }}          # user@host of the machine with the SDP
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the image
+        run: scripts/build.sh
+
+      - name: Attack the profile you ship
+        run: scripts/matrix.py --profile prio --runs 5 --json prio.json
+
+      - name: Check results against expectations
+        run: scripts/junit.py prio.json --out junit.xml        # exit code 1 on a regression
+
+      - name: Report
+        if: always()
+        run: scripts/report.py prio.json --out report
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: siege-report
+          path: |
+            junit.xml
+            report.html
+            report.md
+            prio.json

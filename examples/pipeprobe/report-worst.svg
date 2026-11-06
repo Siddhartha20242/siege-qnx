@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 230" width="860" height="230" font-family="system-ui,sans-serif" font-size="12">
+<line x1="250.0" y1="26" x2="250.0" y2="200" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="250.0" y="218" text-anchor="middle" fill="#6e7781">1 ms</text>
+<line x1="380.0" y1="26" x2="380.0" y2="200" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="380.0" y="218" text-anchor="middle" fill="#6e7781">10 ms</text>
+<line x1="510.0" y1="26" x2="510.0" y2="200" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="510.0" y="218" text-anchor="middle" fill="#6e7781">100 ms</text>
+<line x1="640.0" y1="26" x2="640.0" y2="200" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="640.0" y="218" text-anchor="middle" fill="#6e7781">1 s</text>
+<line x1="770.0" y1="26" x2="770.0" y2="200" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="770.0" y="218" text-anchor="middle" fill="#6e7781">10 s</text>
+<line x1="340.86610056368244" y1="22" x2="340.86610056368244" y2="200" stroke="#bf8700" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="344.86610056368244" y="18" fill="#bf8700">deadline 5 ms</text>
+<text x="8" y="52" fill="#6e7781">pipe flood @prio 10</text>
+<rect x="250" y="36" width="186.21304408552044" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="441.21304408552044" y="47" fill="#6e7781">none: 27 ms</text>
+<rect x="250" y="54" width="72.50720641339086" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="327.50720641339086" y="65" fill="#6e7781">prio: 4 ms</text>
+<text x="8" y="102" fill="#6e7781">pipe flood @prio 30</text>
+<rect x="250" y="86" width="384.87925494890965" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="639.8792549489096" y="97" fill="#6e7781">none: 913 ms</text>
+<rect x="250" y="104" width="201.63772789613898" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="456.637727896139" y="115" fill="#6e7781">prio: 36 ms</text>
+<text x="8" y="152" fill="#6e7781">cpu hog   @prio 20</text>
+<rect x="250" y="136" width="480.87870064625247" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="735.8787006462525" y="147" fill="#6e7781">none: 5001 ms</text>
+<rect x="250" y="154" width="168.779927852706" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="423.779927852706" y="165" fill="#6e7781">prio: 20 ms</text>
+</svg>
