@@ -65,12 +65,14 @@ int main(int argc, char **argv)
     uint64_t deadline_ns = DEADLINE_NS;
     uint32_t tol_permille = 20;      /* tolerated late+lost frames: 2.0% */
     uint32_t recovery_ms = 500;      /* longest tolerated silence */
+    uint32_t acc_pm = 50;            /* tolerated wrong detections, per mille of those checked */
 
-    while ((c = getopt(argc, argv, "P:D:T:R:")) != -1) {
+    while ((c = getopt(argc, argv, "P:D:T:R:A:")) != -1) {
         if (c == 'P') prio = atoi(optarg);
         else if (c == 'D') deadline_ns = (uint64_t)atoi(optarg) * 1000000ULL;
         else if (c == 'T') tol_permille = (uint32_t)atoi(optarg);
         else if (c == 'R') recovery_ms = (uint32_t)atoi(optarg);
+        else if (c == 'A') acc_pm = (uint32_t)atoi(optarg);
     }
     set_prio_report("controller", prio);
     setvbuf(stdout, NULL, _IOLBF, 0);
@@ -84,7 +86,7 @@ int main(int argc, char **argv)
 
     counts_t all = {0}, win = {0};
     uint32_t n_all = 0, n_win = 0, secs = 0;
-    uint32_t expect = 0, outages = 0, outage_frames = 0, max_gap_ms = 0;
+    uint32_t expect = 0, outages = 0, outage_frames = 0, max_gap_ms = 0, checked = 0, wrong = 0;
     int started = 0, abandoned = 0;
     uint64_t t0 = 0, next_report = 0, last = 0;
     int16_t cmd = 0;
@@ -142,6 +144,13 @@ int main(int argc, char **argv)
         cmd = (int16_t)((m.d.x - FRAME_W / 2) * 4);
         (void)cmd;
 
+        /* The trained network's answer is checked against where the object
+         * really was, so a pipeline that is on time but wrong still fails. */
+        if (m.d.model) {
+            checked++;
+            if (abs(m.d.x - m.d.gt_x) > 1 || abs(m.d.y - m.d.gt_y) > 1) wrong++;
+        }
+
         uint64_t lat_ns = now - m.d.t_capture_ns;
         uint32_t lat_us = (uint32_t)(lat_ns / 1000ULL);
         all.frames++; win.frames++;
@@ -171,9 +180,9 @@ int main(int argc, char **argv)
 
     secs = started ? (uint32_t)((now_ns() - t0) / 1000000000ULL) : 0;
     pct_t p = percentiles(lat_all, n_all);
-    printf("FINAL t=%u frames=%u late=%u lost=%u stalls=%u p50_us=%u p99_us=%u max_us=%u outages=%u outage_frames=%u max_gap_ms=%u abandoned=%d\n",
+    printf("FINAL t=%u frames=%u late=%u lost=%u stalls=%u p50_us=%u p99_us=%u max_us=%u outages=%u outage_frames=%u max_gap_ms=%u abandoned=%d checked=%u wrong=%u\n",
            secs, all.frames, all.late, all.lost, all.stalls, p.p50, p.p99, p.mx,
-           outages, outage_frames, max_gap_ms, abandoned);
+           outages, outage_frames, max_gap_ms, abandoned, checked, wrong);
 
     /* Emulation produces rare isolated outliers, so the verdict is a late-frame
      * budget rather than "zero misses": PASS if at most tol_permille of frames
@@ -182,7 +191,8 @@ int main(int argc, char **argv)
     uint32_t total = all.frames + all.lost;
     uint32_t bad = all.late + all.lost;
     uint32_t late_pm = total ? (uint32_t)(((uint64_t)bad * 1000) / total) : 1000;
-    int pass = !abandoned && total && late_pm <= tol_permille && max_gap_ms <= recovery_ms;
+    int accurate = checked == 0 || wrong * 1000ULL <= (uint64_t)checked * acc_pm;
+    int pass = !abandoned && total && late_pm <= tol_permille && max_gap_ms <= recovery_ms && accurate;
     printf("RESULT %s late_pm=%u tol_pm=%u max_gap_ms=%u recovery_ms=%u\n",
            pass ? "PASS" : "FAIL", late_pm, tol_permille, max_gap_ms, recovery_ms);
 

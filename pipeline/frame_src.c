@@ -25,6 +25,9 @@ static void make_frame(frame_msg_t *f, uint32_t n)
     for (int y = by - 2; y <= by + 2; y++)
         for (int x = bx - 2; x <= bx + 2; x++)
             f->px[y * FRAME_W + x] = 200;
+
+    f->gt_x = (int16_t)bx;
+    f->gt_y = (int16_t)by;
 }
 
 int main(int argc, char **argv)

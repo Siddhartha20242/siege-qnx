@@ -3,16 +3,21 @@
 CC      = qcc -Vgcc_ntoaarch64le
 CFLAGS  = -O2 -Wall -Wextra -std=gnu11
 BIN     = build/bin
-PROGS   = frame_src detector controller attacker probe supervisor sieged
+PROGS   = frame_src detector controller attacker probe supervisor sieged b64cat
 
-EXAMPLES = ticker
+EXAMPLES = ticker pipeprobe
 
 all: $(addprefix $(BIN)/,$(PROGS) $(EXAMPLES))
 
 $(BIN)/%: pipeline/%.c pipeline/common.h | $(BIN)
 	$(CC) $(CFLAGS) -o $@ $<
 
+$(BIN)/detector: pipeline/model.h
+
 $(BIN)/ticker: examples/ticker/ticker.c pipeline/common.h | $(BIN)
+	$(CC) $(CFLAGS) -o $@ $<
+
+$(BIN)/pipeprobe: examples/pipeprobe/pipeprobe.c pipeline/common.h | $(BIN)
 	$(CC) $(CFLAGS) -o $@ $<
 
 $(BIN):

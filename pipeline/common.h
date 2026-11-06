@@ -20,6 +20,8 @@
 #include <sys/iomsg.h>
 #include <sys/neutrino.h>
 #include <sys/dispatch.h>
+#include <sys/mman.h>
+#include <fcntl.h>
 
 #define FRAME_W          32
 #define FRAME_H          32
@@ -46,6 +48,7 @@ typedef struct {
     uint16_t pad;
     uint32_t seq;
     uint64_t t_capture_ns;
+    int16_t  gt_x, gt_y;        /* where the object really is (the camera knows) */
     uint8_t  px[FRAME_W * FRAME_H];
 } frame_msg_t;
 
@@ -56,6 +59,9 @@ typedef struct {
     uint64_t t_capture_ns;
     int16_t  x, y;
     int32_t  score;
+    int16_t  gt_x, gt_y;        /* ground truth, forwarded so the controller can check the answer */
+    uint8_t  model;             /* 1 = trained network, 0 = fixed filter (only the network is checked) */
+    uint8_t  pad2[3];
 } det_msg_t;
 
 typedef struct {
@@ -63,6 +69,31 @@ typedef struct {
     uint16_t pad;
     char     text[240];
 } stats_msg_t;
+
+
+/* A mutex shared between processes through POSIX shared memory. The pipeline
+ * takes it briefly on every frame when it exists; the `pinv` attacker creates it
+ * and decides its protocol, to model a shared resource held by a low-priority
+ * process. */
+#define LOCK_SHM "/siege_lock"
+
+typedef struct {
+    pthread_mutex_t m;
+    volatile uint32_t ready;
+    volatile uint32_t counter;
+} shared_lock_t;
+
+/* Map the lock if it exists. Returns NULL when there is none (the normal case). */
+static inline shared_lock_t *open_shared_lock(void)
+{
+    int fd = shm_open(LOCK_SHM, O_RDWR, 0);
+    if (fd == -1) return NULL;
+    shared_lock_t *l = mmap(NULL, sizeof *l, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    close(fd);
+    if (l == MAP_FAILED) return NULL;
+    if (!l->ready) { munmap(l, sizeof *l); return NULL; }
+    return l;
+}
 
 static inline uint64_t now_ns(void)
 {

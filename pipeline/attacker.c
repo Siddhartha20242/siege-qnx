@@ -2,6 +2,7 @@
  * pipeline. One binary, one mode per run.
  *
  *   attacker -m cpu   [-n threads] [-a cpumask]  busy-loop threads that never block
+ *   attacker -m ai    [-n threads]   inference-like compute bursts (a well-meaning neighbour)
  *   attacker -m mem   [-n megabytes] allocate and keep touching memory
  *   attacker -m flood [-n threads]   hammer the detector with junk messages
  *   attacker -m workflood [-n n]     send the detector requests that cost real CPU
@@ -84,6 +85,170 @@ static int mode_cpu(int n)
     printf("ATK mode=cpu threads=%d cpu_ms=", n);
     for (int i = 0; i < n && i < 16; i++) printf("%s%u", i ? "," : "", cpu_ms[i]);
     printf("\n");
+    return 0;
+}
+
+/* ---- ai: a well-meaning neighbour running inference-like bursts -------- */
+
+#define AI_N 48
+static int8_t ai_a[AI_N * AI_N], ai_b[AI_N * AI_N];
+static volatile int32_t ai_sink;
+static volatile uint32_t ai_bursts;
+
+/* One 48x48 integer matrix multiply, the core of a neural-network layer. */
+static void ai_matmul(void)
+{
+    int32_t acc = 0;
+    for (int i = 0; i < AI_N; i++)
+        for (int j = 0; j < AI_N; j++) {
+            int32_t s = 0;
+            for (int k = 0; k < AI_N; k++)
+                s += ai_a[i * AI_N + k] * ((volatile int8_t *)ai_b)[k * AI_N + j];
+            acc += s;
+        }
+    ai_sink = acc;
+}
+
+/* Compute for 40 ms, rest for the remaining 60 ms of each 100 ms period, like
+ * an assistant answering requests. Nothing here is hostile: the damage comes
+ * from where it is scheduled. */
+static void *ai_thread(void *arg)
+{
+    (void)arg;
+    atk_set_prio();
+    for (int i = 0; i < AI_N * AI_N; i++) {
+        ai_a[i] = (int8_t)(i * 7);
+        ai_b[i] = (int8_t)(i * 13);
+    }
+    const uint64_t burst_ns = 40000000ULL, period_ns = 100000000ULL;
+    while (running()) {
+        uint64_t t0 = now_ns();
+        while (now_ns() - t0 < burst_ns && running()) ai_matmul();
+        ai_bursts++;
+        uint64_t used = now_ns() - t0;
+        if (used < period_ns) usleep((useconds_t)((period_ns - used) / 1000));
+    }
+    return NULL;
+}
+
+static int mode_ai(int n)
+{
+    run_threads(ai_thread, n);
+    printf("ATK mode=ai threads=%d bursts=%u\n", n, ai_bursts);
+    return 0;
+}
+
+/* ---- pinv: priority inversion through a shared lock -------------------- */
+
+/* The classic setup. A low-priority holder takes a lock the pipeline needs
+ * and works while holding it; medium-priority hogs, above the holder and
+ * below the pipeline, keep it from running. With a plain mutex the pipeline
+ * waits behind the holder for as long as the hogs run. With a priority-
+ * inheriting mutex the holder is lifted to the waiter's priority and finishes.
+ *   PINV=none      PTHREAD_PRIO_NONE (the unsafe choice)
+ *   PINV=inherit   PTHREAD_PRIO_INHERIT
+ *   PINV unset     the system default */
+static shared_lock_t *pinv_lock;
+static volatile int pinv_ready;
+
+/* The holder takes the lock first, at the high priority it inherited from the
+ * process that created it, and only then drops to a low priority and starts
+ * working under the lock. If it were starved before taking the lock there would
+ * be nothing to invert. */
+static void *pinv_holder(void *arg)
+{
+    (void)arg;
+    pthread_mutex_lock(&pinv_lock->m);
+    struct sched_param sp = { .sched_priority = g_prio > 4 ? g_prio - 3 : 1 };
+    pthread_setschedparam(pthread_self(), SCHED_RR, &sp);
+    pinv_ready = 1;
+    while (running()) {
+        uint64_t t0 = now_ns();
+        while (now_ns() - t0 < 3000000ULL && running()) sink++;     /* 3 ms of work under the lock */
+        pthread_mutex_unlock(&pinv_lock->m);
+        usleep(2000);
+        pthread_mutex_lock(&pinv_lock->m);
+    }
+    pthread_mutex_unlock(&pinv_lock->m);
+    return NULL;
+}
+
+static void *pinv_hog(void *arg)
+{
+    (void)arg;
+    set_prio(g_prio);
+    uint64_t x = 1;
+    while (running())
+        for (int i = 0; i < 100000; i++) x = x * 6364136223846793005ULL + 1442695040888963407ULL;
+    sink = x;
+    return NULL;
+}
+
+static int mode_pinv(void)
+{
+    const char *proto = getenv("PINV") ? getenv("PINV") : "default";
+
+    shm_unlink(LOCK_SHM);
+    int fd = shm_open(LOCK_SHM, O_CREAT | O_EXCL | O_RDWR, 0666);
+    if (fd == -1 || ftruncate(fd, sizeof(shared_lock_t)) == -1) { perror("attacker: shared lock"); return 1; }
+    pinv_lock = mmap(NULL, sizeof *pinv_lock, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    close(fd);
+    if (pinv_lock == MAP_FAILED) { perror("attacker: mmap"); return 1; }
+
+    pthread_mutexattr_t a;
+    pthread_mutexattr_init(&a);
+    pthread_mutexattr_setpshared(&a, PTHREAD_PROCESS_SHARED);
+    if (!strcmp(proto, "none"))    pthread_mutexattr_setprotocol(&a, PTHREAD_PRIO_NONE);
+    if (!strcmp(proto, "inherit")) pthread_mutexattr_setprotocol(&a, PTHREAD_PRIO_INHERIT);
+    pthread_mutex_init(&pinv_lock->m, &a);
+    pinv_lock->ready = 1;
+
+    /* Hogs first, so both CPUs are already saturated at the medium priority when
+     * the holder takes the lock. The holder starts at this process's high
+     * priority, takes the lock, drops to its low priority, and is preempted at
+     * once while still holding it. */
+    pthread_t th[4];
+    for (int i = 1; i < 4; i++)                            /* three hogs: more than there are CPUs */
+        pthread_create(&th[i], NULL, pinv_hog, NULL);
+    usleep(30000);
+    pthread_create(&th[0], NULL, pinv_holder, NULL);
+    for (int i = 0; i < 4; i++) pthread_join(th[i], NULL);
+
+    printf("ATK mode=pinv protocol=%s lock_taken=%u\n", proto, pinv_lock->counter);
+    shm_unlink(LOCK_SHM);
+    return 0;
+}
+
+/* ---- pipeflood: hammer QNX's pipe manager --------------------------------- */
+
+/* Pipes are served by the `pipe` resource manager, so a pipe write or read is a
+ * message to that process. This attacker pushes data through its own pipes as
+ * fast as it can, to load the service other programs' pipes depend on. */
+static volatile uint64_t pipe_bytes;
+
+static void *pipeflood_thread(void *arg)
+{
+    (void)arg;
+    atk_set_prio();
+    int fd[2];
+    if (pipe(fd) == -1) return NULL;
+    char buf[1024];
+    memset(buf, 0x5A, sizeof buf);
+    while (running()) {
+        if (write(fd[1], buf, sizeof buf) <= 0) break;
+        ssize_t n = read(fd[0], buf, sizeof buf);
+        if (n <= 0) break;
+        pipe_bytes += (uint64_t)n;
+    }
+    close(fd[0]);
+    close(fd[1]);
+    return NULL;
+}
+
+static int mode_pipeflood(int n)
+{
+    run_threads(pipeflood_thread, n);
+    printf("ATK mode=pipeflood threads=%d bytes=%llu\n", n, (unsigned long long)pipe_bytes);
     return 0;
 }
 
@@ -238,6 +403,9 @@ int main(int argc, char **argv)
 
     int rc;
     if (!strcmp(mode, "cpu"))        rc = mode_cpu(n < 0 ? 2 : n);
+    else if (!strcmp(mode, "ai"))    rc = mode_ai(n < 0 ? 2 : n);
+    else if (!strcmp(mode, "pinv"))  rc = mode_pinv();
+    else if (!strcmp(mode, "pipeflood")) rc = mode_pipeflood(n < 0 ? 2 : n);
     else if (!strcmp(mode, "mem"))   rc = mode_mem(n < 0 ? 300 : n);
     else if (!strcmp(mode, "flood")) rc = mode_flood(n < 0 ? 2 : n, "flood");
     else if (!strcmp(mode, "workflood")) { flood_type = MSG_WORK; rc = mode_flood(n < 0 ? 2 : n, "workflood"); }
