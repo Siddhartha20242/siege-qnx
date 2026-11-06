@@ -32,6 +32,13 @@ dur = args.dur or cfg.get("duration_s", 5)
 deadline = args.deadline or cfg.get("deadline_ms", 15)
 tol = args.tolerance if args.tolerance is not None else cfg.get("tolerance_permille", 20)
 recovery = cfg.get("recovery_ms", 500)
+external = cfg.get("pipeline", {}).get("command")     # None = the built-in reference pipeline
+profiles = cfg.get("profiles", [])
+profile_env = {}
+if isinstance(profiles, dict):                         # external pipelines define profiles as environment
+    if args.profile not in profiles:
+        sys.exit(f"profile '{args.profile}' is not defined in {args.config}: {', '.join(profiles)}")
+    profile_env = profiles[args.profile]
 
 FINAL = re.compile(r"FINAL .*?late=(\d+) lost=(\d+) stalls=(\d+) p50_us=(\d+) p99_us=(\d+) max_us=(\d+)"
                    r"(?: outages=(\d+) outage_frames=(\d+) max_gap_ms=(\d+) abandoned=(\d))?")
@@ -40,14 +47,17 @@ FINAL = re.compile(r"FINAL .*?late=(\d+) lost=(\d+) stalls=(\d+) p50_us=(\d+) p9
 def command(sc):
     env = {"PROFILE": args.profile, "ATK": sc.get("attacker", ""), "ATK_PRIO": sc.get("prio", 10),
            "DEADLINE_MS": deadline, "TOL_PM": tol, "RECOVERY_MS": recovery}
+    env.update(profile_env)
     env.update(sc.get("env", {}))
     parts = [f'{k}="{v}"' if k == "ATK" else f"{k}={v}" for k, v in env.items()]
+    if external:
+        return " ".join(parts) + f" harness.sh {dur} " + external.format(dur=dur)
     return " ".join(parts) + f" pipeline.sh {dur}"
 
 
 results = []
 with Console(args.image) as c:
-    c.run("pipeline.sh 3 >/dev/null", 60)                       # warm up, discard
+    c.run(("harness.sh 3 " + external.format(dur=3) if external else "pipeline.sh 3") + " >/dev/null", 60)   # warm up, discard
     for sc in cfg["scenarios"]:
         if args.only and args.only not in sc["label"]:
             continue

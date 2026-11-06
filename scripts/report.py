@@ -85,8 +85,9 @@ for sc in broken:
                "(the controller gave up after 3 s). Scheduling profiles cannot help; a supervisor can.")
         findings.append(("break", txt))
         continue
+    silence = f", longest silence {b['gap']} ms" if b["gap"] else ""
     txt = (f"{name} breaks the unhardened pipeline in {b['fails']}/{b['n']} runs "
-           f"(worst frame {ms(b['worst'])}, longest silence {b['gap']} ms).")
+           f"(worst frame {ms(b['worst'])}{silence}).")
     if fixed[sc]:
         txt += f" Restored by: {', '.join(fixed[sc])}."
     if reduced[sc]:
