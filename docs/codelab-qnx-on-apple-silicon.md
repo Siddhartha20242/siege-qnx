@@ -45,6 +45,22 @@ QEMU's `virt` machine emulates, so nothing is emulated twice.
 If the screen is black for several minutes at the first boot, wait. It
 eventually shows the installer.
 
+## Shortcut for Steps 2 and 3
+
+Steps 2 and 3 (Rosetta, the amd64 libraries, the SSH server) are scripted. Inside
+the Ubuntu VM, after Step 1:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/Siddhartha20242/siege-qnx/main/scripts/vm-setup.sh -o vm-setup.sh
+bash vm-setup.sh --check   # reports what is missing, changes nothing
+bash vm-setup.sh           # does it; asking for sudo
+```
+
+It checks each step first, so it is safe to run twice, and it ends by printing the
+address to give `./siege setup`. It does not do the QNX account, licence or Software
+Center login (Steps 4 and 5), which need you. If you want to see what each step does,
+the manual version follows.
+
 ## Step 2. Turn on Rosetta inside Ubuntu
 
 Mount the Rosetta share and make it permanent:
