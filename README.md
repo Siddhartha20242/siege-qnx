@@ -186,6 +186,49 @@ New to QNX on a Mac? The [codelab](docs/codelab-qnx-on-apple-silicon.md)
 walks through the whole setup from nothing: a free Ubuntu VM, the QNX SDP,
 cross-compiling a native program, and booting it in QEMU.
 
+## Testing your own program
+
+Siege can attack any real-time program, not only the reference pipeline. The
+generic launcher `image/harness.sh` starts your program, lets it settle for a
+second, and then starts the attackers against it.
+
+1. Build your program for QNX and add it to the image (`image/ram.build`).
+2. Make it print the two lines Siege reads when it finishes:
+
+   ```
+   FINAL ... late=N lost=N stalls=N p50_us=N p99_us=N max_us=N
+   RESULT PASS|FAIL
+   ```
+
+   Measure lateness against when each cycle was *due*, not when your code got
+   to run, so that a starved program cannot hide its own starvation.
+3. Describe the run in a config file: the command (`{dur}` is the run length),
+   the profiles as environment variables your program reads, and the
+   scenarios. [`examples/ticker/siege.json`](examples/ticker/siege.json) is a
+   complete example.
+4. Run it:
+
+   ```sh
+   scripts/matrix.py --config examples/ticker/siege.json --profile none --json none.json
+   scripts/matrix.py --config examples/ticker/siege.json --profile prio --json prio.json
+   scripts/report.py none.json prio.json --out report
+   ```
+
+[`examples/ticker/ticker.c`](examples/ticker/ticker.c) is a second program, a
+single 100 Hz periodic task with a 5 ms deadline, about seventy lines long.
+Siege tests it with no changes to the attackers. It is more fragile than the
+reference pipeline, which shows that the result is specific to each program
+(failed runs out of three; report in [`examples/ticker/`](examples/ticker/)):
+
+| Attack | Default priority | Ticker at priority 40 |
+|---|---|---|
+| CPU hog at the same priority | 3 / 3 | 0 / 3 |
+| CPU hog at priority 20 | 3 / 3 | 0 / 3 |
+| Crash loop at priority 20 | 3 / 3 | 0 / 3 |
+
+The reference pipeline survived the same-priority hog and the crash loop. The
+ticker did not, because its deadline is tighter and it has no slack.
+
 ## Where QNX is used
 
 * Native IPC: `name_attach`, `name_open`, `MsgSend`, `MsgReceive`,
@@ -228,9 +271,9 @@ cross-compiling a native program, and booting it in QEMU.
 * Adaptive partitioning is not part of the free SDP, so it is not used.
 * Results are from a handful of runs per scenario. Compare failure rates, not
   single runs.
-* Scenarios and profiles are data in `siege.json`, but pointing Siege at a
-  different pipeline is not supported yet: the launcher in `image/pipeline.sh`
-  is specific to the reference pipeline.
+* A program under test must print the `FINAL` and `RESULT` lines described
+  above and be added to the image by hand; there is no loader for arbitrary
+  binaries yet.
 
 ## Licence
 
