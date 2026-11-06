@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 430" width="960" height="430" font-family="system-ui,sans-serif" font-size="14">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#6e7781"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#cf222e"/></marker>
+  </defs>
+  <g fill="none" stroke="#6e7781" stroke-width="1.5">
+    <rect x="16" y="34" width="262" height="372" rx="12"/>
+    <rect x="320" y="34" width="624" height="372" rx="12"/>
+  </g>
+  <g fill="#6e7781" font-weight="700">
+    <text x="32" y="60">Host: macOS or Linux</text>
+    <text x="336" y="60">QNX 8.0 (aarch64) in QEMU, booted from a RAM image</text>
+  </g>
+
+  <!-- host boxes -->
+  <g fill="none" stroke="#6e7781" stroke-width="1.2">
+    <rect x="36" y="82" width="222" height="58" rx="8"/>
+    <rect x="36" y="156" width="222" height="58" rx="8"/>
+    <rect x="36" y="230" width="222" height="58" rx="8"/>
+    <rect x="36" y="304" width="222" height="58" rx="8"/>
+  </g>
+  <g fill="#6e7781" text-anchor="middle">
+    <text x="147" y="107">scripts</text><text x="147" y="126" font-size="12">build · matrix · calibrate · demo</text>
+    <text x="147" y="181">live dashboard</text><text x="147" y="200" font-size="12">browser, updates during a run</text>
+    <text x="147" y="255">report</text><text x="147" y="274" font-size="12">report.html · junit.xml</text>
+    <text x="147" y="329">QEMU</text><text x="147" y="348" font-size="12">serial console to the guest</text>
+  </g>
+
+  <!-- orchestrator -->
+  <rect x="340" y="80" width="584" height="40" rx="8" fill="none" stroke="#6e7781" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="632" y="105" fill="#6e7781" text-anchor="middle" font-size="13">pipeline.sh / harness.sh (priority 60): start the pipeline, then the attackers</text>
+
+  <!-- pipeline -->
+  <g fill="none" stroke="#1a7f37" stroke-width="2">
+    <rect x="350" y="150" width="150" height="62" rx="8"/>
+    <rect x="560" y="150" width="150" height="62" rx="8"/>
+    <rect x="770" y="150" width="150" height="62" rx="8"/>
+  </g>
+  <g fill="#6e7781" text-anchor="middle">
+    <text x="425" y="176" font-weight="700">frame_src</text><text x="425" y="196" font-size="12">camera, 50 Hz</text>
+    <text x="635" y="176" font-weight="700">detector</text><text x="635" y="196" font-size="12">fixed-weight model</text>
+    <text x="845" y="176" font-weight="700">controller</text><text x="845" y="196" font-size="12">checks every deadline</text>
+  </g>
+  <g stroke="#6e7781" stroke-width="1.8" fill="none">
+    <line x1="500" y1="181" x2="558" y2="181" marker-end="url(#a)"/>
+    <line x1="710" y1="181" x2="768" y2="181" marker-end="url(#a)"/>
+  </g>
+  <g fill="#6e7781" font-size="11" text-anchor="middle">
+    <text x="529" y="172">MsgSend</text><text x="739" y="172">MsgSend</text>
+  </g>
+
+  <!-- support -->
+  <g fill="none" stroke="#6e7781" stroke-width="1.5">
+    <rect x="770" y="268" width="150" height="62" rx="8"/>
+    <rect x="560" y="268" width="150" height="62" rx="8"/>
+  </g>
+  <rect x="350" y="268" width="150" height="76" rx="8" fill="none" stroke="#cf222e" stroke-width="2"/>
+  <g fill="#6e7781" text-anchor="middle">
+    <text x="845" y="294" font-weight="700">sieged</text><text x="845" y="314" font-size="12">/dev/siege (resource mgr)</text>
+    <text x="635" y="294" font-weight="700">supervisor</text><text x="635" y="314" font-size="12">restarts the detector</text>
+  </g>
+  <g fill="#cf222e" text-anchor="middle">
+    <text x="425" y="291" font-weight="700">attacker</text>
+    <text x="425" y="310" font-size="12">cpu · ai · flood · workflood</text>
+    <text x="425" y="328" font-size="12">mem · fd · crash</text>
+  </g>
+  <g stroke="#6e7781" stroke-width="1.8" fill="none">
+    <line x1="845" y1="212" x2="845" y2="266" marker-end="url(#a)"/>
+    <line x1="635" y1="268" x2="635" y2="214" stroke-dasharray="5 4" marker-end="url(#a)"/>
+  </g>
+  <line x1="470" y1="266" x2="590" y2="214" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#r)"/>
+  <g fill="#6e7781" font-size="11" text-anchor="middle">
+    <text x="880" y="244">status</text><text x="648" y="244" text-anchor="start">spawn, waitpid</text>
+  </g>
+  <g fill="#cf222e" font-size="11" text-anchor="middle"><text x="500" y="228">attacks</text></g>
+
+  <!-- serial + hardening note -->
+  <g stroke="#6e7781" stroke-width="1.5" fill="none"><line x1="320" y1="382" x2="260" y2="340" stroke-dasharray="4 3" marker-end="url(#a)"/></g>
+  <text x="332" y="388" fill="#6e7781" font-size="12">serial console, per-second status, /dev/siege</text>
+  <text x="940" y="394" fill="#6e7781" font-size="12" text-anchor="end">hardening profiles: priority · CPU isolation · sporadic budget</text>
+</svg>

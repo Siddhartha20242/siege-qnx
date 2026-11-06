@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 780" width="860" height="780" font-family="system-ui,sans-serif" font-size="12">
+<line x1="250.0" y1="26" x2="250.0" y2="750" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="250.0" y="768" text-anchor="middle" fill="#6e7781">1 ms</text>
+<line x1="380.0" y1="26" x2="380.0" y2="750" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="380.0" y="768" text-anchor="middle" fill="#6e7781">10 ms</text>
+<line x1="510.0" y1="26" x2="510.0" y2="750" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="510.0" y="768" text-anchor="middle" fill="#6e7781">100 ms</text>
+<line x1="640.0" y1="26" x2="640.0" y2="750" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="640.0" y="768" text-anchor="middle" fill="#6e7781">1 s</text>
+<line x1="770.0" y1="26" x2="770.0" y2="750" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="770.0" y="768" text-anchor="middle" fill="#6e7781">10 s</text>
+<line x1="419.13389943631756" y1="22" x2="419.13389943631756" y2="750" stroke="#bf8700" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="423.13389943631756" y="18" fill="#bf8700">deadline 20 ms</text>
+<text x="8" y="52" fill="#6e7781">cpu hog   @prio 10</text>
+<rect x="250" y="36" width="145.12878395336168" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="400.1287839533617" y="47" fill="#6e7781">none: 13 ms</text>
+<rect x="250" y="54" width="81.61079877980939" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="336.6107987798094" y="65" fill="#6e7781">prio: 4 ms</text>
+<text x="8" y="102" fill="#6e7781">cpu hog   @prio 20</text>
+<rect x="250" y="86" width="480.77827353226905" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="735.778273532269" y="97" fill="#6e7781">none: 4992 ms</text>
+<rect x="250" y="104" width="106.15445048339336" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="361.15445048339336" y="115" fill="#6e7781">prio: 7 ms</text>
+<text x="8" y="152" fill="#6e7781">flood     @prio 10</text>
+<rect x="250" y="136" width="107.76765402103001" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="362.76765402103" y="147" fill="#6e7781">none: 7 ms</text>
+<rect x="250" y="154" width="221.49491848566277" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="476.49491848566277" y="165" fill="#6e7781">prio: 51 ms</text>
+<text x="8" y="202" fill="#6e7781">flood     @prio 20</text>
+<rect x="250" y="186" width="97.64625929962585" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="352.64625929962585" y="197" fill="#6e7781">none: 6 ms</text>
+<rect x="250" y="204" width="155.0772373942434" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="410.0772373942434" y="215" fill="#6e7781">prio: 16 ms</text>
+<text x="8" y="252" fill="#6e7781">workflood @prio 30</text>
+<rect x="250" y="236" width="157.22300985252883" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="412.22300985252883" y="247" fill="#6e7781">none: 16 ms</text>
+<rect x="250" y="254" width="146.9433899043508" height="13" rx="2" fill="#bf8700" opacity="0.65"/>
+<text x="401.9433899043508" y="265" fill="#6e7781">prio: 14 ms</text>
+<text x="8" y="302" fill="#6e7781">AI neighbour@prio 10</text>
+<rect x="250" y="286" width="157.0274589501867" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="412.0274589501867" y="297" fill="#6e7781">none: 16 ms</text>
+<rect x="250" y="304" width="90.95636162630854" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="345.95636162630854" y="315" fill="#6e7781">prio: 5 ms</text>
+<text x="8" y="352" fill="#6e7781">AI neighbour@prio 20</text>
+<rect x="250" y="336" width="214.1648722175703" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="469.1648722175703" y="347" fill="#6e7781">none: 44 ms</text>
+<rect x="250" y="354" width="139.03280221149947" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="394.0328022114995" y="365" fill="#6e7781">prio: 12 ms</text>
+<text x="8" y="402" fill="#6e7781">priority inversion (plain mutex)</text>
+<rect x="250" y="386" width="235.5657067309295" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="490.5657067309295" y="397" fill="#6e7781">none: 65 ms</text>
+<rect x="250" y="404" width="89.88656977872807" height="13" rx="2" fill="#cf222e" opacity="0.65"/>
+<text x="344.8865697787281" y="415" fill="#6e7781">prio: 5 ms</text>
+<text x="8" y="452" fill="#6e7781">priority inversion (inheriting mutex)</text>
+<rect x="250" y="436" width="97.18373115589122" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="352.1837311558912" y="447" fill="#6e7781">none: 6 ms</text>
+<rect x="250" y="454" width="236.77972496714892" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="491.7797249671489" y="465" fill="#6e7781">prio: 66 ms</text>
+<text x="8" y="502" fill="#6e7781">priority inversion (default mutex)</text>
+<rect x="250" y="486" width="129.63750576822565" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="384.63750576822565" y="497" fill="#6e7781">none: 10 ms</text>
+<rect x="250" y="504" width="127.18720912090475" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="382.18720912090475" y="515" fill="#6e7781">prio: 10 ms</text>
+<text x="8" y="552" fill="#6e7781">mem hog   @prio 10</text>
+<rect x="250" y="536" width="117.76748960816019" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="372.7674896081602" y="547" fill="#6e7781">none: 8 ms</text>
+<rect x="250" y="554" width="77.04070677185769" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="332.0407067718577" y="565" fill="#6e7781">prio: 4 ms</text>
+<text x="8" y="602" fill="#6e7781">fd exhaust@prio 10</text>
+<rect x="250" y="586" width="184.18056852311213" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="439.18056852311213" y="597" fill="#6e7781">none: 26 ms</text>
+<rect x="250" y="604" width="90.12733041073523" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="345.1273304107352" y="615" fill="#6e7781">prio: 5 ms</text>
+<text x="8" y="652" fill="#6e7781">crash loop@prio 10</text>
+<rect x="250" y="636" width="66.178845852231" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="321.178845852231" y="647" fill="#6e7781">none: 3 ms</text>
+<rect x="250" y="654" width="102.51703226964673" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="357.51703226964673" y="665" fill="#6e7781">prio: 6 ms</text>
+<text x="8" y="702" fill="#6e7781">crash loop@prio 20</text>
+<rect x="250" y="686" width="105.53959080294203" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="360.53959080294203" y="697" fill="#6e7781">none: 6 ms</text>
+<rect x="250" y="704" width="97.96579765607783" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="352.9657976560778" y="715" fill="#6e7781">prio: 6 ms</text>
+</svg>
