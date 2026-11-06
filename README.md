@@ -4,15 +4,138 @@ Stress-testing for real-time isolation on QNX 8.0.
 
 A real-time pipeline is only as safe as its worst neighbour. Siege runs a
 camera-to-steering pipeline on QNX, attacks it with misbehaving processes
-(a CPU hog, a message flood, memory and descriptor exhaustion, a crash loop),
-measures every frame against its deadline, and shows how QNX scheduling
-features restore the deadlines. The same attack can be replayed with and
-without a hardening profile, so the effect of each QNX mechanism is measured,
-not assumed.
+(a CPU hog, an inference-style compute neighbour, a message flood, memory and
+descriptor exhaustion, a crash loop), measures every frame against its
+deadline, and shows which QNX mechanisms restore the deadlines. The same
+attack can be replayed with and without a hardening profile, so the effect of
+each mechanism is measured, not assumed.
 
 Siege produces stress evidence and regression tests. It does not certify
 anything: passing runs show an isolation setup survived the attacks tried, not
 that it is free from interference in general.
+
+![How Siege fits together](docs/architecture.svg)
+
+## What Siege found
+
+<!-- results:start -->
+Every scenario ran against every hardening profile (5 runs each, 15 for the
+headline scenarios; 5-second runs, 20 ms deadline). Failed runs out of total,
+95% intervals in the report:
+
+| Attack | No hardening | `prio` | `isolate` | `budget` |
+|---|---|---|---|---|
+| CPU hog at priority 20 | **15/15** | 0/15 | 0/15 | 1/15 |
+| `workflood` at priority 30 | **15/15** | 1/15 | **15/15** | **15/15** |
+| AI neighbour at priority 20 | **15/15** | 0/15 | 0/15 | 0/15 |
+| AI neighbour at the default priority | 0/15 | 0/15 | 0/15 | 0/15 |
+| Priority inversion, plain mutex | **5/5** | **5/5** | **5/5** | **5/5** |
+| Priority inversion, inheriting mutex | 0/5 | 0/5 | 0/5 | 0/5 |
+| Detector killed, no supervisor | **5/5** | **5/5** | **5/5** | **5/5** |
+| Detector killed, supervised | 0/15 | 0/15 | 0/15 | 0/15 |
+
+* **A CPU hog above the pipeline's priority starves it for the whole attack**
+  (median latency 2.5 s). Every profile restores it.
+* **An attacker that uses almost no CPU still breaks it.** `workflood` sends a
+  shared service expensive requests from a higher priority; QNX serves
+  higher-priority senders first and runs the server at their priority. Only
+  raising the pipeline's priority fixes it. Giving the pipeline its own CPU
+  and capping the attacker's CPU do not.
+* **An inference-style neighbour is harmless at the default priority and
+  breaks about 15% of frames at a higher one.** All three profiles fix it.
+* **A lock held by a low-priority process reproduces the Mars Pathfinder
+  failure.** With a plain mutex the pipeline never recovered under any
+  profile; only a priority-inheriting mutex fixes it, and QNX's default mutex
+  already is one. Raising the pipeline's priority does not help.
+* **A killed detector is never replaced without a supervisor.** With one it
+  was serving again in about 5 ms (median).
+* **Memory, descriptor and crash-loop attacks and a plain message flood did
+  not break it** at the default priority (no failure in 5 runs each; that is
+  "not observed", not "cannot happen").
+
+![All scenarios against all profiles](docs/report-heatmap.svg)
+
+**It is not only Siege's own detector.** A program whose latency goes through
+QNX's own `pipe` manager ([`examples/pipeprobe`](examples/pipeprobe/), 5 ms
+deadline, 5 runs each) shows the same queue-priority pattern in a real system
+service. Failed runs out of total:
+
+| Attack on a program that uses QNX's `pipe` manager | Probe at priority 10 | Probe at priority 40 |
+|---|---|---|
+| Pipe traffic at the same priority | 0/5 | 0/5 |
+| Pipe traffic at priority 30 | 5/5 | 0/5 |
+| CPU hog at priority 20 | 5/5 | 0/5 |
+
+The same findings with the trained network as the detector (`DET_MODEL=cnn`,
+5 runs each; [`examples/cnn/`](examples/cnn/)). The network found the object
+correctly in 35544 of 35544 checked frames (100.00%), attacked or not:
+
+| Attack (trained-network detector) | No hardening | `prio` | `isolate` | `budget` |
+|---|---|---|---|---|
+| CPU hog at priority 20 | 5/5 | 0/5 | 0/5 | 0/5 |
+| `workflood` at priority 30 | 5/5 | 1/5 | 5/5 | 4/5 |
+| AI neighbour at priority 20 | 5/5 | 0/5 | 0/5 | 0/5 |
+| AI neighbour at the default priority | 0/5 | 1/5 | 0/5 | 0/5 |
+| Detector killed, no supervisor | 5/5 | 5/5 | 5/5 | 5/5 |
+| Detector killed, supervised | 0/5 | 0/5 | 1/5 | 0/5 |
+<!-- results:end -->
+
+The full table with a per-run drill-down is in
+[`docs/report.html`](docs/report.html) ([Markdown](docs/report.md)); the raw
+runs are in [`docs/results/`](docs/results/). To understand the results:
+
+* [`docs/why-qnx.md`](docs/why-qnx.md): which findings depend on how QNX works
+  and which would hold on any fixed-priority scheduler.
+* [`docs/patterns.md`](docs/patterns.md): each finding as a named pattern with
+  its symptom, cause, detection and fix.
+* [`docs/test-report.html`](docs/test-report.html): the same evidence as a
+  safety-style test record (numbered test cases, pass criteria, traceability,
+  limits, sign-off). Evidence, not certification.
+* [`docs/mechanism-proof.md`](docs/mechanism-proof.md): the `workflood` mechanism
+  observed directly, by sampling the detector's priority while it is flooded.
+* [`docs/landscape.md`](docs/landscape.md): how much priority margin the pipeline
+  needs, measured.
+* [`docs/trace-evidence.md`](docs/trace-evidence.md): a kernel trace of the flood:
+  the attacker used 0.4% of the CPU, the detector one whole CPU.
+* [`docs/README.md`](docs/README.md): an index of everything in `docs/`.
+* The evidence table at the end of the report groups results by interference
+  channel (execution time, memory, message exchange, kernel objects, process
+  and service failure).
+
+## See it run
+
+![The live dashboard recording a real run: the same workflood attack under three hardening profiles, overlaid](docs/live-dashboard.gif)
+
+```sh
+scripts/live.py
+```
+
+boots the image in QEMU and serves a dashboard at `http://127.0.0.1:8766`.
+Pick a scenario and a hardening profile and press Run, or press Play demo for
+a scripted sequence. The page shows a status tile, per-second p99 latency on a
+log scale against the deadline, the attack window, supervisor and outage
+events, a plain-language verdict, and the raw QNX serial console. A starved
+pipeline shows up as STALLED, because the controller cannot report while it is
+starved. Scenarios and profiles come from `siege.json`, so your own appear in
+the menus. (`--simulate` serves made-up data with a visible banner. It exists
+only for testing the page.)
+
+## Try it and tell us what you think
+
+Siege has so far been used only by its author, so outside eyes are the most
+useful thing it can get. If you work with QNX and have ten minutes:
+
+```sh
+git clone https://github.com/Siddhartha20242/siege-qnx && cd siege-qnx
+./siege doctor        # checks QEMU, the QNX SDP and the build machine, and says how to fix what is missing
+./siege build         # cross-compile and build the image
+./siege live          # open http://127.0.0.1:8766, pick "workflood @prio 30", press Run
+```
+
+Then open an issue with the "I tried Siege" template: what worked, what
+confused you, and whether you agree with the findings. If you have a real
+board, [`docs/hardware.md`](docs/hardware.md) shows how to run the same tests
+on it and share the result.
 
 ## Target
 
@@ -37,19 +160,29 @@ frame_src --MsgSend--> detector --MsgSend--> controller
 
 * `frame_src` stamps a deterministic synthetic 32x32 frame every 20 ms (50 Hz)
   with its scheduled capture time.
-* `detector` is a small fixed-weight 3x3 detector that finds a moving object.
+* `detector` finds a moving object, in one of two modes. `filter` (the
+  default) is a fixed 3x3 centre-surround kernel. `cnn` (`DET_MODEL=cnn`) is a
+  small trained convolutional network, about 150 thousand multiply-adds per
+  frame, whose weights come from [`tools/train_detector.py`](tools/train_detector.py)
+  (PyTorch, seeded). The controller checks the network's answer against where
+  the camera put the object, so a pipeline that is on time but wrong also
+  fails.
 * `controller` computes a steering command and measures capture-to-command
-  latency for every frame. Frames later than the deadline (15 ms by default),
-  frames that never arrive, and a starved controller all count as failures.
+  latency for every frame. Frames later than the deadline (20 ms by default,
+  from `calibrate.py`), frames that never arrive, and a silence longer than
+  the recovery budget all count as failures.
 
-`attacker` runs one of six attacks against the live pipeline:
+`attacker` runs one of nine attacks against the live pipeline:
 
 | Mode | Behaviour |
 |---|---|
 | `cpu` | Threads that spin and never block |
+| `ai` | An inference-style neighbour: 40 ms of matrix multiplication every 100 ms. Not hostile; the damage comes from where it is scheduled. |
 | `mem` | Allocates and keeps touching 300 MB |
 | `flood` | Sends junk messages to the detector as fast as it can |
 | `workflood` | Sends the detector requests that each cost real CPU |
+| `pinv` | Priority inversion: a low-priority process holds a lock the pipeline needs while medium-priority hogs keep it from running. `PINV=none\|inherit` picks the mutex protocol |
+| `pipeflood` | Pushes data through QNX's own `pipe` manager as fast as it can |
 | `fd` | Exhausts file descriptors, channels and connections |
 | `crash` | Spawns a child that segfaults, and restarts it immediately |
 
@@ -74,74 +207,26 @@ Set with `PROFILE=` in `image/pipeline.sh`.
 | `isolate` | CPU affinity (`on -C`) | Pipeline owns CPU 1; attackers are confined to CPU 0 |
 | `budget` | `SCHED_SPORADIC` | Attackers are capped at 10 ms of CPU per 100 ms, even at a higher priority |
 
-## Result
-
-All twelve scenarios were run against all four profiles, three runs each
-(5-second runs, 15 ms deadline, 2% late-frame tolerance). The full table and
-generated findings are in [`docs/report.md`](docs/report.md) and
-[`docs/report.html`](docs/report.html); the raw runs are in `docs/results/`.
-
-A CPU hog at priority 20 against a pipeline at priority 10:
-
-| Profile | Failed runs | Median latency |
-|---|---|---|
-| `none` | 3 / 3 | about 2,530 ms |
-| `prio` | 1 / 3 (one run with a 162 ms spike) | about 1.4 ms |
-| `isolate` | 0 / 3 | about 1.8 ms |
-| `budget` | 0 / 3 | about 3.4 ms |
-
-Without hardening, the pipeline is starved for the whole attack. Every profile
-restores it.
-
-The other attacks at the default priority (CPU hog, message flood, memory
-hog, descriptor exhaustion, crash loop) did not break the unhardened
-pipeline: QNX contained them. One flood run out of three showed a 61 ms
-spike, which also appears in clean runs under emulation.
-
-### An attacker that uses no CPU
-
-`workflood` burns almost no CPU itself. It sends the detector requests that
-cost real work, from a priority above the pipeline's. The detector serves
-higher-priority senders first and runs at the priority of the client it is
-serving, so the camera's frames (priority 10) wait behind the flood
-(priority 30). Failed runs out of three:
-
-| Profile | Failed runs |
-|---|---|
-| `none` | 3 / 3 |
-| `prio` | 0 / 3 |
-| `isolate` | 3 / 3 |
-| `budget` | 3 / 3 |
-
-Only raising the pipeline's priority fixes it. Giving the pipeline its own CPU
-does not, and neither does capping the attacker's CPU, because the attacker
-barely uses any: the damage is done through the shared detector's message
-queue. Each mitigation covers a different failure, which is why Siege tests
-them against each attack instead of assuming one is enough.
-
-### Recovery
-
-With the detector killed two seconds in, three runs each:
-
-| Setup | Result |
-|---|---|
-| No supervisor | Fails 3 / 3. The detector is never replaced; the controller gives up after 3 s of silence. No scheduling profile changes this. |
-| `SUPERVISE=1` | Passes 3 / 3. The detector was serving again 6 ms after it died (median); the controller's worst silence was 41 ms. |
-
-The controller reports silences longer than 100 ms as `OUTAGE` lines, and a
-run also fails if any silence exceeds the recovery budget (500 ms by default).
-
 ## Build and run
 
 Prerequisites: QNX SDP 8.0 installed (free through QNX Everywhere), QEMU, and
 SSH access to a Linux machine with the SDP if your host cannot run the QNX
-tools directly.
+tools directly. New to QNX on a Mac? The
+[codelab](docs/codelab-qnx-on-apple-silicon.md) walks through the whole setup
+from nothing: a free Ubuntu VM, the QNX SDP, cross-compiling a native program,
+and booting it in QEMU.
 
 ```sh
-export SIEGE_VM=user@host        # machine with the QNX SDP in ~/qnx800
-scripts/build.sh                 # sync, cross-compile, build build/siege.ifs
-scripts/run.sh -n                # boot it; quit QEMU with Ctrl-A then x
+./siege doctor                   # checks everything and says how to fix what is missing
+./siege setup user@host          # the machine with the QNX SDP (skip it if the SDP is loaded in this shell)
+./siege build                    # cross-compile and build build/siege.ifs
+./siege live                     # the browser dashboard
+./siege boot -n                  # or boot the image yourself; quit QEMU with Ctrl-A then x
 ```
+
+`./siege --help` lists every command, and `./siege selftest` runs the tests for
+the Python tooling. Each one passes its remaining arguments
+to the script behind it in `scripts/`.
 
 At the QNX prompt:
 
@@ -157,11 +242,11 @@ Each run prints one line per second, then a `FINAL` summary and
 Automated runs from the host:
 
 ```sh
-scripts/qnxrun.py "PROFILE=prio ATK=cpu ATK_PRIO=20 pipeline.sh 5"
-scripts/calibrate.py                                        # measure the noise floor, suggest a deadline
-scripts/matrix.py --profile none --json none.json           # every scenario in siege.json, repeated
-scripts/matrix.py --profile prio --json prio.json
-scripts/report.py none.json prio.json --out report          # report.md and report.html
+./siege calibrate                                      # measure the noise floor, suggest a deadline
+./siege test --profile none --json none.json           # every scenario in siege.json, repeated
+./siege test --profile prio --json prio.json
+./siege report none.json prio.json --out report        # report.md, report.html and two SVG charts
+./siege demo                                           # the scenes as a typed terminal session
 ```
 
 Scenarios, run counts, the deadline and the tolerance live in `siege.json`:
@@ -170,21 +255,34 @@ to test a new attack or fault, add an entry to its `scenarios` list.
 `calibrate.py` runs the clean pipeline repeatedly with a very large deadline
 and reports the worst frame it saw. On the setup used here, ten clean runs had
 a median latency of 1.5 ms and a worst single frame of 12.2 ms, and it
-recommended a 20 ms deadline. The 15 ms deadline used for the reported results
-sits closer to that noise than the recommendation, which is why the verdict
-uses a 2% late-frame budget instead of requiring zero misses.
-
-`report.py` writes a Markdown report and a self-contained HTML dashboard. The
-findings in it are fixed rules over the measured numbers, so the same data
-always gives the same report.
+recommended a 20 ms deadline, which is what the results use. The verdict also
+tolerates a small late-frame budget (2%) instead of requiring zero misses,
+because emulation produces rare isolated outliers.
 
 `image/ram.build` finds the SDK through `${QNX_TARGET}` (set by
 `qnxsdp-env.sh`) and the build output relative to the repository root, so it
 needs no editing.
 
-New to QNX on a Mac? The [codelab](docs/codelab-qnx-on-apple-silicon.md)
-walks through the whole setup from nothing: a free Ubuntu VM, the QNX SDP,
-cross-compiling a native program, and booting it in QEMU.
+## Use it in CI
+
+Each scenario can declare what it is expected to do under each profile in
+`siege.json` (the default is PASS):
+
+```json
+{"label": "workflood @prio 30", "attacker": "workflood", "prio": 30,
+ "expect": {"none": "fail", "isolate": "fail", "budget": "fail"}}
+```
+
+```sh
+scripts/matrix.py --profile prio --json prio.json
+scripts/junit.py prio.json --out junit.xml      # exit code 1 on any mismatch
+```
+
+`junit.py` writes JUnit XML and exits non-zero when a case does not match its
+expectation, so a regression (an expected pass that now fails) and an
+unexpected fix both break the build and get a human to look.
+[`examples/ci/github-actions.yml`](examples/ci/github-actions.yml) shows it on
+a self-hosted runner that already has the SDP.
 
 ## Testing your own program
 
@@ -192,7 +290,9 @@ Siege can attack any real-time program, not only the reference pipeline. The
 generic launcher `image/harness.sh` starts your program, lets it settle for a
 second, and then starts the attackers against it.
 
-1. Build your program for QNX and add it to the image (`image/ram.build`).
+1. Build your program for QNX and add it to the image: copy
+   `image/local.build.example` to `image/local.build` and list your binary
+   there. `scripts/build.sh` appends it to `image/ram.build`.
 2. Make it print the two lines Siege reads when it finishes:
 
    ```
@@ -261,19 +361,38 @@ ticker did not, because its deadline is tighter and it has no slack.
   median latency from about 5.6 ms to about 2 ms.
 * Emulation also produces rare isolated outliers, so the verdict is a late
   frame budget (2% by default) rather than zero misses, and results are
-  reported as failure rates over repeated runs.
+  reported as failure rates over repeated runs, with 95% intervals.
+* In `cnn` mode every detection is checked against ground truth, so a
+  pipeline that meets its deadlines with wrong answers still fails.
+* "No failure seen" is not "cannot fail". With 5 runs, zero failures is still
+  consistent with a failure rate of up to 43%; the report says so.
 
 ## Limitations
 
-* QEMU timing is not hardware timing. Compare runs under identical
-  conditions; do not read absolute latencies as hardware numbers.
-* The detector and the frames are synthetic.
-* Adaptive partitioning is not part of the free SDP, so it is not used.
-* Results are from a handful of runs per scenario. Compare failure rates, not
-  single runs.
-* A program under test must print the `FINAL` and `RESULT` lines described
-  above and be added to the image by hand; there is no loader for arbitrary
-  binaries yet.
+* **Timing is emulated.** QEMU timing is not hardware timing, and this has not
+  been run on real hardware. The large effects here (multi-second starvation,
+  silences of hundreds of milliseconds) are far above the measured noise floor
+  (the worst frame in ten clean runs was 12 ms), so which attacks break which
+  setups is robust. Small latency differences between runs are not meaningful.
+* **The input is synthetic on purpose.** Every run sees identical frames,
+  which is what makes runs comparable. The workload is less of a stand-in than
+  it was: `DET_MODEL=cnn` runs a trained network whose answers are checked, the
+  `ai` attacker runs real matrix-multiply bursts, and Siege tests a second,
+  unrelated program (`examples/ticker`). The network solves an easy task
+  (finding a bright square in noise) and was checked on 100% of its frames; it
+  is not a claim about real camera data.
+* **Nothing has run on real hardware.** `docs/hardware.md` and `./siege hw`
+  make it a one-command job on a QNX 8.0 board; the transport and installer
+  were tested against a stand-in, not a board. If you have one, please run it
+  and share the result.
+* **Outside use is still zero.** Only the author has run Siege. The "Try it"
+  section above is how to change that.
+* **No adaptive partitioning.** It is not part of the free SDP. The `budget`
+  profile uses `SCHED_SPORADIC` per-thread CPU budgets instead.
+* **Run counts.** Every scenario ran 5 times per profile and the headline
+  scenarios 15 times. The report shows 95% Wilson intervals.
+* **Programs under test** must print the `FINAL` and `RESULT` lines described
+  above and be added to the image with `image/local.build`.
 
 ## Licence
 
