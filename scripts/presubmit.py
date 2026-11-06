@@ -15,6 +15,7 @@ import datetime, json, os, re, subprocess, sys
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 G, R, Y, D, B, X = "\033[32m", "\033[31m", "\033[33m", "\033[2m", "\033[1m", "\033[0m"
 failures = 0
+AI_WORDS = "cla" + "ude|anth" + "ropic"      # split so this file does not match its own check
 
 
 def sh(cmd, timeout=60):
@@ -109,13 +110,15 @@ check(not big, "no file over 5 MB", ", ".join(big[:3]))
 check(not secrets, "no keys, tokens or .env files committed", ", ".join(secrets[:3]), "remove them and rotate the secret", )
 bad = []
 for f in tracked:
+    if f == "scripts/presubmit.py":
+        continue
     if f.endswith((".png", ".gif", ".svg", ".json", ".xml")) and os.path.getsize(os.path.join(ROOT, f)) > 400000:
         continue
     t = read(f)
-    if re.search(r"claude|anthropic|co-authored-by|generated with", t, re.I):
+    if re.search(AI_WORDS + r"|co-authored-by|generated with", t, re.I):
         bad.append(f)
 code, msgs = sh(["git", "log", "--format=%B"])
-check(not bad and not re.search(r"claude|anthropic|co-authored|generated", msgs, re.I),
+check(not bad and not re.search(AI_WORDS + r"|co-authored|generated", msgs, re.I),
       "no AI-tool attribution in files or commit messages (your preference)", ", ".join(bad[:3]))
 
 # ---- links and tests ------------------------------------------------------------------------------
