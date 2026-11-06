@@ -16,6 +16,42 @@ that it is free from interference in general.
 
 ![How Siege fits together](docs/architecture.svg)
 
+## The finding
+
+**An attacker that uses 0.4% of the CPU broke the pipeline in 15 of 15 runs.**
+
+A client at priority 30 sends the shared detector expensive requests. QNX serves
+higher-priority senders first and runs the server at the priority of the client it
+is serving, so the detector, whose own priority is 10, ran at 30 in 36 of 44
+`pidin` samples while the pipeline's frames waited behind the flood. A kernel
+trace of the same run shows the attacker using 0.4% of the CPU and the detector one
+whole CPU ([`docs/trace-evidence.md`](docs/trace-evidence.md),
+[`docs/mechanism-proof.md`](docs/mechanism-proof.md)). Failed runs out of 15:
+
+| `workflood` at priority 30 | No hardening | Pipeline priority | Own CPU | CPU budget |
+|---|---|---|---|---|
+| Failed runs | **15/15** | 1/15 | **15/15** | **15/15** |
+
+Giving the pipeline its own CPU, or capping the attacker's CPU, does nothing,
+because the attacker is not taking CPU. The same pattern showed up in an unmodified
+QNX service, the `pipe` manager (below).
+
+### What each hardening setting protects
+
+| Failure | `prio` (pipeline outranks the rest) | `isolate` (own CPU) | `budget` (CPU cap on the attacker) | What does fix it |
+|---|---|---|---|---|
+| CPU hog above the pipeline | fixes | fixes | fixes | any of the three |
+| CPU hog at the same priority | fixes | fixes | fixes | any of the three |
+| Flood of a shared service from a higher priority | **fixes** | does not | does not | only a higher pipeline priority |
+| Lock held by a low-priority process (plain mutex) | does not | does not | does not | a priority-inheriting mutex; QNX's default already is one |
+| A killed stage with no supervisor | does not | does not | does not | a supervisor (about 5 ms to recover) |
+
+Why: the CPU settings only limit who gets the CPU. The flood and the lock are not
+CPU contention. They are queue-order and lock-ownership problems, and the setting
+has to change who is served first or who inherits priority. Each row is measured in
+the report below, under QEMU emulation, and "does not fix" means it failed in the
+runs we did.
+
 ## What Siege found
 
 <!-- results:start -->
