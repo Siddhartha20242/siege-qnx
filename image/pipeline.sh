@@ -17,7 +17,10 @@
 # script. Re-run ourselves at a high priority; the pipeline processes then set
 # their own priority.
 if [ -z "$SIEGE_ORCH" ]; then
-    SIEGE_ORCH=1 exec on -p 60r ksh /proc/boot/pipeline.sh "$@"
+    SELF=$0
+    case $SELF in /*) ;; *) SELF=$(whence -p "$SELF" 2>/dev/null) ;; esac
+    [ -n "$SELF" ] || SELF=/proc/boot/pipeline.sh
+    SIEGE_ORCH=1 exec on -p 60r ksh "$SELF" "$@"
 fi
 
 DUR=${1:-10}

@@ -50,6 +50,9 @@ bin/on
 bin/ksh
 [type=link] sh=ksh
 bin/pidin
+usr/sbin/tracelogger
+lib/libtracelog.so.1
+usr/lib/libtracelog.so.1
 bin/slog2info
 bin/slogger2
 sbin/pipe
@@ -84,5 +87,7 @@ usr/lib/libz.so.2
 [perms=0555] supervisor=build/bin/supervisor
 [perms=0555] sieged=build/bin/sieged
 [perms=0555] ticker=build/bin/ticker
+[perms=0555] pipeprobe=build/bin/pipeprobe
+[perms=0555] b64cat=build/bin/b64cat
 [perms=0555] pipeline.sh=image/pipeline.sh
 [perms=0555] harness.sh=image/harness.sh

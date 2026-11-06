@@ -19,7 +19,10 @@
 
 # Outrank every attacker so a CPU hog cannot starve this script.
 if [ -z "$SIEGE_ORCH" ]; then
-    SIEGE_ORCH=1 exec on -p 60r ksh /proc/boot/harness.sh "$@"
+    SELF=$0
+    case $SELF in /*) ;; *) SELF=$(whence -p "$SELF" 2>/dev/null) ;; esac
+    [ -n "$SELF" ] || SELF=/proc/boot/harness.sh
+    SIEGE_ORCH=1 exec on -p 60r ksh "$SELF" "$@"
 fi
 
 DUR=$1
