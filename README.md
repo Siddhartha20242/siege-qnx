@@ -178,9 +178,13 @@ uses a 2% late-frame budget instead of requiring zero misses.
 findings in it are fixed rules over the measured numbers, so the same data
 always gives the same report.
 
-`image/ram.build` contains absolute paths to the SDK and the build output on
-the build machine (`/home/siddhartha07/...`); change them to match your
-account.
+`image/ram.build` finds the SDK through `${QNX_TARGET}` (set by
+`qnxsdp-env.sh`) and the build output relative to the repository root, so it
+needs no editing.
+
+New to QNX on a Mac? The [codelab](docs/codelab-qnx-on-apple-silicon.md)
+walks through the whole setup from nothing: a free Ubuntu VM, the QNX SDP,
+cross-compiling a native program, and booting it in QEMU.
 
 ## Where QNX is used
 
