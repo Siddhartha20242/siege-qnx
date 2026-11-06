@@ -1,4 +1,4 @@
-[search=/home/siddhartha07/qnx800/target/qnx/aarch64le:/home/siddhartha07/qnx800/target/qnx/aarch64le/boot/sys:/home/siddhartha07/qnx800/target/qnx:.]
+[search=${QNX_TARGET}/aarch64le:${QNX_TARGET}/aarch64le/boot/sys:${QNX_TARGET}:.]
 [+dupignore]
 [+optional]
 [uid=0 gid=0 dperms=0555 perms=0555]
@@ -75,12 +75,12 @@ usr/lib/libz.so.2
 [type=link] /bin/ksh=/proc/boot/ksh
 [type=link] /bin/sh=/proc/boot/ksh
 
-# Siege pipeline (built by `make` into build/bin on the VM)
-[perms=0555] frame_src=/home/siddhartha07/siege/src/build/bin/frame_src
-[perms=0555] detector=/home/siddhartha07/siege/src/build/bin/detector
-[perms=0555] controller=/home/siddhartha07/siege/src/build/bin/controller
-[perms=0555] attacker=/home/siddhartha07/siege/src/build/bin/attacker
-[perms=0555] probe=/home/siddhartha07/siege/src/build/bin/probe
-[perms=0555] supervisor=/home/siddhartha07/siege/src/build/bin/supervisor
-[perms=0555] sieged=/home/siddhartha07/siege/src/build/bin/sieged
+# Siege pipeline (built by `make` into build/bin; mkifs runs from the repo root)
+[perms=0555] frame_src=build/bin/frame_src
+[perms=0555] detector=build/bin/detector
+[perms=0555] controller=build/bin/controller
+[perms=0555] attacker=build/bin/attacker
+[perms=0555] probe=build/bin/probe
+[perms=0555] supervisor=build/bin/supervisor
+[perms=0555] sieged=build/bin/sieged
 [perms=0555] pipeline.sh=image/pipeline.sh
