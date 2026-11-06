@@ -1,0 +1,264 @@
+#!/usr/bin/env python3
+"""siege: one command for building, running, testing and reporting.
+
+    ./siege doctor            check that everything needed is installed and reachable
+    ./siege setup user@host   remember the machine that has the QNX SDP
+    ./siege build             cross-compile and build the QNX image
+    ./siege live              browser dashboard that runs scenarios on QNX
+    ./siege test              run every scenario in siege.json, repeated
+    ./siege report FILES      build report.md / report.html from results
+    ./siege ci FILES          JUnit XML and an exit code for CI
+    ./siege calibrate         measure the noise floor and suggest a deadline
+    ./siege demo              the demo scenes as a typed terminal session
+    ./siege boot              boot the image interactively in QEMU
+    ./siege init NAME         start a config for your own program
+    ./siege hw install HOST   put Siege on a real QNX target (see docs/hardware.md)
+    ./siege selftest          run the tests for the Python tooling
+
+Each command passes its remaining arguments to the script behind it, for
+example `./siege test --profile prio --runs 10 --json prio.json`.
+"""
+import json, os, shutil, subprocess, sys
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+SCRIPTS = os.path.join(ROOT, "scripts")
+
+TOOLS = {
+    "build": ("build.sh", "cross-compile and build the QNX image (build/siege.ifs)"),
+    "boot": ("run.sh", "boot the image interactively in QEMU (-n skips the rebuild)"),
+    "live": ("live.py", "browser dashboard that runs scenarios on QNX"),
+    "test": ("matrix.py", "run every scenario in siege.json, repeated"),
+    "calibrate": ("calibrate.py", "measure the noise floor and suggest a deadline"),
+    "report": ("report.py", "build report.md / report.html and charts from results"),
+    "ci": ("junit.py", "JUnit XML and an exit code for CI"),
+    "demo": ("demo.py", "the demo scenes as a typed terminal session"),
+}
+
+G, R, Y, B, D, X = "\033[32m", "\033[31m", "\033[33m", "\033[1m", "\033[2m", "\033[0m"
+
+
+def vm_address():
+    vm = os.environ.get("SIEGE_VM")
+    if vm:
+        return vm
+    try:
+        return open(os.path.join(ROOT, ".siege-vm")).read().strip() or None
+    except OSError:
+        return None
+
+
+def run(cmd, timeout=30):
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+        return r.returncode, (r.stdout + r.stderr).strip()
+    except (OSError, subprocess.TimeoutExpired) as e:
+        return 1, str(e)
+
+
+def doctor(args):
+    """Check each requirement and say how to fix what is missing."""
+    problems = 0
+
+    def line(ok, what, detail="", fix=None, warn=False):
+        nonlocal problems
+        mark = f"{G}ok{X}" if ok else (f"{Y}!!{X}" if warn else f"{R}no{X}")
+        print(f"  [{mark}] {what}" + (f"  {D}{detail}{X}" if detail else ""))
+        if not ok:
+            if not warn:
+                problems += 1
+            for f in ([fix] if isinstance(fix, str) else (fix or [])):
+                print(f"        fix: {f}")
+
+    print(f"{B}siege doctor{X}")
+
+    ok = sys.version_info >= (3, 8)
+    line(ok, "Python 3.8 or newer", sys.version.split()[0], "install a newer Python 3")
+
+    q = shutil.which("qemu-system-aarch64")
+    ver = run([q, "--version"])[1].splitlines()[0] if q else ""
+    line(bool(q), "QEMU (qemu-system-aarch64)", ver,
+         ["macOS: brew install qemu", "Ubuntu/Debian: sudo apt install qemu-system-arm"])
+
+    local = bool(os.environ.get("QNX_TARGET")) and shutil.which("qcc")
+    if local:
+        print(f"  {D}QNX SDP environment is loaded: builds run on this machine{X}")
+        line(bool(shutil.which("mkifs")), "mkifs on PATH", "", "source the SDP environment: source ~/qnx800/qnxsdp-env.sh")
+        sp = os.path.join(os.environ["QNX_TARGET"], "aarch64le", "boot", "sys", "startup-qemu-virt")
+        line(os.path.exists(sp), "startup-qemu-virt (QEMU board startup)", sp,
+             "In QNX Software Center install 'QNX SDP 8.0 QEMU Virtualization Drivers (Startup)'")
+        code, out = run(["qcc", "-V"])
+        line("gcc_ntoaarch64le" in out, "aarch64le toolchain (qcc -Vgcc_ntoaarch64le)", "",
+             "In QNX Software Center make sure the aarch64le target is installed")
+    else:
+        vm = vm_address()
+        if not vm:
+            line(False, "build machine", "none configured",
+                 ["a machine with the QNX SDP: ./siege setup user@host",
+                  "or build locally: source ~/qnx800/qnxsdp-env.sh (x86-64 Linux or Windows hosts)"])
+        else:
+            line(bool(shutil.which("rsync")), "rsync on this machine", "", "macOS: it ships with the OS; Linux: sudo apt install rsync")
+            code, out = run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=6", vm, "true"], 15)
+            line(code == 0, f"ssh to {vm} with a key", out if code else "",
+                 [f"check the address with: ssh {vm}", f"install your key: ssh-copy-id {vm}"])
+            if code == 0:
+                sdp = os.environ.get("SIEGE_SDP", "~/qnx800")
+                script = (f"source {sdp}/qnxsdp-env.sh >/dev/null 2>&1 || {{ echo NOSDP; exit; }}; "
+                          "for t in qcc mkifs make; do command -v $t >/dev/null || echo MISSING:$t; done; "
+                          "[ -f $QNX_TARGET/aarch64le/boot/sys/startup-qemu-virt ] || echo NOSTARTUP; "
+                          "qcc -V 2>&1 | grep -q gcc_ntoaarch64le || echo NOARCH; command -v rsync >/dev/null || echo NORSYNC")
+                code, out = run(["ssh", vm, script], 40)
+                flags = set(out.split())
+                line("NOSDP" not in flags, f"QNX SDP at {sdp} on {vm}", "",
+                     [f"install QNX SDP 8.0 there with the QNX Software Center (see docs/codelab-qnx-on-apple-silicon.md)",
+                      "if it is installed elsewhere: export SIEGE_SDP=/path/to/qnx800"])
+                if "NOSDP" not in flags:
+                    for t in ("qcc", "mkifs", "make"):
+                        line(f"MISSING:{t}" not in flags, f"{t} on {vm}", "", f"install it on {vm} (sudo apt install make) or reinstall the SDP")
+                    line("NOARCH" not in flags, "aarch64le toolchain on the build machine", "",
+                         "In QNX Software Center install the aarch64le target")
+                    line("NOSTARTUP" not in flags, "startup-qemu-virt on the build machine", "",
+                         "Install 'QNX SDP 8.0 QEMU Virtualization Drivers (Startup)' in QNX Software Center")
+                    line("NORSYNC" not in flags, f"rsync on {vm}", "", f"sudo apt install rsync  (on {vm})")
+
+    img = os.path.join(ROOT, "build", "siege.ifs")
+    line(os.path.exists(img), "image built (build/siege.ifs)",
+         f"{os.path.getsize(img)//1024} KB" if os.path.exists(img) else "", "./siege build", warn=True)
+
+    try:
+        cfg = json.load(open(os.path.join(ROOT, "siege.json")))
+        line(bool(cfg.get("scenarios")), "siege.json", f"{len(cfg['scenarios'])} scenarios, deadline {cfg.get('deadline_ms')} ms",
+             "add scenarios to siege.json")
+    except (OSError, ValueError) as e:
+        line(False, "siege.json", str(e), "restore it from the repository")
+
+    print()
+    if problems:
+        print(f"{R}{problems} problem(s).{X} Fix the lines above, then run ./siege doctor again.")
+        return 1
+    print(f"{G}Ready.{X} Next: ./siege build, then ./siege live")
+    return 0
+
+
+def setup(args):
+    if len(args) != 1 or "@" not in args[0]:
+        print("usage: ./siege setup user@host    (the machine that has the QNX SDP)")
+        return 2
+    open(os.path.join(ROOT, ".siege-vm"), "w").write(args[0] + "\n")
+    print(f"saved {args[0]} to .siege-vm (not committed). Checking it:\n")
+    return doctor([])
+
+
+def init(args):
+    """Write a starter config for your own program."""
+    import argparse
+    ap = argparse.ArgumentParser(prog="siege init")
+    ap.add_argument("name")
+    ap.add_argument("--command", required=True, help='how to run it on QNX; {dur} is the run length, e.g. "myprog -d {dur}"')
+    ap.add_argument("--deadline", type=int, default=10, help="deadline in ms (default 10)")
+    a = ap.parse_args(args)
+    path = os.path.join(ROOT, f"siege-{a.name}.json")
+    if os.path.exists(path):
+        print(f"{path} already exists; not overwriting")
+        return 1
+    cfg = {
+        "pipeline": {"command": a.command},
+        "deadline_ms": a.deadline, "tolerance_permille": 20, "duration_s": 5, "runs": 3,
+        "profiles": {"none": {}, "prio": {"PIPE_PRIO": 40}},
+        "scenarios": [
+            {"label": "baseline (no attacker)"},
+            {"label": "cpu hog   @prio 10", "attacker": "cpu", "prio": 10},
+            {"label": "cpu hog   @prio 20", "attacker": "cpu", "prio": 20},
+            {"label": "AI neighbour@prio 20", "attacker": "ai", "prio": 20},
+            {"label": "crash loop@prio 20", "attacker": "crash", "prio": 20},
+        ],
+    }
+    json.dump(cfg, open(path, "w"), indent=2)
+    open(path, "a").write("\n")
+    print(f"wrote {os.path.relpath(path, ROOT)}\n")
+    print("Next:")
+    print(f"  1. Build your program for QNX and list it in image/local.build (see image/local.build.example).")
+    print(f"  2. Make it print the lines Siege reads when it finishes:")
+    print(f"       FINAL ... late=N lost=N stalls=N p50_us=N p99_us=N max_us=N")
+    print(f"       RESULT PASS|FAIL")
+    print(f"     and read PIPE_PRIO if you want the 'prio' profile to set its priority (examples/ticker/ticker.c does).")
+    print(f"  3. ./siege build && ./siege test --config siege-{a.name}.json --profile none --json none.json")
+    print(f"  4. ./siege test --config siege-{a.name}.json --profile prio --json prio.json && ./siege report none.json prio.json")
+    return 0
+
+
+def hw(args):
+    """Install Siege on a real QNX target over ssh, and check it."""
+    import argparse
+    ap = argparse.ArgumentParser(prog="siege hw")
+    ap.add_argument("action", choices=["install", "check"])
+    ap.add_argument("host", help="user@host of the QNX target")
+    ap.add_argument("--dir", default="/data/siege", help="install directory on the target (default /data/siege)")
+    a = ap.parse_args(args)
+
+    def ssh(cmd, timeout=30):
+        return run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8", a.host, cmd], timeout)
+
+    code, out = ssh("true")
+    if code != 0:
+        print(f"{R}cannot reach {a.host} over ssh with a key:{X} {out}")
+        print(f"  check the address, then install your key: ssh-copy-id {a.host}")
+        return 1
+
+    if a.action == "install":
+        bindir = os.path.join(ROOT, "build", "bin")
+        if not os.path.isdir(bindir) or not os.listdir(bindir):
+            print(f"{R}nothing to install:{X} build/bin is empty. Run ./siege build first.")
+            return 1
+        files = [os.path.join(bindir, f) for f in sorted(os.listdir(bindir))]
+        files += [os.path.join(ROOT, "image", "pipeline.sh"), os.path.join(ROOT, "image", "harness.sh")]
+        code, out = ssh(f"mkdir -p {a.dir}")
+        if code:
+            print(f"{R}could not create {a.dir} on the target:{X} {out}")
+            return 1
+        code, out = run(["scp", "-q", "-o", "BatchMode=yes"] + files + [f"{a.host}:{a.dir}/"], 120)
+        if code:
+            print(f"{R}copy failed:{X} {out}")
+            return 1
+        ssh(f"chmod +x {a.dir}/*")
+        print(f"installed {len(files)} files in {a.dir} on {a.host}")
+
+    code, out = ssh(f"export PATH={a.dir}:$PATH; uname -a; for t in pipeline.sh attacker controller detector frame_src sieged supervisor; "
+                    f"do command -v $t >/dev/null && echo found:$t || echo MISSING:$t; done; "
+                    f"[ -x /bin/ksh ] && echo found:ksh || echo MISSING:ksh")
+    print(out)
+    missing = [l for l in out.splitlines() if l.startswith("MISSING:")]
+    if missing:
+        print(f"{R}{len(missing)} thing(s) missing on the target.{X} Run: ./siege hw install {a.host}")
+        return 1
+    print(f"{G}Ready.{X} Run the tests on it:")
+    print(f"  ./siege test --ssh {a.host} --remote-dir {a.dir} --profile none --json hw-none.json")
+    print(f"  ./siege test --ssh {a.host} --remote-dir {a.dir} --profile prio --json hw-prio.json")
+    return 0
+
+
+def main():
+    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help", "help"):
+        print(__doc__)
+        return 0
+    cmd, rest = sys.argv[1], sys.argv[2:]
+    if cmd == "doctor":
+        return doctor(rest)
+    if cmd == "setup":
+        return setup(rest)
+    if cmd == "init":
+        return init(rest)
+    if cmd == "hw":
+        return hw(rest)
+    if cmd == "selftest":
+        return subprocess.run([sys.executable, "-W", "error::ResourceWarning", "-m", "unittest", "discover", "-s",
+                               os.path.join(ROOT, "tests"), "-v"] + rest).returncode
+    if cmd in TOOLS:
+        script = os.path.join(SCRIPTS, TOOLS[cmd][0])
+        argv = ["/bin/sh", script] if script.endswith(".sh") else [sys.executable, script]
+        os.execv(argv[0], argv + rest)
+    print(f"siege: unknown command '{cmd}'. Run ./siege --help")
+    return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

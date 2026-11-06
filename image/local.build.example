@@ -1,0 +1,5 @@
+# Copy to image/local.build to add your own program to the Siege image.
+# Build it with qcc first (see the codelab), then list it here; scripts/build.sh
+# appends this file to image/ram.build.
+#
+# [perms=0555] myprog=build/bin/myprog
