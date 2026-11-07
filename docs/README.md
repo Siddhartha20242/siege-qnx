@@ -22,6 +22,7 @@ Where to start depends on what you want.
 |---|---|
 | [`codelab-qnx-on-apple-silicon.md`](codelab-qnx-on-apple-silicon.md) | A codelab: QNX 8.0 on an Apple Silicon Mac for $0, from nothing to a booted image |
 | [`../README.md`](../README.md) | The project overview, quick start, and how to test your own program |
+| [`pc.md`](pc.md) | The x86-64 build: an image from `mkqnximage`, Siege installed over ssh, results, and what is untested for a real PC |
 | [`hardware.md`](hardware.md) | Running Siege on a real QNX board, and how to share the result |
 | [`mechanism-proof.md`](mechanism-proof.md) | The `workflood` mechanism observed directly: the detector's priority while it serves a higher-priority flood |
 | [`landscape.md`](landscape.md) | The safe region: pipeline priority against attacker priority |

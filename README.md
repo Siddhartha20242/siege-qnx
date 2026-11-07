@@ -401,6 +401,13 @@ The reference pipeline survived the crash loop, and the same-priority hog only
 some of the time (see above). The ticker failed every time, because its deadline
 is tighter and it has no slack.
 
+## A second architecture, and the path to a PC
+
+Siege also builds and runs for QNX on x86-64 (`make ARCH=x86_64 BIN=build/x86_64/bin`). The headline scenarios gave the
+same pattern on an x86-64 QNX 8.0 system in QEMU as on aarch64, and the hardware installer and ssh transport were
+exercised end to end against that target. That is emulation, not a PC: nothing has been booted on a physical machine.
+[`docs/pc.md`](docs/pc.md) has the exact commands, the results, and what would need to change for a real PC.
+
 ## An optional learned monitor
 
 `./siege test` with `MONITOR=1` runs a small neural network inside the controller, in a

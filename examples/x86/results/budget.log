@@ -1,0 +1,7 @@
+baseline (no attacker)         fail 0/5  worst_max_ms=7.9  median_p50_ms=4.3  late_frames=0
+cpu hog   @prio 20             fail 0/5  worst_max_ms=70.6  median_p50_ms=3.3  late_frames=3
+workflood @prio 30             fail 5/5  worst_max_ms=8.5  median_p50_ms=3.8  late_frames=0
+AI neighbour@prio 20           fail 0/5  worst_max_ms=18.8  median_p50_ms=3.4  late_frames=0
+priority inversion (plain mutex) fail 5/5  worst_max_ms=9.6  median_p50_ms=4.0  late_frames=0
+kill detector, no supervisor   fail 5/5  worst_max_ms=8.9  median_p50_ms=3.0  late_frames=0
+kill detector, supervised      fail 0/5  worst_max_ms=13.7  median_p50_ms=3.1  late_frames=0
