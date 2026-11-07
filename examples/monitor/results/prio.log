@@ -1,0 +1,25 @@
+baseline (no attacker)         fail 0/5  worst_max_ms=4.6  median_p50_ms=2.0  late_frames=0
+cpu hog   @prio 10             fail 0/5  worst_max_ms=5.5  median_p50_ms=2.0  late_frames=0
+cpu hog   @prio 20             fail 0/5  worst_max_ms=5.3  median_p50_ms=2.1  late_frames=0
+flood     @prio 10             fail 0/5  worst_max_ms=4.6  median_p50_ms=1.8  late_frames=0
+flood     @prio 20             fail 0/5  worst_max_ms=5.5  median_p50_ms=1.5  late_frames=0
+workflood @prio 30             fail 0/5  worst_max_ms=7.5  median_p50_ms=3.2  late_frames=0
+AI neighbour@prio 10           fail 0/5  worst_max_ms=4.6  median_p50_ms=2.0  late_frames=0
+AI neighbour@prio 20           fail 0/5  worst_max_ms=4.6  median_p50_ms=2.0  late_frames=0
+priority inversion (plain mutex) fail 5/5  worst_max_ms=4.3  median_p50_ms=2.1  late_frames=0
+priority inversion (inheriting mutex) fail 0/5  worst_max_ms=34.0  median_p50_ms=2.0  late_frames=2
+priority inversion (default mutex) fail 0/5  worst_max_ms=7.4  median_p50_ms=2.1  late_frames=0
+mem hog   @prio 10             fail 0/5  worst_max_ms=5.1  median_p50_ms=2.4  late_frames=0
+fd exhaust@prio 10             fail 0/5  worst_max_ms=4.7  median_p50_ms=1.7  late_frames=0
+crash loop@prio 10             fail 0/5  worst_max_ms=4.3  median_p50_ms=1.7  late_frames=0
+crash loop@prio 20             fail 0/5  worst_max_ms=8.0  median_p50_ms=1.6  late_frames=0
+kill detector, no supervisor   fail 5/5  worst_max_ms=3.2  median_p50_ms=1.8  late_frames=0
+kill detector, supervised      fail 0/5  worst_max_ms=3.7  median_p50_ms=1.8  late_frames=0
+memory bandwidth @prio 20      fail 0/5  worst_max_ms=55.9  median_p50_ms=2.3  late_frames=3
+timer storm @prio 20           fail 0/5  worst_max_ms=4.6  median_p50_ms=2.0  late_frames=0
+kernel-call storm @prio 20     fail 0/5  worst_max_ms=12.2  median_p50_ms=1.9  late_frames=0
+memory bandwidth @prio 5       fail 0/5  worst_max_ms=17.2  median_p50_ms=2.2  late_frames=0
+kernel-call storm @prio 5      fail 0/5  worst_max_ms=4.7  median_p50_ms=2.2  late_frames=0
+memory bandwidth @prio 10      fail 0/5  worst_max_ms=15.3  median_p50_ms=2.3  late_frames=0
+name squat, detector alive     fail 0/5  worst_max_ms=8.6  median_p50_ms=1.8  late_frames=0
+name squat, race after restart fail 5/5  worst_max_ms=4.0  median_p50_ms=1.7  late_frames=0

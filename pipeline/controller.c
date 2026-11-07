@@ -10,6 +10,8 @@
  * Each SUMMARY is also sent to the /dev/siege resource manager when present.
  */
 #include "common.h"
+#include <math.h>
+#include "monitor.h"
 
 #define MAX_SAMPLES 65536
 #define OUTAGE_NS   100000000ULL    /* silence that counts as an outage */
@@ -59,6 +61,48 @@ static void send_status(const char *line)
     MsgSend(rm_coid, &m, sizeof m, &reply, sizeof reply);
 }
 
+#define MON_SCALE 15.424949f      /* log(1 + 5e6), as in tools/train_monitor.py */
+#define MON_PRIO  55              /* above anything Siege runs the pipeline or attackers at */
+
+/* State shared between the controller loop (which fills one summary per second) and the
+ * predictor thread (which reads it). The thread runs at a high priority so a CPU hog that
+ * starves the controller cannot also silence the alarm: a second the controller never
+ * reported stays empty, which the network reads as a silent second. */
+static float g_hist[MON_MAX_K + 1][MON_PER_SECOND];
+static volatile int g_hist_ready[MON_MAX_K + 1];
+static volatile int g_started, g_stop;
+static volatile uint64_t g_t0;
+
+static void *monitor_thread(void *arg)
+{
+    (void)arg;
+    set_prio(MON_PRIO);
+    uint64_t base_start = now_ns();
+    int done[MON_MAX_K + 1] = {0}, alarm = 0;
+    while (!g_stop) {
+        usleep(20000);
+        uint64_t base = g_started ? g_t0 : base_start;
+        uint64_t el = now_ns() - base;
+        for (int k = 1; k <= MON_MAX_K; k++) {
+            if (done[k] || el < (uint64_t)k * 1000000000ULL + 500000000ULL) continue;
+            float feat[MON_MAX_K * MON_PER_SECOND], pat[MON_PATTERNS];
+            memset(feat, 0, sizeof feat);
+            for (int t = 1; t <= k; t++)
+                if (g_hist_ready[t]) memcpy(&feat[(t - 1) * MON_PER_SECOND], g_hist[t], sizeof(float) * MON_PER_SECOND);
+            float pf = monitor_predict(k, feat, pat);
+            int best = 0;
+            for (int j = 1; j < MON_PATTERNS; j++) if (pat[j] > pat[best]) best = j;
+            done[k] = 1;
+            printf("MONITOR k=%d at_ms=%u p_fail=%.3f pattern=%s\n", k, (unsigned)(el / 1000000ULL), pf, mon_pattern_name[best]);
+            if (pf >= 0.5f && !alarm) {
+                alarm = 1;
+                printf("MONITOR ALARM k=%d at_ms=%u pattern=%s\n", k, (unsigned)(el / 1000000ULL), mon_pattern_name[best]);
+            }
+        }
+    }
+    return NULL;
+}
+
 int main(int argc, char **argv)
 {
     int prio = 10, c;
@@ -93,6 +137,13 @@ int main(int argc, char **argv)
     union { uint16_t type; det_msg_t d; } m;
     uint8_t reply = 1;
 
+    /* Optional interference predictor (MONITOR=1): a small trained network reads the first
+     * seconds of this run's per-second summaries and predicts the verdict early. It sees
+     * only what the controller measures. See tools/train_monitor.py and docs/predictor.md. */
+    int mon_on = getenv("MONITOR") && atoi(getenv("MONITOR")) > 0;
+    pthread_t mon_tid;
+    if (mon_on) pthread_create(&mon_tid, NULL, monitor_thread, NULL);
+
     for (;;) {
         uint64_t to = STALL_NS;
         TimerTimeout(CLOCK_MONOTONIC, _NTO_TIMEOUT_RECEIVE, NULL, &to, NULL);
@@ -119,6 +170,8 @@ int main(int argc, char **argv)
         if (!started) {
             started = 1;
             t0 = now;
+            g_t0 = now;
+            g_started = 1;
             next_report = now + 1000000000ULL;
         }
         last = now;
@@ -172,12 +225,23 @@ int main(int argc, char **argv)
                      state, secs, profile, win.frames, win.late, win.lost, p.p50, p.p99, p.mx);
             send_status(st);
 
+            if (mon_on && secs >= 1 && secs <= MON_MAX_K) {
+                float *h = g_hist[secs];
+                h[0] = 1;
+                h[1] = fminf(win.late / 50.0f, 1.0f);
+                h[2] = fminf(win.lost / 50.0f, 1.0f);
+                h[3] = log1pf((float)p.p50) / MON_SCALE;
+                h[4] = log1pf((float)p.p99) / MON_SCALE;
+                h[5] = log1pf((float)p.mx) / MON_SCALE;
+                g_hist_ready[secs] = 1;
+            }
             memset(&win, 0, sizeof win);
             n_win = 0;
             next_report += 1000000000ULL;
         }
     }
 
+    if (mon_on) { g_stop = 1; pthread_join(mon_tid, NULL); }
     secs = started ? (uint32_t)((now_ns() - t0) / 1000000000ULL) : 0;
     pct_t p = percentiles(lat_all, n_all);
     printf("FINAL t=%u frames=%u late=%u lost=%u stalls=%u p50_us=%u p99_us=%u max_us=%u outages=%u outage_frames=%u max_gap_ms=%u abandoned=%d checked=%u wrong=%u\n",

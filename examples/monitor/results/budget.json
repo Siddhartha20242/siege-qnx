@@ -1,0 +1,8710 @@
+[
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "baseline (no attacker)",
+  "atk": "",
+  "atk_prio": 10,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1616,
+    "p99": 3812,
+    "max": 3865,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1645,
+      "p99": 3865,
+      "max": 3865
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1582,
+      "p99": 3656,
+      "max": 3656
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1759,
+      "p99": 3812,
+      "max": 3812
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1649,
+      "p99": 3420,
+      "max": 3420
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1520,
+      "p_fail": 0.338,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2464,
+    "p99": 4589,
+    "max": 4833,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2452,
+      "p99": 4212,
+      "max": 4212
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2395,
+      "p99": 4210,
+      "max": 4210
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2337,
+      "p99": 4591,
+      "max": 4591
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2613,
+      "p99": 4414,
+      "max": 4414
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1507,
+      "p_fail": 0.165,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3516,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1736,
+    "p99": 3813,
+    "max": 3832,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1784,
+      "p99": 3832,
+      "max": 3832
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1703,
+      "p99": 3793,
+      "max": 3793
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1815,
+      "p99": 3814,
+      "max": 3814
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1717,
+      "p99": 3786,
+      "max": 3786
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1505,
+      "p_fail": 0.321,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2514,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2190,
+    "p99": 4354,
+    "max": 4398,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2113,
+      "p99": 4392,
+      "max": 4392
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2287,
+      "p99": 3926,
+      "max": 3926
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2175,
+      "p99": 4398,
+      "max": 4398
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2155,
+      "p99": 3838,
+      "max": 3838
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1520,
+      "p_fail": 0.282,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2501,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1729,
+    "p99": 3655,
+    "max": 4012,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1947,
+      "p99": 3655,
+      "max": 3655
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1647,
+      "p99": 3893,
+      "max": 3893
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1715,
+      "p99": 3328,
+      "max": 3328
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1716,
+      "p99": 3473,
+      "max": 3473
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1512,
+      "p_fail": 0.258,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3501,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "cpu hog   @prio 10",
+  "atk": "cpu",
+  "atk_prio": 10,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2621,
+    "p99": 8683,
+    "max": 13354,
+    "outages": 0,
+    "max_gap_ms": 30,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1560,
+      "p99": 3597,
+      "max": 3597
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3252,
+      "p99": 13354,
+      "max": 13354
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2867,
+      "p99": 7735,
+      "max": 7735
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3110,
+      "p99": 8290,
+      "max": 8290
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.318,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2511,
+      "p_fail": 0.1,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3505,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2707,
+    "p99": 8434,
+    "max": 13250,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2104,
+      "p99": 8009,
+      "max": 8009
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3249,
+      "p99": 6878,
+      "max": 6878
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2903,
+      "p99": 8145,
+      "max": 8145
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2962,
+      "p99": 8434,
+      "max": 8434
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1510,
+      "p_fail": 0.417,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3515,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 1,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2854,
+    "p99": 14054,
+    "max": 20192,
+    "outages": 0,
+    "max_gap_ms": 33,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2056,
+      "p99": 4182,
+      "max": 4182
+     },
+     {
+      "t": 2,
+      "late": 1,
+      "lost": 0,
+      "p50": 3370,
+      "p99": 20192,
+      "max": 20192
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2890,
+      "p99": 10580,
+      "max": 10580
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2870,
+      "p99": 9576,
+      "max": 9576
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1509,
+      "p_fail": 0.281,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2504,
+      "p_fail": 0.026,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3522,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3178,
+    "p99": 12716,
+    "max": 16280,
+    "outages": 0,
+    "max_gap_ms": 30,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2152,
+      "p99": 4246,
+      "max": 4246
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3770,
+      "p99": 16280,
+      "max": 16280
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3986,
+      "p99": 9720,
+      "max": 9720
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3546,
+      "p99": 12716,
+      "max": 12716
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.267,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2907,
+    "p99": 13505,
+    "max": 15514,
+    "outages": 0,
+    "max_gap_ms": 31,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2037,
+      "p99": 4118,
+      "max": 4118
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3287,
+      "p99": 12758,
+      "max": 12758
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3259,
+      "p99": 13505,
+      "max": 13505
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3411,
+      "p99": 14031,
+      "max": 14031
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1504,
+      "p_fail": 0.281,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2505,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3526,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "cpu hog   @prio 20",
+  "atk": "cpu",
+  "atk_prio": 20,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3084,
+    "p99": 8282,
+    "max": 15142,
+    "outages": 0,
+    "max_gap_ms": 30,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2174,
+      "p99": 5520,
+      "max": 5520
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3466,
+      "p99": 7710,
+      "max": 7710
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3286,
+      "p99": 12820,
+      "max": 12820
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3682,
+      "p99": 15142,
+      "max": 15142
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.4,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2508,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3073,
+    "p99": 16068,
+    "max": 18057,
+    "outages": 0,
+    "max_gap_ms": 33,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2142,
+      "p99": 9623,
+      "max": 9623
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3294,
+      "p99": 16068,
+      "max": 16068
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3671,
+      "p99": 17474,
+      "max": 17474
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3570,
+      "p99": 11067,
+      "max": 11067
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1516,
+      "p_fail": 0.37,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 2,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2835,
+    "p99": 16324,
+    "max": 22607,
+    "outages": 0,
+    "max_gap_ms": 40,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1870,
+      "p99": 4100,
+      "max": 4100
+     },
+     {
+      "t": 2,
+      "late": 1,
+      "lost": 0,
+      "p50": 3267,
+      "p99": 22096,
+      "max": 22096
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2890,
+      "p99": 14947,
+      "max": 14947
+     },
+     {
+      "t": 4,
+      "late": 1,
+      "lost": 0,
+      "p50": 3177,
+      "p99": 22607,
+      "max": 22607
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1509,
+      "p_fail": 0.323,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2510,
+      "p_fail": 0.038,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 1,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3352,
+    "p99": 17746,
+    "max": 22112,
+    "outages": 0,
+    "max_gap_ms": 40,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2036,
+      "p99": 4134,
+      "max": 4134
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3966,
+      "p99": 16558,
+      "max": 16558
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3820,
+      "p99": 16558,
+      "max": 16558
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3858,
+      "p99": 18292,
+      "max": 18292
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1502,
+      "p_fail": 0.282,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2508,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3521,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 1,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2496,
+    "p99": 18703,
+    "max": 20205,
+    "outages": 0,
+    "max_gap_ms": 37,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1586,
+      "p99": 3825,
+      "max": 3825
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3208,
+      "p99": 19777,
+      "max": 19777
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2460,
+      "p99": 18703,
+      "max": 18703
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3247,
+      "p99": 17703,
+      "max": 17703
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1514,
+      "p_fail": 0.335,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2512,
+      "p_fail": 0.013,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "flood     @prio 10",
+  "atk": "flood",
+  "atk_prio": 10,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1835,
+    "p99": 3687,
+    "max": 4166,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2113,
+      "p99": 4166,
+      "max": 4166
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1687,
+      "p99": 3539,
+      "max": 3539
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1760,
+      "p99": 3687,
+      "max": 3687
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1749,
+      "p99": 3171,
+      "max": 3171
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1500,
+      "p_fail": 0.27,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2004,
+    "p99": 3856,
+    "max": 4090,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2216,
+      "p99": 4090,
+      "max": 4090
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2182,
+      "p99": 3886,
+      "max": 3886
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1716,
+      "p99": 3536,
+      "max": 3536
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1880,
+      "p99": 3856,
+      "max": 3856
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1520,
+      "p_fail": 0.25,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2521,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1456,
+    "p99": 3498,
+    "max": 3714,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1685,
+      "p99": 3714,
+      "max": 3714
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1431,
+      "p99": 3672,
+      "max": 3672
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1528,
+      "p99": 3146,
+      "max": 3146
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1344,
+      "p99": 2960,
+      "max": 2960
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1509,
+      "p_fail": 0.326,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2501,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1987,
+    "p99": 3835,
+    "max": 6592,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2062,
+      "p99": 6592,
+      "max": 6592
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2010,
+      "p99": 3204,
+      "max": 3204
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1884,
+      "p99": 3835,
+      "max": 3835
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2071,
+      "p99": 3276,
+      "max": 3276
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1512,
+      "p_fail": 0.546,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2514,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3513,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2197,
+    "p99": 4123,
+    "max": 4559,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2309,
+      "p99": 4559,
+      "max": 4559
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2157,
+      "p99": 3638,
+      "max": 3638
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2105,
+      "p99": 3624,
+      "max": 3624
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2223,
+      "p99": 3903,
+      "max": 3903
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1501,
+      "p_fail": 0.228,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2505,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3504,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "flood     @prio 20",
+  "atk": "flood",
+  "atk_prio": 20,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1234,
+    "p99": 3103,
+    "max": 3188,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1422,
+      "p99": 3175,
+      "max": 3175
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1233,
+      "p99": 3103,
+      "max": 3103
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1075,
+      "p99": 2651,
+      "max": 2651
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1264,
+      "p99": 2637,
+      "max": 2637
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1517,
+      "p_fail": 0.284,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2512,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3516,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1630,
+    "p99": 3584,
+    "max": 3834,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1988,
+      "p99": 3834,
+      "max": 3834
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1668,
+      "p99": 3120,
+      "max": 3120
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1506,
+      "p99": 3204,
+      "max": 3204
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1698,
+      "p99": 3430,
+      "max": 3430
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1505,
+      "p_fail": 0.277,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3506,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1636,
+    "p99": 3608,
+    "max": 3822,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1814,
+      "p99": 3682,
+      "max": 3682
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1538,
+      "p99": 3428,
+      "max": 3428
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1600,
+      "p99": 2954,
+      "max": 2954
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1556,
+      "p99": 3192,
+      "max": 3192
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1500,
+      "p_fail": 0.299,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3516,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2352,
+    "p99": 4102,
+    "max": 4812,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2568,
+      "p99": 4812,
+      "max": 4812
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2368,
+      "p99": 4102,
+      "max": 4102
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2224,
+      "p99": 3656,
+      "max": 3656
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2404,
+      "p99": 3628,
+      "max": 3628
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1500,
+      "p_fail": 0.138,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1714,
+    "p99": 3706,
+    "max": 4154,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1890,
+      "p99": 4136,
+      "max": 4136
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1848,
+      "p99": 3400,
+      "max": 3400
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1638,
+      "p99": 4154,
+      "max": 4154
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1682,
+      "p99": 2830,
+      "max": 2830
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1515,
+      "p_fail": 0.321,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3500,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "workflood @prio 30",
+  "atk": "workflood",
+  "atk_prio": 30,
+  "extra": {},
+  "runs": [
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 33,
+    "stalls": 0,
+    "p50": 3610,
+    "p99": 10368,
+    "max": 12638,
+    "outages": 0,
+    "max_gap_ms": 61,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2188,
+      "p99": 4208,
+      "max": 4208
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 10,
+      "p50": 3696,
+      "p99": 7746,
+      "max": 7746
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 7,
+      "p50": 4336,
+      "p99": 10070,
+      "max": 10070
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 9,
+      "p50": 3860,
+      "p99": 12630,
+      "max": 12630
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1503,
+      "p_fail": 0.26,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2503,
+      "p_fail": 1.0,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3505,
+      "p_fail": 1.0,
+      "pattern": "shared-service queue\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 23,
+    "stalls": 0,
+    "p50": 3618,
+    "p99": 9212,
+    "max": 11956,
+    "outages": 0,
+    "max_gap_ms": 58,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2128,
+      "p99": 7514,
+      "max": 7514
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 6,
+      "p50": 4276,
+      "p99": 11956,
+      "max": 11956
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 3,
+      "p50": 3878,
+      "p99": 8538,
+      "max": 8538
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 10,
+      "p50": 3950,
+      "p99": 9098,
+      "max": 9098
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1506,
+      "p_fail": 0.433,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2500,
+      "p_fail": 1.0,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3519,
+      "p_fail": 1.0,
+      "pattern": "shared-service queue\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 16,
+    "stalls": 30,
+    "p50": 3870,
+    "p99": 9748,
+    "max": 9748,
+    "outages": 22,
+    "max_gap_ms": 444,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2926,
+      "p99": 9748,
+      "max": 9748
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 4,
+      "p50": 5580,
+      "p99": 8574,
+      "max": 8574
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 2,
+      "p50": 7784,
+      "p99": 9612,
+      "max": 9612
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 6,
+      "p50": 5298,
+      "p99": 8260,
+      "max": 8260
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.118,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2516,
+      "p_fail": 1.0,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 0.743,
+      "pattern": "shared-service queue\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": 123
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 15,
+    "stalls": 0,
+    "p50": 3344,
+    "p99": 9704,
+    "max": 11888,
+    "outages": 0,
+    "max_gap_ms": 61,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1640,
+      "p99": 5842,
+      "max": 5842
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 9,
+      "p50": 3628,
+      "p99": 11888,
+      "max": 11888
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 5,
+      "p50": 4228,
+      "p99": 7506,
+      "max": 7506
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3752,
+      "p99": 9704,
+      "max": 9704
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1501,
+      "p_fail": 0.313,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2519,
+      "p_fail": 1.0,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3514,
+      "p_fail": 1.0,
+      "pattern": "shared-service queue\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 18,
+    "stalls": 0,
+    "p50": 3764,
+    "p99": 9974,
+    "max": 12194,
+    "outages": 0,
+    "max_gap_ms": 62,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2242,
+      "p99": 5210,
+      "max": 5210
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 3,
+      "p50": 4116,
+      "p99": 12194,
+      "max": 12194
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 2,
+      "p50": 4096,
+      "p99": 9278,
+      "max": 9278
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 11,
+      "p50": 4218,
+      "p99": 9930,
+      "max": 9930
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1500,
+      "p_fail": 0.288,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2519,
+      "p_fail": 1.0,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3515,
+      "p_fail": 0.038,
+      "pattern": "shared-service queue\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "AI neighbour@prio 10",
+  "atk": "ai",
+  "atk_prio": 10,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1881,
+    "p99": 7765,
+    "max": 8439,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1790,
+      "p99": 3791,
+      "max": 3791
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2244,
+      "p99": 8439,
+      "max": 8439
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1752,
+      "p99": 7429,
+      "max": 7429
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1745,
+      "p99": 6803,
+      "max": 6803
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1514,
+      "p_fail": 0.316,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2516,
+      "p_fail": 0.009,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2576,
+    "p99": 13894,
+    "max": 16708,
+    "outages": 0,
+    "max_gap_ms": 34,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2610,
+      "p99": 4322,
+      "max": 4322
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2818,
+      "p99": 11660,
+      "max": 11660
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2782,
+      "p99": 16708,
+      "max": 16708
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2516,
+      "p99": 15448,
+      "max": 15448
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1518,
+      "p_fail": 0.201,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3504,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2630,
+    "p99": 9924,
+    "max": 13233,
+    "outages": 0,
+    "max_gap_ms": 30,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2504,
+      "p99": 4633,
+      "max": 4633
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2841,
+      "p99": 13233,
+      "max": 13233
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2737,
+      "p99": 8686,
+      "max": 8686
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2486,
+      "p99": 9924,
+      "max": 9924
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1504,
+      "p_fail": 0.15,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2503,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3521,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2446,
+    "p99": 7782,
+    "max": 12240,
+    "outages": 0,
+    "max_gap_ms": 30,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2344,
+      "p99": 4460,
+      "max": 4460
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2440,
+      "p99": 7720,
+      "max": 7720
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2522,
+      "p99": 9058,
+      "max": 9058
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2708,
+      "p99": 12240,
+      "max": 12240
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1509,
+      "p_fail": 0.209,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3505,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2410,
+    "p99": 9618,
+    "max": 11122,
+    "outages": 0,
+    "max_gap_ms": 28,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2260,
+      "p99": 4438,
+      "max": 4438
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2248,
+      "p99": 9962,
+      "max": 9962
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2940,
+      "p99": 8648,
+      "max": 8648
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2694,
+      "p99": 6010,
+      "max": 6010
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1510,
+      "p_fail": 0.253,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2508,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3500,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "AI neighbour@prio 20",
+  "atk": "ai",
+  "atk_prio": 20,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2508,
+    "p99": 15221,
+    "max": 15814,
+    "outages": 0,
+    "max_gap_ms": 33,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2150,
+      "p99": 3830,
+      "max": 3830
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2548,
+      "p99": 15371,
+      "max": 15371
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3041,
+      "p99": 15814,
+      "max": 15814
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2517,
+      "p99": 12296,
+      "max": 12296
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1520,
+      "p_fail": 0.237,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2515,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3500,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2300,
+    "p99": 14008,
+    "max": 16982,
+    "outages": 0,
+    "max_gap_ms": 35,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2050,
+      "p99": 4712,
+      "max": 4712
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2300,
+      "p99": 13156,
+      "max": 13156
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2448,
+      "p99": 14008,
+      "max": 14008
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2434,
+      "p99": 16434,
+      "max": 16434
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1519,
+      "p_fail": 0.325,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2522,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3508,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1880,
+    "p99": 10228,
+    "max": 18602,
+    "outages": 0,
+    "max_gap_ms": 36,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1768,
+      "p99": 3964,
+      "max": 3964
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2000,
+      "p99": 10228,
+      "max": 10228
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2124,
+      "p99": 6352,
+      "max": 6352
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1914,
+      "p99": 18602,
+      "max": 18602
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1503,
+      "p_fail": 0.338,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2514,
+      "p_fail": 0.002,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1762,
+    "p99": 12051,
+    "max": 15995,
+    "outages": 0,
+    "max_gap_ms": 34,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1546,
+      "p99": 4019,
+      "max": 4019
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1833,
+      "p99": 12051,
+      "max": 12051
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1933,
+      "p99": 6670,
+      "max": 6670
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1728,
+      "p99": 15192,
+      "max": 15192
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.346,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2503,
+      "p_fail": 0.001,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2141,
+    "p99": 13057,
+    "max": 15506,
+    "outages": 0,
+    "max_gap_ms": 33,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1765,
+      "p99": 3998,
+      "max": 3998
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2260,
+      "p99": 13057,
+      "max": 13057
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2659,
+      "p99": 15506,
+      "max": 15506
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2219,
+      "p99": 9600,
+      "max": 9600
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.342,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2518,
+      "p_fail": 0.002,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "priority inversion (plain mutex)",
+  "atk": "pinv",
+  "atk_prio": 8,
+  "extra": {
+   "PINV": "none"
+  },
+  "runs": [
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1762,
+    "p99": 4366,
+    "max": 4366,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1762,
+      "p99": 4366,
+      "max": 4366
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1504,
+      "p_fail": 0.371,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2507,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3510,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 2370,
+    "p99": 4530,
+    "max": 4530,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2370,
+      "p99": 4530,
+      "max": 4530
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1514,
+      "p_fail": 0.198,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2507,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3505,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1881,
+    "p99": 3810,
+    "max": 3810,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1881,
+      "p99": 3810,
+      "max": 3810
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1508,
+      "p_fail": 0.295,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2514,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3513,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 2028,
+    "p99": 4142,
+    "max": 4142,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2028,
+      "p99": 4142,
+      "max": 4142
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1507,
+      "p_fail": 0.284,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2520,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 2266,
+    "p99": 4334,
+    "max": 4334,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2266,
+      "p99": 4334,
+      "max": 4334
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1502,
+      "p_fail": 0.251,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2504,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3508,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "priority inversion (inheriting mutex)",
+  "atk": "pinv",
+  "atk_prio": 8,
+  "extra": {
+   "PINV": "inherit"
+  },
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1888,
+    "p99": 3974,
+    "max": 5383,
+    "outages": 0,
+    "max_gap_ms": 24,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1908,
+      "p99": 3974,
+      "max": 3974
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2007,
+      "p99": 5383,
+      "max": 5383
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1912,
+      "p99": 3967,
+      "max": 3967
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1942,
+      "p99": 3992,
+      "max": 3992
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1504,
+      "p_fail": 0.303,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3502,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2031,
+    "p99": 4182,
+    "max": 7231,
+    "outages": 0,
+    "max_gap_ms": 24,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2232,
+      "p99": 4253,
+      "max": 4253
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1959,
+      "p99": 7231,
+      "max": 7231
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2079,
+      "p99": 3913,
+      "max": 3913
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1996,
+      "p99": 4144,
+      "max": 4144
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1508,
+      "p_fail": 0.255,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1500,
+    "p99": 3704,
+    "max": 5436,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1644,
+      "p99": 3624,
+      "max": 3624
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1428,
+      "p99": 5436,
+      "max": 5436
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1594,
+      "p99": 3608,
+      "max": 3608
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1406,
+      "p99": 3704,
+      "max": 3704
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1506,
+      "p_fail": 0.32,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2520,
+      "p_fail": 0.007,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1738,
+    "p99": 3974,
+    "max": 4782,
+    "outages": 0,
+    "max_gap_ms": 23,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1766,
+      "p99": 4782,
+      "max": 4782
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1762,
+      "p99": 3974,
+      "max": 3974
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1714,
+      "p99": 3500,
+      "max": 3500
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1616,
+      "p99": 4014,
+      "max": 4014
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1500,
+      "p_fail": 0.4,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3515,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2012,
+    "p99": 4048,
+    "max": 4132,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2134,
+      "p99": 3994,
+      "max": 3994
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1826,
+      "p99": 4024,
+      "max": 4024
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1986,
+      "p99": 4048,
+      "max": 4048
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1860,
+      "p99": 3686,
+      "max": 3686
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1510,
+      "p_fail": 0.259,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "priority inversion (default mutex)",
+  "atk": "pinv",
+  "atk_prio": 8,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1682,
+    "p99": 3760,
+    "max": 4588,
+    "outages": 0,
+    "max_gap_ms": 23,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1578,
+      "p99": 3326,
+      "max": 3326
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1716,
+      "p99": 4588,
+      "max": 4588
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1792,
+      "p99": 3760,
+      "max": 3760
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1684,
+      "p99": 3744,
+      "max": 3744
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1520,
+      "p_fail": 0.288,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2505,
+      "p_fail": 0.001,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1984,
+    "p99": 4320,
+    "max": 6096,
+    "outages": 0,
+    "max_gap_ms": 24,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1886,
+      "p99": 4358,
+      "max": 4358
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1946,
+      "p99": 6096,
+      "max": 6096
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2240,
+      "p99": 4204,
+      "max": 4204
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1962,
+      "p99": 4134,
+      "max": 4134
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1504,
+      "p_fail": 0.34,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2515,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3521,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2049,
+    "p99": 4233,
+    "max": 5692,
+    "outages": 0,
+    "max_gap_ms": 24,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2159,
+      "p99": 3861,
+      "max": 3861
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1989,
+      "p99": 5692,
+      "max": 5692
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1995,
+      "p99": 4259,
+      "max": 4259
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1968,
+      "p99": 4233,
+      "max": 4233
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1514,
+      "p_fail": 0.236,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3504,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1980,
+    "p99": 4142,
+    "max": 5133,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1979,
+      "p99": 4213,
+      "max": 4213
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2071,
+      "p99": 5133,
+      "max": 5133
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1866,
+      "p99": 3734,
+      "max": 3734
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1897,
+      "p99": 3609,
+      "max": 3609
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1506,
+      "p_fail": 0.3,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2513,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3508,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1795,
+    "p99": 3916,
+    "max": 4054,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1837,
+      "p99": 3995,
+      "max": 3995
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1778,
+      "p99": 4054,
+      "max": 4054
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1875,
+      "p99": 3519,
+      "max": 3519
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1652,
+      "p99": 2943,
+      "max": 2943
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1502,
+      "p_fail": 0.323,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2508,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3500,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "mem hog   @prio 10",
+  "atk": "mem",
+  "atk_prio": 10,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2550,
+    "p99": 6376,
+    "max": 8476,
+    "outages": 0,
+    "max_gap_ms": 26,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2314,
+      "p99": 4630,
+      "max": 4630
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2646,
+      "p99": 8476,
+      "max": 8476
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2584,
+      "p99": 4850,
+      "max": 4850
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2580,
+      "p99": 6376,
+      "max": 6376
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1515,
+      "p_fail": 0.228,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2504,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2463,
+    "p99": 4570,
+    "max": 7791,
+    "outages": 0,
+    "max_gap_ms": 26,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2397,
+      "p99": 4341,
+      "max": 4341
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2181,
+      "p99": 3459,
+      "max": 3459
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2565,
+      "p99": 5620,
+      "max": 5620
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2547,
+      "p99": 7791,
+      "max": 7791
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1516,
+      "p_fail": 0.187,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2506,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1966,
+    "p99": 4212,
+    "max": 5596,
+    "outages": 0,
+    "max_gap_ms": 24,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1711,
+      "p99": 4005,
+      "max": 4005
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1966,
+      "p99": 5596,
+      "max": 5596
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1968,
+      "p99": 5006,
+      "max": 5006
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2101,
+      "p99": 4212,
+      "max": 4212
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1501,
+      "p_fail": 0.348,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2509,
+      "p_fail": 0.001,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3503,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2402,
+    "p99": 6282,
+    "max": 9392,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2112,
+      "p99": 4382,
+      "max": 4382
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2636,
+      "p99": 9392,
+      "max": 9392
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2366,
+      "p99": 4500,
+      "max": 4500
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2480,
+      "p99": 5030,
+      "max": 5030
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1509,
+      "p_fail": 0.281,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3503,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2162,
+    "p99": 5306,
+    "max": 7664,
+    "outages": 0,
+    "max_gap_ms": 26,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2592,
+      "p99": 4698,
+      "max": 4698
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2036,
+      "p99": 5974,
+      "max": 5974
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2226,
+      "p99": 4109,
+      "max": 4109
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2081,
+      "p99": 4116,
+      "max": 4116
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.14,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3515,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "fd exhaust@prio 10",
+  "atk": "fd",
+  "atk_prio": 10,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1615,
+    "p99": 3443,
+    "max": 3696,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1567,
+      "p99": 3156,
+      "max": 3156
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1512,
+      "p99": 3012,
+      "max": 3012
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1650,
+      "p99": 3696,
+      "max": 3696
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1630,
+      "p99": 3443,
+      "max": 3443
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1520,
+      "p_fail": 0.249,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2502,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1812,
+    "p99": 4022,
+    "max": 4554,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1884,
+      "p99": 3560,
+      "max": 3560
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1726,
+      "p99": 4554,
+      "max": 4554
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1794,
+      "p99": 3306,
+      "max": 3306
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1888,
+      "p99": 3936,
+      "max": 3936
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1509,
+      "p_fail": 0.256,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2515,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2120,
+    "p99": 4288,
+    "max": 4404,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2232,
+      "p99": 4118,
+      "max": 4118
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2018,
+      "p99": 4268,
+      "max": 4268
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2200,
+      "p99": 4404,
+      "max": 4404
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2114,
+      "p99": 3978,
+      "max": 3978
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.249,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3500,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2354,
+    "p99": 4501,
+    "max": 5280,
+    "outages": 0,
+    "max_gap_ms": 23,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2270,
+      "p99": 4514,
+      "max": 4514
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2508,
+      "p99": 5280,
+      "max": 5280
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2520,
+      "p99": 4319,
+      "max": 4319
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2321,
+      "p99": 4074,
+      "max": 4074
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1506,
+      "p_fail": 0.248,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2508,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3502,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1732,
+    "p99": 3967,
+    "max": 4062,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1740,
+      "p99": 3515,
+      "max": 3515
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1808,
+      "p99": 3534,
+      "max": 3534
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1750,
+      "p99": 4062,
+      "max": 4062
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1826,
+      "p99": 3967,
+      "max": 3967
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1519,
+      "p_fail": 0.295,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3502,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "crash loop@prio 10",
+  "atk": "crash",
+  "atk_prio": 10,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1582,
+    "p99": 3758,
+    "max": 3877,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1731,
+      "p99": 3877,
+      "max": 3877
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1643,
+      "p99": 3173,
+      "max": 3173
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1468,
+      "p99": 2909,
+      "max": 2909
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1586,
+      "p99": 3758,
+      "max": 3758
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1509,
+      "p_fail": 0.338,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1762,
+    "p99": 3662,
+    "max": 3900,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2058,
+      "p99": 3900,
+      "max": 3900
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1772,
+      "p99": 3562,
+      "max": 3562
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1660,
+      "p99": 3250,
+      "max": 3250
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1562,
+      "p99": 3058,
+      "max": 3058
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.267,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2509,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3506,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1964,
+    "p99": 3812,
+    "max": 4180,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2020,
+      "p99": 4180,
+      "max": 4180
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1938,
+      "p99": 3286,
+      "max": 3286
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1992,
+      "p99": 3692,
+      "max": 3692
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1976,
+      "p99": 3740,
+      "max": 3740
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1507,
+      "p_fail": 0.287,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2501,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2405,
+    "p99": 4147,
+    "max": 4616,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2643,
+      "p99": 4616,
+      "max": 4616
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2339,
+      "p99": 3635,
+      "max": 3635
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2483,
+      "p99": 3703,
+      "max": 3703
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2286,
+      "p99": 3845,
+      "max": 3845
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1506,
+      "p_fail": 0.166,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2503,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 2,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1531,
+    "p99": 9974,
+    "max": 27440,
+    "outages": 0,
+    "max_gap_ms": 45,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1668,
+      "p99": 3816,
+      "max": 3816
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1509,
+      "p99": 3098,
+      "max": 3098
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1466,
+      "p99": 3622,
+      "max": 3622
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1524,
+      "p99": 2769,
+      "max": 2769
+     },
+     {
+      "t": 5,
+      "late": 2,
+      "lost": 0,
+      "p50": 1521,
+      "p99": 27440,
+      "max": 27440
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1518,
+      "p_fail": 0.334,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "crash loop@prio 20",
+  "atk": "crash",
+  "atk_prio": 20,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1922,
+    "p99": 3672,
+    "max": 4280,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1960,
+      "p99": 4280,
+      "max": 4280
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1872,
+      "p99": 3630,
+      "max": 3630
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1774,
+      "p99": 3756,
+      "max": 3756
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2080,
+      "p99": 3158,
+      "max": 3158
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1502,
+      "p_fail": 0.31,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1986,
+    "p99": 3630,
+    "max": 3830,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2228,
+      "p99": 3778,
+      "max": 3778
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2128,
+      "p99": 3316,
+      "max": 3316
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1908,
+      "p99": 3076,
+      "max": 3076
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1874,
+      "p99": 3608,
+      "max": 3608
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1504,
+      "p_fail": 0.224,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2501,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1813,
+    "p99": 3851,
+    "max": 3961,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1794,
+      "p99": 3961,
+      "max": 3961
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1820,
+      "p99": 3209,
+      "max": 3209
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1806,
+      "p99": 2968,
+      "max": 2968
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1810,
+      "p99": 2901,
+      "max": 2901
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1507,
+      "p_fail": 0.331,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2502,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2434,
+    "p99": 5954,
+    "max": 10230,
+    "outages": 0,
+    "max_gap_ms": 25,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2422,
+      "p99": 4208,
+      "max": 4208
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2368,
+      "p99": 3692,
+      "max": 3692
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2458,
+      "p99": 4162,
+      "max": 4162
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2470,
+      "p99": 10230,
+      "max": 10230
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1508,
+      "p_fail": 0.177,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2500,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1638,
+    "p99": 3366,
+    "max": 3922,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1682,
+      "p99": 3922,
+      "max": 3922
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1658,
+      "p99": 2834,
+      "max": 2834
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1496,
+      "p99": 2564,
+      "max": 2564
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1638,
+      "p99": 3006,
+      "max": 3006
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1509,
+      "p_fail": 0.342,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2502,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3503,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "kill detector, no supervisor",
+  "atk": "",
+  "atk_prio": 10,
+  "extra": {
+   "KILL_AT": 2
+  },
+  "runs": [
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1363,
+    "p99": 2336,
+    "max": 2336,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1363,
+      "p99": 2336,
+      "max": 2336
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1501,
+      "p_fail": 0.607,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2500,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3505,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1566,
+    "p99": 2968,
+    "max": 2968,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1616,
+      "p99": 2342,
+      "max": 2342
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1507,
+      "p_fail": 0.841,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2500,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3516,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1836,
+    "p99": 2855,
+    "max": 2855,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1688,
+      "p99": 2818,
+      "max": 2818
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1517,
+      "p_fail": 0.437,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2513,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3513,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1603,
+    "p99": 2553,
+    "max": 2553,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1343,
+      "p99": 2553,
+      "max": 2553
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1500,
+      "p_fail": 0.285,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2519,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3503,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 2029,
+    "p99": 3140,
+    "max": 3140,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1886,
+      "p99": 3140,
+      "max": 3140
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1502,
+      "p_fail": 0.318,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2500,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3503,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "kill detector, supervised",
+  "atk": "",
+  "atk_prio": 10,
+  "extra": {
+   "SUPERVISE": 1,
+   "KILL_AT": 2
+  },
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 1235,
+    "p99": 2297,
+    "max": 2502,
+    "outages": 0,
+    "max_gap_ms": 41,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1308,
+      "p99": 2282,
+      "max": 2282
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 1,
+      "p50": 1542,
+      "p99": 2502,
+      "max": 2502
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1245,
+      "p99": 2336,
+      "max": 2336
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1099,
+      "p99": 1765,
+      "max": 1765
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1514,
+      "p_fail": 0.594,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2501,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3512,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": 4,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 1615,
+    "p99": 2786,
+    "max": 2828,
+    "outages": 0,
+    "max_gap_ms": 41,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1579,
+      "p99": 2801,
+      "max": 2801
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 1,
+      "p50": 1616,
+      "p99": 2674,
+      "max": 2674
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1542,
+      "p99": 2729,
+      "max": 2729
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1603,
+      "p99": 2828,
+      "max": 2828
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1500,
+      "p_fail": 0.336,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2509,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3513,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": 4,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 1954,
+    "p99": 2912,
+    "max": 3436,
+    "outages": 0,
+    "max_gap_ms": 40,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1984,
+      "p99": 3018,
+      "max": 3018
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 1,
+      "p50": 1954,
+      "p99": 3436,
+      "max": 3436
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2078,
+      "p99": 2892,
+      "max": 2892
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1694,
+      "p99": 2912,
+      "max": 2912
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1516,
+      "p_fail": 0.512,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2501,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3509,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": 4,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 2042,
+    "p99": 3134,
+    "max": 3180,
+    "outages": 0,
+    "max_gap_ms": 41,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2044,
+      "p99": 3060,
+      "max": 3060
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 1,
+      "p50": 2078,
+      "p99": 3178,
+      "max": 3178
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2064,
+      "p99": 3180,
+      "max": 3180
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1986,
+      "p99": 3102,
+      "max": 3102
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1514,
+      "p_fail": 0.52,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2505,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": 4,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 1750,
+    "p99": 2904,
+    "max": 3440,
+    "outages": 0,
+    "max_gap_ms": 40,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1946,
+      "p99": 2828,
+      "max": 2828
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 1,
+      "p50": 1916,
+      "p99": 2864,
+      "max": 2864
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1648,
+      "p99": 2650,
+      "max": 2650
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1620,
+      "p99": 2860,
+      "max": 2860
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1506,
+      "p_fail": 0.659,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2512,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": 4,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "memory bandwidth @prio 20",
+  "atk": "membw",
+  "atk_prio": 20,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2829,
+    "p99": 15593,
+    "max": 17820,
+    "outages": 0,
+    "max_gap_ms": 35,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1768,
+      "p99": 3965,
+      "max": 3965
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3769,
+      "p99": 15593,
+      "max": 15593
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3088,
+      "p99": 13083,
+      "max": 13083
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3512,
+      "p99": 9648,
+      "max": 9648
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.338,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2507,
+      "p_fail": 0.017,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3522,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3306,
+    "p99": 16943,
+    "max": 17569,
+    "outages": 0,
+    "max_gap_ms": 33,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2196,
+      "p99": 7588,
+      "max": 7588
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3686,
+      "p99": 16779,
+      "max": 16779
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3741,
+      "p99": 17569,
+      "max": 17569
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 4657,
+      "p99": 8323,
+      "max": 8323
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1510,
+      "p_fail": 0.432,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2503,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3508,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 2,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2902,
+    "p99": 19772,
+    "max": 27002,
+    "outages": 0,
+    "max_gap_ms": 45,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 1,
+      "lost": 0,
+      "p50": 1956,
+      "p99": 27002,
+      "max": 27002
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3856,
+      "p99": 15976,
+      "max": 15976
+     },
+     {
+      "t": 3,
+      "late": 1,
+      "lost": 0,
+      "p50": 3676,
+      "p99": 20808,
+      "max": 20808
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3304,
+      "p99": 13578,
+      "max": 13578
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1512,
+      "p_fail": 0.368,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2515,
+      "p_fail": 0.02,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3501,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 1,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2828,
+    "p99": 16317,
+    "max": 27641,
+    "outages": 0,
+    "max_gap_ms": 46,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 1,
+      "lost": 0,
+      "p50": 1586,
+      "p99": 27641,
+      "max": 27641
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3838,
+      "p99": 16317,
+      "max": 16317
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3351,
+      "p99": 16016,
+      "max": 16016
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3346,
+      "p99": 15570,
+      "max": 15570
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1506,
+      "p_fail": 0.64,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2512,
+      "p_fail": 0.044,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3513,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 1,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2716,
+    "p99": 18312,
+    "max": 26040,
+    "outages": 0,
+    "max_gap_ms": 44,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 1,
+      "lost": 0,
+      "p50": 1832,
+      "p99": 26040,
+      "max": 26040
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3782,
+      "p99": 18185,
+      "max": 18185
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3368,
+      "p99": 18464,
+      "max": 18464
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3045,
+      "p99": 18312,
+      "max": 18312
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1511,
+      "p_fail": 0.254,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2513,
+      "p_fail": 0.178,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3503,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "timer storm @prio 20",
+  "atk": "timerstorm",
+  "atk_prio": 20,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2052,
+    "p99": 3996,
+    "max": 4128,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2218,
+      "p99": 4128,
+      "max": 4128
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1990,
+      "p99": 3052,
+      "max": 3052
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1818,
+      "p99": 2552,
+      "max": 2552
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2100,
+      "p99": 3072,
+      "max": 3072
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1519,
+      "p_fail": 0.251,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2509,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3516,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1308,
+    "p99": 3240,
+    "max": 3320,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1548,
+      "p99": 3320,
+      "max": 3320
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1208,
+      "p99": 2996,
+      "max": 2996
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1304,
+      "p99": 2418,
+      "max": 2418
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1194,
+      "p99": 2282,
+      "max": 2282
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1502,
+      "p_fail": 0.292,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3501,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1616,
+    "p99": 3592,
+    "max": 6322,
+    "outages": 0,
+    "max_gap_ms": 24,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1948,
+      "p99": 6322,
+      "max": 6322
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1588,
+      "p99": 2610,
+      "max": 2610
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1690,
+      "p99": 3344,
+      "max": 3344
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1492,
+      "p99": 2808,
+      "max": 2808
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1502,
+      "p_fail": 0.526,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2199,
+    "p99": 4045,
+    "max": 4403,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2262,
+      "p99": 4403,
+      "max": 4403
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2199,
+      "p99": 3031,
+      "max": 3031
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2077,
+      "p99": 3003,
+      "max": 3003
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2295,
+      "p99": 3371,
+      "max": 3371
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1520,
+      "p_fail": 0.252,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2514,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2122,
+    "p99": 4168,
+    "max": 4592,
+    "outages": 0,
+    "max_gap_ms": 23,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2492,
+      "p99": 4592,
+      "max": 4592
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1954,
+      "p99": 3304,
+      "max": 3304
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2122,
+      "p99": 3064,
+      "max": 3064
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2056,
+      "p99": 2890,
+      "max": 2890
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1501,
+      "p_fail": 0.153,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2516,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "kernel-call storm @prio 20",
+  "atk": "kcall",
+  "atk_prio": 20,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3350,
+    "p99": 7872,
+    "max": 8312,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2510,
+      "p99": 7352,
+      "max": 7352
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 4024,
+      "p99": 7712,
+      "max": 7712
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3350,
+      "p99": 7872,
+      "max": 7872
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 4188,
+      "p99": 7836,
+      "max": 7836
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1520,
+      "p_fail": 0.447,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2522,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3524,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3552,
+    "p99": 8150,
+    "max": 9064,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2476,
+      "p99": 5406,
+      "max": 5406
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 4386,
+      "p99": 8872,
+      "max": 8872
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3650,
+      "p99": 9064,
+      "max": 9064
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 4356,
+      "p99": 7522,
+      "max": 7522
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1517,
+      "p_fail": 0.182,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2504,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3512,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2675,
+    "p99": 7416,
+    "max": 8561,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1718,
+      "p99": 7163,
+      "max": 7163
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2873,
+      "p99": 8561,
+      "max": 8561
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3062,
+      "p99": 7187,
+      "max": 7187
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3440,
+      "p99": 7757,
+      "max": 7757
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1524,
+      "p_fail": 0.306,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3514,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2962,
+    "p99": 7462,
+    "max": 7498,
+    "outages": 0,
+    "max_gap_ms": 25,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1726,
+      "p99": 4096,
+      "max": 4096
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3656,
+      "p99": 7476,
+      "max": 7476
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3052,
+      "p99": 6520,
+      "max": 6520
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3856,
+      "p99": 7460,
+      "max": 7460
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1516,
+      "p_fail": 0.354,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2508,
+      "p_fail": 0.004,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3512,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3081,
+    "p99": 8354,
+    "max": 10021,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2462,
+      "p99": 4368,
+      "max": 4368
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3931,
+      "p99": 8354,
+      "max": 8354
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3034,
+      "p99": 8877,
+      "max": 8877
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3420,
+      "p99": 10021,
+      "max": 10021
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1501,
+      "p_fail": 0.161,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2503,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "memory bandwidth @prio 5",
+  "atk": "membw",
+  "atk_prio": 5,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3128,
+    "p99": 8520,
+    "max": 16386,
+    "outages": 0,
+    "max_gap_ms": 34,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2044,
+      "p99": 16386,
+      "max": 16386
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3086,
+      "p99": 8292,
+      "max": 8292
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3916,
+      "p99": 8520,
+      "max": 8520
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3698,
+      "p99": 8028,
+      "max": 8028
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1508,
+      "p_fail": 0.152,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2508,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2434,
+    "p99": 7474,
+    "max": 14380,
+    "outages": 0,
+    "max_gap_ms": 33,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1318,
+      "p99": 14380,
+      "max": 14380
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3142,
+      "p99": 7032,
+      "max": 7032
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3722,
+      "p99": 7474,
+      "max": 7474
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2588,
+      "p99": 6906,
+      "max": 6906
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1514,
+      "p_fail": 0.267,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2504,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3503,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2724,
+    "p99": 7618,
+    "max": 12677,
+    "outages": 0,
+    "max_gap_ms": 30,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1644,
+      "p99": 12677,
+      "max": 12677
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3050,
+      "p99": 8978,
+      "max": 8978
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3458,
+      "p99": 7236,
+      "max": 7236
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3249,
+      "p99": 6452,
+      "max": 6452
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1502,
+      "p_fail": 0.369,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3042,
+    "p99": 8456,
+    "max": 14278,
+    "outages": 0,
+    "max_gap_ms": 32,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2028,
+      "p99": 14278,
+      "max": 14278
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3084,
+      "p99": 8892,
+      "max": 8892
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3164,
+      "p99": 7196,
+      "max": 7196
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3180,
+      "p99": 8456,
+      "max": 8456
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1510,
+      "p_fail": 0.19,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2512,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3515,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2678,
+    "p99": 7580,
+    "max": 13792,
+    "outages": 0,
+    "max_gap_ms": 31,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1676,
+      "p99": 13792,
+      "max": 13792
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3618,
+      "p99": 7432,
+      "max": 7432
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3170,
+      "p99": 8330,
+      "max": 8330
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3358,
+      "p99": 7580,
+      "max": 7580
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1514,
+      "p_fail": 0.377,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2503,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "kernel-call storm @prio 5",
+  "atk": "kcall",
+  "atk_prio": 5,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2466,
+    "p99": 8096,
+    "max": 8256,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1576,
+      "p99": 6602,
+      "max": 6602
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2677,
+      "p99": 8161,
+      "max": 8161
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2867,
+      "p99": 8096,
+      "max": 8096
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3376,
+      "p99": 8256,
+      "max": 8256
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1501,
+      "p_fail": 0.205,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2509,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3423,
+    "p99": 8260,
+    "max": 8891,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2183,
+      "p99": 4583,
+      "max": 4583
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 4115,
+      "p99": 7891,
+      "max": 7891
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3518,
+      "p99": 8743,
+      "max": 8743
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 4160,
+      "p99": 7534,
+      "max": 7534
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1517,
+      "p_fail": 0.283,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2516,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3512,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3206,
+    "p99": 8034,
+    "max": 8494,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2236,
+      "p99": 4908,
+      "max": 4908
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 4308,
+      "p99": 7526,
+      "max": 7526
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3248,
+      "p99": 8494,
+      "max": 8494
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 4068,
+      "p99": 8268,
+      "max": 8268
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1513,
+      "p_fail": 0.282,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2508,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3580,
+    "p99": 7706,
+    "max": 8630,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2674,
+      "p99": 5766,
+      "max": 5766
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 4826,
+      "p99": 7704,
+      "max": 7704
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 4006,
+      "p99": 7706,
+      "max": 7706
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 4556,
+      "p99": 7926,
+      "max": 7926
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1510,
+      "p_fail": 0.134,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2505,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2490,
+    "p99": 7203,
+    "max": 7830,
+    "outages": 0,
+    "max_gap_ms": 26,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1502,
+      "p99": 2809,
+      "max": 2809
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3310,
+      "p99": 7203,
+      "max": 7203
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2853,
+      "p99": 7830,
+      "max": 7830
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3213,
+      "p99": 6793,
+      "max": 6793
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1501,
+      "p_fail": 0.241,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2504,
+      "p_fail": 0.623,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3519,
+      "p_fail": 0.081,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "memory bandwidth @prio 10",
+  "atk": "membw",
+  "atk_prio": 10,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2946,
+    "p99": 12142,
+    "max": 15490,
+    "outages": 0,
+    "max_gap_ms": 33,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1836,
+      "p99": 11498,
+      "max": 11498
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3020,
+      "p99": 10238,
+      "max": 10238
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3670,
+      "p99": 15324,
+      "max": 15324
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3542,
+      "p99": 11190,
+      "max": 11190
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1507,
+      "p_fail": 0.427,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2515,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 1,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3514,
+    "p99": 11942,
+    "max": 26594,
+    "outages": 0,
+    "max_gap_ms": 43,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 1,
+      "lost": 0,
+      "p50": 2444,
+      "p99": 26594,
+      "max": 26594
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3448,
+      "p99": 9658,
+      "max": 9658
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 4218,
+      "p99": 11678,
+      "max": 11678
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 4264,
+      "p99": 15660,
+      "max": 15660
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1505,
+      "p_fail": 0.154,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2513,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3510,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 1,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3262,
+    "p99": 10988,
+    "max": 26189,
+    "outages": 0,
+    "max_gap_ms": 44,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 1,
+      "lost": 0,
+      "p50": 2257,
+      "p99": 26189,
+      "max": 26189
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3788,
+      "p99": 8293,
+      "max": 8293
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3954,
+      "p99": 11918,
+      "max": 11918
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 4168,
+      "p99": 9070,
+      "max": 9070
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1520,
+      "p_fail": 0.224,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2509,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 1,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3012,
+    "p99": 16223,
+    "max": 27466,
+    "outages": 0,
+    "max_gap_ms": 44,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 1,
+      "lost": 0,
+      "p50": 1582,
+      "p99": 27466,
+      "max": 27466
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2968,
+      "p99": 16391,
+      "max": 16391
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3941,
+      "p99": 13905,
+      "max": 13905
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3378,
+      "p99": 10575,
+      "max": 10575
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1518,
+      "p_fail": 0.597,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2509,
+      "p_fail": 0.236,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3522,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3202,
+    "p99": 13561,
+    "max": 14938,
+    "outages": 0,
+    "max_gap_ms": 31,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2202,
+      "p99": 7786,
+      "max": 7786
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3892,
+      "p99": 14430,
+      "max": 14430
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3881,
+      "p99": 8994,
+      "max": 8994
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3646,
+      "p99": 10046,
+      "max": 10046
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1513,
+      "p_fail": 0.412,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3515,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "name squat, detector alive",
+  "atk": "squat",
+  "atk_prio": 20,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1832,
+    "p99": 3876,
+    "max": 4434,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2316,
+      "p99": 4434,
+      "max": 4434
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1792,
+      "p99": 2944,
+      "max": 2944
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1712,
+      "p99": 3374,
+      "max": 3374
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1922,
+      "p99": 2752,
+      "max": 2752
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1520,
+      "p_fail": 0.223,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2509,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1273,
+    "p99": 3011,
+    "max": 3209,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1477,
+      "p99": 3209,
+      "max": 3209
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1071,
+      "p99": 2182,
+      "max": 2182
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1238,
+      "p99": 2131,
+      "max": 2131
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1238,
+      "p99": 2729,
+      "max": 2729
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1504,
+      "p_fail": 0.277,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2517,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3520,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2110,
+    "p99": 4180,
+    "max": 4664,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2532,
+      "p99": 4664,
+      "max": 4664
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1834,
+      "p99": 3116,
+      "max": 3116
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2252,
+      "p99": 3000,
+      "max": 3000
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2234,
+      "p99": 3196,
+      "max": 3196
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1517,
+      "p_fail": 0.143,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2509,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3518,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 1906,
+    "p99": 3630,
+    "max": 5166,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2248,
+      "p99": 5166,
+      "max": 5166
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1802,
+      "p99": 2752,
+      "max": 2752
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1754,
+      "p99": 2588,
+      "max": 2588
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1906,
+      "p99": 2736,
+      "max": 2736
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1514,
+      "p_fail": 0.283,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2500,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3506,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2090,
+    "p99": 3804,
+    "max": 4332,
+    "outages": 0,
+    "max_gap_ms": 22,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2256,
+      "p99": 4332,
+      "max": 4332
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 1876,
+      "p99": 3144,
+      "max": 3144
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1830,
+      "p99": 2908,
+      "max": 2908
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2042,
+      "p99": 2916,
+      "max": 2916
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1505,
+      "p_fail": 0.254,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2516,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3502,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "budget",
+  "scenario": "name squat, race after restart",
+  "atk": "squat",
+  "atk_prio": 20,
+  "extra": {
+   "SUPERVISE": 1,
+   "KILL_AT": 2
+  },
+  "runs": [
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1222,
+    "p99": 6104,
+    "max": 6104,
+    "outages": 0,
+    "max_gap_ms": 24,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1490,
+      "p99": 6104,
+      "max": 6104
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1506,
+      "p_fail": 0.225,
+      "pattern": "shared-service queue\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2502,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3518,
+      "p_fail": 1.0,
+      "pattern": "lock inversion\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": 1,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1216,
+    "p99": 2294,
+    "max": 2294,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1096,
+      "p99": 2294,
+      "max": 2294
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1504,
+      "p_fail": 0.473,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2506,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3511,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": 1,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 1842,
+    "p99": 2746,
+    "max": 2828,
+    "outages": 0,
+    "max_gap_ms": 40,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1878,
+      "p99": 2736,
+      "max": 2736
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 1,
+      "p50": 1870,
+      "p99": 2746,
+      "max": 2746
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1976,
+      "p99": 2726,
+      "max": 2726
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1822,
+      "p99": 2828,
+      "max": 2828
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1505,
+      "p_fail": 0.691,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2514,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3504,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": 3,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 1238,
+    "p99": 2262,
+    "max": 2310,
+    "outages": 0,
+    "max_gap_ms": 40,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1472,
+      "p99": 2202,
+      "max": 2202
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 1,
+      "p50": 1368,
+      "p99": 2240,
+      "max": 2240
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 1084,
+      "p99": 2310,
+      "max": 2310
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 1440,
+      "p99": 2262,
+      "max": 2262
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1507,
+      "p_fail": 0.842,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2519,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3507,
+      "p_fail": 0.0,
+      "pattern": "CPU starvation\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": 4,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 30,
+    "p50": 1243,
+    "p99": 2838,
+    "max": 2838,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 1384,
+      "p99": 2320,
+      "max": 2320
+     }
+    ],
+    "monitor": [
+     {
+      "k": 1,
+      "at_ms": 1504,
+      "p_fail": 0.663,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 2,
+      "at_ms": 2502,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     },
+     {
+      "k": 3,
+      "at_ms": 3513,
+      "p_fail": 1.0,
+      "pattern": "dead service\r"
+     }
+    ],
+    "checked": 0,
+    "wrong": 0,
+    "restart_ms": 1,
+    "outage_ms": null
+   }
+  ]
+ }
+]

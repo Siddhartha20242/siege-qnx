@@ -14,6 +14,10 @@ $(BIN)/%: pipeline/%.c pipeline/common.h | $(BIN)
 
 $(BIN)/detector: pipeline/model.h
 
+# The controller's predictor uses expf and log1pf.
+$(BIN)/controller: pipeline/controller.c pipeline/common.h pipeline/monitor.h | $(BIN)
+	$(CC) $(CFLAGS) -o $@ $< -lm
+
 $(BIN)/ticker: examples/ticker/ticker.c pipeline/common.h | $(BIN)
 	$(CC) $(CFLAGS) -o $@ $<
 

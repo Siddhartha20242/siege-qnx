@@ -131,3 +131,38 @@ class Tools(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NewTooling(unittest.TestCase):
+    ROOT = os.path.join(os.path.dirname(__file__), "..")
+
+    def read(self, *p):
+        with open(os.path.join(self.ROOT, *p)) as f:
+            return f.read()
+
+    def test_monitor_scale_matches_between_c_and_python(self):
+        """The predictor's log scale must be the same in the controller (C) and the trainer (Python)."""
+        import math, re
+        c = float(re.search(r"#define MON_SCALE\s+([\d.]+)f", self.read("pipeline", "controller.c")).group(1))
+        self.assertAlmostEqual(c, math.log1p(5_000_000), places=3)
+        self.assertIn("SCALE = math.log1p(5_000_000)", self.read("tools", "train_monitor.py"))
+
+    def test_search_command_is_registered(self):
+        self.assertIn('"search": ("search.py"', self.read("siege"))
+        self.assertTrue(os.path.exists(os.path.join(self.ROOT, "scripts", "search.py")))
+
+    def test_vm_setup_script_is_valid_shell(self):
+        import subprocess
+        r = subprocess.run(["bash", "-n", os.path.join(self.ROOT, "scripts", "vm-setup.sh")], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+
+    def test_every_attacker_mode_is_documented(self):
+        import re
+        modes = set(re.findall(r'!strcmp\(mode, "(\w+)"\)', self.read("pipeline", "attacker.c"))) - {"child"}
+        readme = self.read("README.md")
+        for m in modes:
+            self.assertIn(f"`{m}`", readme, f"attacker mode {m} is not in the README table")
+
+    def test_siegewrap_is_in_the_image(self):
+        self.assertIn("siegewrap=build/bin/siegewrap", self.read("image", "ram.build"))
+        self.assertIn("siegewrap", self.read("Makefile"))
