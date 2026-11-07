@@ -467,6 +467,7 @@ runs, and CPU starvation in 28 of 46. Treat it as an experiment, not a feature t
 * Emulation also produces rare isolated outliers, so the verdict is a late
   frame budget (2% by default) rather than zero misses, and results are
   reported as failure rates over repeated runs, with 95% intervals.
+* [`docs/frontier.md`](docs/frontier.md) maps how weak a flood can be and still break the pipeline (priority x request rate), and a small from-scratch model picks which cells to run: 3 to 5 points more accurate than random choice, a modest gain.
 * `SCENE=1` swaps the synthetic noise for crops of two real Creative Commons photographs; the detector still finds the object while it is the brightest thing in the frame, and the CPU-hog finding repeats ([`docs/real-images.md`](docs/real-images.md)).
 * In `cnn` mode every detection is checked against ground truth, so a
   pipeline that meets its deadlines with wrong answers still fails.

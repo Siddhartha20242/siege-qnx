@@ -145,6 +145,21 @@ class SceneInputTests(unittest.TestCase):
         self.assertLess(by[255]["exact"], 0.9)
 
 
+class FrontierTests(unittest.TestCase):
+    def test_grid_and_replay(self):
+        d = json.load(open(os.path.join(ROOT, "docs", "results", "frontier-grid.json")))
+        self.assertEqual(len(d["cells"]), 54)
+        r = subprocess.run([PY, os.path.join(ROOT, "scripts", "frontier.py"), "replay", "--seeds", "20", "--budgets", "14",
+                            "--out", os.path.join(tempfile.mkdtemp(), "r.json")],
+                           capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertIn("| 14 of 54 |", r.stdout)
+
+    def test_attacker_has_rate_knobs(self):
+        self.assertIn("ATK_RATE", read(os.path.join(ROOT, "image", "pipeline.sh")))
+        self.assertIn("frontier", read(os.path.join(ROOT, "siege")))
+
+
 if __name__ == "__main__":
     unittest.main()
 

@@ -5,7 +5,8 @@
  *   attacker -m ai    [-n threads]   inference-like compute bursts (a well-meaning neighbour)
  *   attacker -m mem   [-n megabytes] allocate and keep touching memory
  *   attacker -m flood [-n threads]   hammer the detector with junk messages
- *   attacker -m workflood [-n n]     send the detector requests that cost real CPU
+ *   attacker -m workflood [-n n] [-r rps] [-w passes]   send the detector requests that cost real CPU;
+ *                                    -r paces each thread, -w sets the work per request
  *   attacker -m fd    [-n unused]    exhaust fds, channels and connections
  *   attacker -m crash                spawn a child that crashes, forever
  *
@@ -19,6 +20,8 @@
 
 static uint64_t g_end_ns;
 static int g_prio = 10;
+static int g_rate;                /* -r: requests per second per flood thread, 0 = as fast as possible */
+static int g_work = 150;          /* -w: detector passes one workflood request costs */
 static unsigned long g_mask;      /* optional CPU run mask for hog threads */
 static long g_ss_budget_ms, g_ss_period_ms;   /* SCHED_SPORADIC budget, 0 = off */
 
@@ -406,10 +409,16 @@ static void *flood_thread(void *arg)
     frame_msg_t junk;
     memset(&junk, 0x55, sizeof junk);
     junk.type = flood_type;
-    junk.seq = flood_type == MSG_WORK ? 150 : 0;   /* passes the detector must run */
+    junk.seq = flood_type == MSG_WORK ? (uint32_t)g_work : 0;   /* passes the detector must run */
     uint8_t reply;
 
+    uint64_t gap_ns = g_rate > 0 ? 1000000000ULL / (uint64_t)g_rate : 0, next = now_ns();
     while (running()) {
+        if (gap_ns) {
+            next += gap_ns;
+            struct timespec ts = { .tv_sec = (time_t)(next / 1000000000ULL), .tv_nsec = (long)(next % 1000000000ULL) };
+            clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &ts, NULL);
+        }
         timeout_send_reply(IPC_TIMEOUT_NS);
         flood_sent++;
         if (MsgSend(coid, &junk, sizeof junk, &reply, sizeof reply) == -1) {
@@ -499,12 +508,14 @@ int main(int argc, char **argv)
     int duration_s = 10, n = -1, c;
 
     setvbuf(stdout, NULL, _IOLBF, 0);
-    while ((c = getopt(argc, argv, "m:d:P:n:a:s:")) != -1) {
+    while ((c = getopt(argc, argv, "m:d:P:n:a:s:r:w:")) != -1) {
         switch (c) {
         case 'm': mode = optarg; break;
         case 'd': duration_s = atoi(optarg); break;
         case 'P': g_prio = atoi(optarg); break;
         case 'n': n = atoi(optarg); break;
+        case 'r': g_rate = atoi(optarg); break;
+        case 'w': g_work = atoi(optarg); break;
         case 'a': g_mask = strtoul(optarg, NULL, 0); break;
         case 's': {                       /* -s budget_ms:period_ms */
             char *colon = strchr(optarg, ':');

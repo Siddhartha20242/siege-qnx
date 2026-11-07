@@ -1,0 +1,28 @@
+prio  5 rate  max: 0/3 failed
+prio 30 rate    5: 0/3 failed
+prio 50 rate  170: 3/3 failed
+prio 50 rate   35: 3/3 failed
+prio 20 rate  170: 3/3 failed
+prio 15 rate   60: 3/3 failed
+prio 10 rate   35: 2/3 failed
+prio  5 rate  100: 0/3 failed
+prio 15 rate    5: 0/3 failed
+prio 20 rate   10: 0/3 failed
+prio 30 rate   10: 0/3 failed
+prio 50 rate   10: 0/3 failed
+prio 50 rate   20: 0/3 failed
+prio 30 rate   35: 3/3 failed
+
+Predicted boundary (the model's guess for every cell; * = actually run):
+     5 req/s  .   .   .*  .   .*  . 
+    10 req/s  .   .   .   .*  .*  .*
+    20 req/s  .   .   .   .   .   .*
+    35 req/s  .   .*  .   .   F*  F*
+    60 req/s  .   .   F*  F   F   F 
+   100 req/s  .*  F   F   F   F   F 
+   170 req/s  .   F   F   F*  F   F*
+   300 req/s  .   F   F   F   F   F 
+   max req/s  .*  F   F   F   F   F 
+            5  10  15  20  30  50   (priority)
+
+[exited with code 0]

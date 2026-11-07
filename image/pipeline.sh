@@ -83,7 +83,7 @@ ATK_PIDS=""
 if [ -n "$ATK" ]; then
     sleep $ATK_DELAY
     for a in $ATK; do
-        ${ATK_CPU:+on -C $ATK_CPU} attacker -m $a -d $((DUR - ATK_DELAY + 1)) -P $ATK_PRIO ${ATK_SS:+-s $ATK_SS} &
+        ${ATK_CPU:+on -C $ATK_CPU} attacker -m $a -d $((DUR - ATK_DELAY + 1)) -P $ATK_PRIO ${ATK_SS:+-s $ATK_SS} ${ATK_RATE:+-r $ATK_RATE} ${ATK_WORK:+-w $ATK_WORK} &
         ATK_PIDS="$ATK_PIDS $!"
     done
 fi

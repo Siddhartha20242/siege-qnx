@@ -1,0 +1,337 @@
+{
+ "profile": "none",
+ "deadline_ms": 20,
+ "dur_s": 5,
+ "runs": 3,
+ "target": "emulator",
+ "attacker": "workflood",
+ "work_passes": 150,
+ "threads": 2,
+ "minutes": 19.5,
+ "cells": [
+  {
+   "prio": 5,
+   "rate": 5,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 5,
+   "rate": 10,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 5,
+   "rate": 20,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 5,
+   "rate": 35,
+   "runs": 3,
+   "fails": 1
+  },
+  {
+   "prio": 5,
+   "rate": 60,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 5,
+   "rate": 100,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 5,
+   "rate": 170,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 5,
+   "rate": 300,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 5,
+   "rate": 0,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 10,
+   "rate": 5,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 10,
+   "rate": 10,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 10,
+   "rate": 20,
+   "runs": 3,
+   "fails": 1
+  },
+  {
+   "prio": 10,
+   "rate": 35,
+   "runs": 3,
+   "fails": 1
+  },
+  {
+   "prio": 10,
+   "rate": 60,
+   "runs": 3,
+   "fails": 2
+  },
+  {
+   "prio": 10,
+   "rate": 100,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 10,
+   "rate": 170,
+   "runs": 3,
+   "fails": 2
+  },
+  {
+   "prio": 10,
+   "rate": 300,
+   "runs": 3,
+   "fails": 2
+  },
+  {
+   "prio": 10,
+   "rate": 0,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 15,
+   "rate": 5,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 15,
+   "rate": 10,
+   "runs": 3,
+   "fails": 1
+  },
+  {
+   "prio": 15,
+   "rate": 20,
+   "runs": 3,
+   "fails": 2
+  },
+  {
+   "prio": 15,
+   "rate": 35,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 15,
+   "rate": 60,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 15,
+   "rate": 100,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 15,
+   "rate": 170,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 15,
+   "rate": 300,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 15,
+   "rate": 0,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 20,
+   "rate": 5,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 20,
+   "rate": 10,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 20,
+   "rate": 20,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 20,
+   "rate": 35,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 20,
+   "rate": 60,
+   "runs": 3,
+   "fails": 2
+  },
+  {
+   "prio": 20,
+   "rate": 100,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 20,
+   "rate": 170,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 20,
+   "rate": 300,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 20,
+   "rate": 0,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 30,
+   "rate": 5,
+   "runs": 3,
+   "fails": 1
+  },
+  {
+   "prio": 30,
+   "rate": 10,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 30,
+   "rate": 20,
+   "runs": 3,
+   "fails": 2
+  },
+  {
+   "prio": 30,
+   "rate": 35,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 30,
+   "rate": 60,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 30,
+   "rate": 100,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 30,
+   "rate": 170,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 30,
+   "rate": 300,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 30,
+   "rate": 0,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 50,
+   "rate": 5,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 50,
+   "rate": 10,
+   "runs": 3,
+   "fails": 0
+  },
+  {
+   "prio": 50,
+   "rate": 20,
+   "runs": 3,
+   "fails": 2
+  },
+  {
+   "prio": 50,
+   "rate": 35,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 50,
+   "rate": 60,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 50,
+   "rate": 100,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 50,
+   "rate": 170,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 50,
+   "rate": 300,
+   "runs": 3,
+   "fails": 3
+  },
+  {
+   "prio": 50,
+   "rate": 0,
+   "runs": 3,
+   "fails": 3
+  }
+ ]
+}
