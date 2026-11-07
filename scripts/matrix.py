@@ -22,6 +22,8 @@ ap.add_argument("--dur", type=int)
 ap.add_argument("--deadline", type=int)
 ap.add_argument("--tolerance", type=int, help="tolerated late frames, per mille")
 ap.add_argument("--json", default="", help="write every run to this JSON file")
+ap.add_argument("--reboot-every", type=int, default=10, metavar="N",
+                help="in QEMU, boot a fresh guest every N scenarios (0 = never). One very long boot degraded in testing; see docs/more-attackers.md")
 ap.add_argument("--only", action="append", default=[], help="substring filter on scenario labels (repeatable)")
 ap.add_argument("--ssh", help="run on real hardware over ssh (user@host) instead of in QEMU; see docs/hardware.md")
 ap.add_argument("--remote-dir", default="/data/siege", help="where ./siege hw install put the programs")
@@ -61,11 +63,28 @@ def command(sc):
 
 
 results = []
-with (SSHShell(args.ssh, args.remote_dir) if args.ssh else Console(args.image)) as c:
-    c.run(("harness.sh 3 " + external.format(dur=3) if external else "pipeline.sh 3") + " >/dev/null", 60)   # warm up, discard
+
+
+def open_shell():
+    """A target shell, warmed up. In QEMU this boots a guest."""
+    shell = SSHShell(args.ssh, args.remote_dir) if args.ssh else Console(args.image)
+    shell.__enter__()
+    shell.run(("harness.sh 3 " + external.format(dur=3) if external else "pipeline.sh 3") + " >/dev/null", 60)   # warm up, discard
+    return shell
+
+
+c = open_shell()
+since_boot = 0
+try:
     for sc in cfg["scenarios"]:
         if args.only and not any(o in sc["label"] for o in args.only):
             continue
+        if args.reboot_every and not args.ssh and since_boot >= args.reboot_every:
+            c.__exit__(None, None, None)
+            c = open_shell()
+            since_boot = 0
+            print(f"(booted a fresh guest after {args.reboot_every} scenarios)", flush=True)
+        since_boot += 1
         res = []
         for _ in range(runs):
             out = c.run(command(sc), dur * 8 + 30)
@@ -95,6 +114,9 @@ with (SSHShell(args.ssh, args.remote_dir) if args.ssh else Console(args.image)) 
               f"worst_max_ms={max((r['max'] for r in ok), default=0)/1000:.1f}  "
               f"median_p50_ms={statistics.median([r['p50'] for r in ok])/1000 if ok else 0:.1f}  "
               f"late_frames={sum(r['late'] for r in ok)}", flush=True)
+
+finally:
+    c.__exit__(None, None, None)
 
 if args.json:
     json.dump(results, open(args.json, "w"), indent=1)

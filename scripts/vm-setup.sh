@@ -56,7 +56,7 @@ sudo apt-get update -qq"
 step "an x86-64 program runs (hello:amd64)" "hello" "sudo apt-get install -y hello:amd64 && hello"
 step "GUI libraries for the QNX Software Center" "dpkg -s libgtk-3-0t64:amd64" \
      "sudo apt-get install -y libgtk-3-0t64:amd64 libcanberra-gtk3-module:amd64 libasound2t64:amd64 libgl1:amd64 libxtst6:amd64"
-step "make and rsync installed" "command -v make && command -v rsync" "sudo apt-get install -y make rsync"
+step "rsync installed (the build copies files with it; make comes with the QNX SDK)" "command -v rsync" "sudo apt-get install -y rsync"
 step "SSH server (so your Mac can reach the VM)" "systemctl is-active ssh" "sudo apt-get install -y openssh-server"
 
 echo

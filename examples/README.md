@@ -9,7 +9,7 @@ Each folder is a self-contained use of Siege. Run any of them with
 | [`pipeprobe/`](pipeprobe/) | A program whose latency goes *through a QNX system service*: the `pipe` manager. Tests whether the queue-priority pattern appears in a real service and not only in Siege's own detector. |
 | [`adas/`](adas/) | The reference pipeline configured as a 30 Hz front-camera driver-assistance stack (33 ms deadline) with lower-criticality tasks on the same machine. 36 of 36 cases matched; see [`../docs/adas-isolation.md`](../docs/adas-isolation.md). |
 | [`monitor/`](monitor/) | The reference scenarios run with `MONITOR=1` (the learned monitor inside the controller). 500 fresh runs scored in [`../docs/predictor-online.md`](../docs/predictor-online.md). |
-| [`wrap/`](wrap/) | `siegewrap` testing a program that was not written for Siege and prints nothing: a canary task and a liveness check supply the result. |
+| [`wrap/`](wrap/) | `siegewrap` testing programs that were not written for Siege and print nothing: a shell loop, and a batch job of 200 `pidin` calls with a whole-job deadline. A canary task and a liveness check supply the result. |
 | [`cnn/`](cnn/) | The reference pipeline with a trained convolutional network as the detector (`DET_MODEL=cnn`), checked against ground truth. The headline findings re-run with it. |
 | [`ci/`](ci/) | A GitHub Actions workflow that runs Siege on every change and fails the build when isolation regresses. |
 

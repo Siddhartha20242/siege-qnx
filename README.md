@@ -379,7 +379,11 @@ It sees scheduling pressure and crashes, not the program's own deadlines, messag
 queues or locks, so a pass means the program got the scheduling it needed, not that
 its output was on time. [`examples/wrap/`](examples/wrap/) runs it against a plain
 shell loop (no failures at baseline, 5/5 failed against a CPU hog at the same
-priority, 0/5 at priority 40).
+priority, 0/5 at priority 40). `-x ms` adds a whole-job deadline for programs that are meant to
+finish: [`examples/wrap/siege-job.json`](examples/wrap/siege-job.json) runs 200 calls of QNX's own `pidin`
+(about 2.5 s) with a 6 s limit. With no hardening, 5/5 runs failed against a CPU hog at the same priority,
+5/5 against one at priority 20 and 5/5 against a crash loop; at priority 40, 0/5 failed in every case. One of
+five baseline runs also failed, probably the job's own load disturbing the canary at the same priority.
 
 [`examples/ticker/ticker.c`](examples/ticker/ticker.c) is a second program, a
 single 100 Hz periodic task with a 5 ms deadline, about seventy lines long.
