@@ -44,7 +44,8 @@ QNX service, the `pipe` manager (below).
 | CPU hog at the same priority | fixes | fixes | fixes | any of the three |
 | Flood of a shared service from a higher priority | **fixes** | does not | does not | only a higher pipeline priority |
 | Lock held by a low-priority process (plain mutex) | does not | does not | does not | a priority-inheriting mutex; QNX's default already is one |
-| A killed stage with no supervisor | does not | does not | does not | a supervisor (about 5 ms to recover) |
+| A killed stage with no supervisor | does not | does not | does not | a supervisor (about 3 ms to recover) |
+| Another process registers the service's name first after a restart | does not | does not | does not | the supervisor checking who owns the name and removing the impostor ([`docs/name-squatting.md`](docs/name-squatting.md)) |
 
 Why: the CPU settings only limit who gets the CPU. The flood and the lock are not
 CPU contention. They are queue-order and lock-ownership problems, and the setting
@@ -55,27 +56,30 @@ runs we did.
 ## What Siege found
 
 <!-- results:start -->
-Every scenario ran against every hardening profile (5 runs each, 15 for the
-headline scenarios; 5-second runs, 20 ms deadline). Failed runs out of total,
+Every scenario ran against every hardening profile (15 runs each;
+5-second runs, 20 ms deadline). Failed runs out of total,
 95% intervals in the report:
 
 | Attack | No hardening | `prio` | `isolate` | `budget` |
 |---|---|---|---|---|
 | CPU hog at priority 20 | **15/15** | 0/15 | 0/15 | 1/15 |
-| CPU hog at the same priority (10) | **8/15** | 0/15 | 0/15 | 0/15 |
+| CPU hog at the same priority (10) | **9/15** | 0/15 | 0/15 | 1/15 |
+| Name squatting after a restart | **10/10** | **8/10** | **10/10** | **8/10** |
+| Same, supervisor checks the name's owner | 0/10 | 0/10 | 0/10 | 0/10 |
 | `workflood` at priority 30 | **15/15** | 1/15 | **15/15** | **15/15** |
 | AI neighbour at priority 20 | **15/15** | 0/15 | 0/15 | 0/15 |
 | AI neighbour at the default priority | 0/15 | 0/15 | 0/15 | 0/15 |
-| Priority inversion, plain mutex | **5/5** | **5/5** | **5/5** | **5/5** |
-| Priority inversion, inheriting mutex | 0/5 | 0/5 | 0/5 | 0/5 |
-| Detector killed, no supervisor | **5/5** | **5/5** | **5/5** | **5/5** |
+| Priority inversion, plain mutex | **15/15** | **15/15** | **15/15** | **15/15** |
+| Priority inversion, inheriting mutex | 1/15 | 0/15 | 0/15 | 0/15 |
+| Detector killed, no supervisor | **15/15** | **15/15** | **15/15** | **15/15** |
 | Detector killed, supervised | 0/15 | 0/15 | 0/15 | 0/15 |
 
 * **A CPU hog above the pipeline's priority starves it for the whole attack**
-  (median latency 2.5 s). Every profile restores it. **At the same priority it
-  breaks the pipeline in about half the runs** (8 of 15, and 11 of 15 in a
-  repeat). An earlier 5-run check passed all five, so treat the equal-priority
-  case as unstable under emulation; see [`docs/more-attackers.md`](docs/more-attackers.md).
+  (the controller gave up after 3 s without a frame in 14 of 15 runs).
+  Every profile restores it. **At the same priority it breaks the pipeline in
+  about half the runs** (9 of 15). An early 5-run check passed all five,
+  so treat the equal-priority case as unstable under emulation; see
+  [`docs/more-attackers.md`](docs/more-attackers.md).
 * **An attacker that uses almost no CPU still breaks it.** `workflood` sends a
   shared service expensive requests from a higher priority; QNX serves
   higher-priority senders first and runs the server at their priority. Only
@@ -88,7 +92,7 @@ headline scenarios; 5-second runs, 20 ms deadline). Failed runs out of total,
   profile; only a priority-inheriting mutex fixes it, and QNX's default mutex
   already is one. Raising the pipeline's priority does not help.
 * **A killed detector is never replaced without a supervisor.** With one it
-  was serving again in about 5 ms (median).
+  was serving again in about 3 ms (median).
 * **Memory, descriptor and crash-loop attacks and a plain message flood did
   not break it** at the default priority (no failure in 5 runs each; that is
   "not observed", not "cannot happen").
@@ -214,7 +218,7 @@ frame_src --MsgSend--> detector --MsgSend--> controller
   from `calibrate.py`), frames that never arrive, and a silence longer than
   the recovery budget all count as failures.
 
-`attacker` runs one of twelve attacks against the live pipeline:
+`attacker` runs one of thirteen attacks against the live pipeline:
 
 | Mode | Behaviour |
 |---|---|
@@ -229,6 +233,7 @@ frame_src --MsgSend--> detector --MsgSend--> controller
 | `crash` | Spawns a child that segfaults, and restarts it immediately |
 | `membw` | Streams through a 32 MB buffer per thread, far larger than the caches |
 | `timerstorm` | Threads that wake every 100 microseconds and sleep again (a user-space stand-in for a noisy interrupt source) |
+| `squat` | Registers the detector's own service name and never answers, to see what QNX does with a second claimant and who wins the race after a restart |
 | `kcall` | Threads that only yield and read the clock, entering the kernel as fast as they can |
 
 The last three are covered in [`docs/more-attackers.md`](docs/more-attackers.md).
@@ -391,6 +396,25 @@ reference pipeline, which shows that the result is specific to each program
 The reference pipeline survived the crash loop, and the same-priority hog only
 some of the time (see above). The ticker failed every time, because its deadline
 is tighter and it has no slack.
+
+## An optional learned monitor
+
+`./siege test` with `MONITOR=1` runs a small neural network inside the controller, in a
+thread above every other priority, that reads the first seconds of the run's latency
+samples and predicts, before the run ends, whether it will fail and which pattern it is.
+It is written from scratch: training in numpy with hand-written backpropagation
+([`tools/train_monitor.py`](tools/train_monitor.py)), inference in plain C
+([`pipeline/monitor.h`](pipeline/monitor.h), generated). It sees only latency, never the
+attacker or the profile.
+
+**It does not beat a hand-written rule online.** Scored on 500 fresh runs on QNX
+([`docs/predictor-online.md`](docs/predictor-online.md)), with 3 seconds of evidence the
+network reaches F1 0.86 and a plain rule (alarm on a silent second, over 2% late or lost
+frames, or p99 over the deadline) reaches 0.94. Offline, tested on attack types held out of
+training ([`docs/predictor.md`](docs/predictor.md)), the network was ahead at 3 seconds
+(0.95 against 0.88), so that result did not carry over to live runs. What it does add is
+naming the pattern: it named lock inversion and dead service correctly in 39 of 40 flagged
+runs, and CPU starvation in 28 of 46. Treat it as an experiment, not a feature to rely on.
 
 ## Where QNX is used
 

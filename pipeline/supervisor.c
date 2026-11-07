@@ -6,24 +6,41 @@
  *   -k secs   SIGKILL the service secs seconds after start (fault injection)
  *   -n kills  how many times to inject, one every secs seconds (default 1)
  *   -r max    restart at most max times; 0 leaves a killed service dead
+ *   -o        check who owns the name: count the service ready only if the process
+ *             that holds DET_NAME is the one just started (ConnectServerInfo)
+ *   -K        with -o, kill a different process found holding the name
  *
- * The service counts as ready once its name (DET_NAME) can be opened. Each
- * death-to-ready time is printed as a SUP line.
+ * By default the service counts as ready once its name (DET_NAME) can be opened.
+ * That is fooled by an impostor that registered the name first, so -o checks the
+ * owner. Each death-to-ready time is printed as a SUP line.
  */
 #include "common.h"
 #include <process.h>
 #include <signal.h>
 #include <sys/wait.h>
 
-/* Wait until the service's name resolves; 0 on success. */
-static int wait_ready(void)
+static int verify_owner, kill_impostor;
+
+/* Wait until the service's name resolves; 0 on success. With -o the name must belong to
+ * pid, otherwise return -2 at once (after killing the impostor with -K) so the caller
+ * can look at the service it just started, which fails to register and exits. */
+static int wait_ready(int pid)
 {
     uint64_t give_up = now_ns() + 5000000000ULL;
     while (now_ns() < give_up) {
         int c = name_open(DET_NAME, 0);
         if (c != -1) {
+            struct _server_info si;
+            int owner = pid;
+            if (verify_owner && ConnectServerInfo(0, c, &si) != -1) owner = si.pid;
             name_close(c);
-            return 0;
+            if (owner == pid) return 0;
+            printf("SUP name %s is held by pid %d, not the service (pid %d)\n", DET_NAME, owner, pid);
+            if (kill_impostor && owner != getpid()) {
+                kill(owner, SIGKILL);
+                printf("SUP killed impostor pid %d\n", owner);
+            }
+            return -2;
         }
         usleep(1000);
     }
@@ -35,12 +52,14 @@ int main(int argc, char **argv)
     int prio = 50, kill_every_s = 0, kills_max = 1, restarts_max = 50, c;
 
     setvbuf(stdout, NULL, _IOLBF, 0);
-    while ((c = getopt(argc, argv, "P:k:n:r:")) != -1) {
+    while ((c = getopt(argc, argv, "P:k:n:r:oK")) != -1) {
         switch (c) {
         case 'P': prio = atoi(optarg); break;
         case 'k': kill_every_s = atoi(optarg); break;
         case 'n': kills_max = atoi(optarg); break;
         case 'r': restarts_max = atoi(optarg); break;
+        case 'o': verify_owner = 1; break;
+        case 'K': kill_impostor = 1; verify_owner = 1; break;
         }
     }
     if (optind >= argc) {
@@ -56,7 +75,7 @@ int main(int argc, char **argv)
     uint64_t t_spawn = now_ns();
     int pid = spawnvp(P_NOWAIT, cmd[0], cmd);
     if (pid == -1) { perror("supervisor: spawn"); return 1; }
-    if (wait_ready() == 0)
+    if (wait_ready(pid) == 0)
         printf("SUP service=%s pid=%d start_ms=%u\n", cmd[0], pid,
                (unsigned)((now_ns() - t_spawn) / 1000000ULL));
 
@@ -88,9 +107,12 @@ int main(int argc, char **argv)
         restarts++;
         pid = spawnvp(P_NOWAIT, cmd[0], cmd);
         if (pid == -1) { perror("supervisor: respawn"); return 1; }
-        if (wait_ready() == 0)
+        int rdy = wait_ready(pid);
+        if (rdy == 0)
             printf("SUP restart=%d death_to_ready_ms=%u injected=%d\n", restarts,
                    (unsigned)((now_ns() - t_death) / 1000000ULL), injected);
+        else if (rdy == -2)
+            printf("SUP restart=%d not ready: the name is held by another process\n", restarts);
         else
             printf("SUP restart=%d never became ready\n", restarts);
     }

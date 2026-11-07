@@ -9,6 +9,7 @@ Where to start depends on what you want.
 | [`report.html`](report.html) / [`report.md`](report.md) | The results: every attack against every hardening profile, with a per-run drill-down, charts, and an evidence table by interference channel |
 | [`patterns.md`](patterns.md) | Each finding as a named pattern: symptom, cause, how Siege shows it, what fixes it and what does not |
 | [`more-attackers.md`](more-attackers.md) | Memory-bandwidth, timer-storm and kernel-call attackers and what they did and did not show |
+| [`predictor.md`](predictor.md), [`predictor-online.md`](predictor-online.md) | The from-scratch learned monitor: offline results held out by attacker, then scored on 500 fresh runs on QNX, where it did not beat a plain rule |
 | [`search.md`](search.md) | `./siege search`: random attack combinations shrunk to minimal failing cases, and what it found |
 | [`why-qnx.md`](why-qnx.md) | Which findings depend on how QNX works and which would hold on any fixed-priority scheduler, with the history behind priority inversion |
 | [`adas-isolation.md`](adas-isolation.md) | The same pipeline configured as a 30 Hz front-camera driver-assistance stack sharing a machine with lower-criticality software, and how the findings map to freedom-from-interference vocabulary |

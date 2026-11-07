@@ -357,6 +357,38 @@ static int mode_kcall(int n)
     return 0;
 }
 
+/* ---- squat: take the detector's name ----------------------------------- *
+ * Registers the pipeline's own service name as soon as it can and then never
+ * answers. If the real detector is alive, this shows what QNX does with a second
+ * claimant of the same name. If the detector is killed, the supervisor's restart
+ * races this process for the name: whoever registers first receives the frames. */
+
+static volatile uint32_t squat_attempts, squat_won, squat_msgs;
+
+static int mode_squat(void)
+{
+    atk_set_prio();
+    name_attach_t *att = NULL;
+    union { uint16_t type; char pad[512]; } m;
+    uint64_t won_at = 0, first_try = now_ns();
+    while (running()) {
+        if (!att) {
+            squat_attempts++;
+            att = name_attach(NULL, DET_NAME, 0);
+            if (att) { squat_won = 1; won_at = now_ns(); }
+            else usleep(1000);
+            continue;
+        }
+        uint64_t to = 50000000ULL;
+        TimerTimeout(CLOCK_MONOTONIC, _NTO_TIMEOUT_RECEIVE, NULL, &to, NULL);
+        int rcvid = MsgReceive(att->chid, &m, sizeof m, NULL);
+        if (rcvid > 0) squat_msgs++;          /* received, never replied: the sender stays blocked until it times out */
+    }
+    printf("ATK mode=squat attempts=%u won=%u won_after_ms=%u messages_swallowed=%u\n", squat_attempts, squat_won,
+           won_at ? (unsigned)((won_at - first_try) / 1000000ULL) : 0, squat_msgs);
+    return 0;
+}
+
 /* ---- flood: queue junk messages at the detector ----------------------- */
 
 static volatile uint32_t flood_sent, flood_rejected, flood_timeout;
@@ -495,6 +527,7 @@ int main(int argc, char **argv)
     else if (!strcmp(mode, "membw")) rc = mode_membw(n < 0 ? 2 : n);
     else if (!strcmp(mode, "timerstorm")) rc = mode_timerstorm(n < 0 ? 4 : n);
     else if (!strcmp(mode, "kcall")) rc = mode_kcall(n < 0 ? 2 : n);
+    else if (!strcmp(mode, "squat")) rc = mode_squat();
     else if (!strcmp(mode, "fd"))    rc = mode_fd(n);
     else if (!strcmp(mode, "crash")) rc = mode_crash();
     else if (!strcmp(mode, "child")) return crash_child();

@@ -70,7 +70,7 @@ waitfor /dev/name/local/siege_ctl 5
 if [ "$SUPERVISE" = "1" ] || [ -n "$KILL_AT" ]; then
     NORESTART=""
     [ "$SUPERVISE" = "1" ] || NORESTART="-r 0"
-    ${PIPE_CPU:+on -C $PIPE_CPU} supervisor -P 50 ${KILL_AT:+-k $KILL_AT} $NORESTART -- detector -P $DET_PRIO &
+    ${PIPE_CPU:+on -C $PIPE_CPU} supervisor -P 50 ${KILL_AT:+-k $KILL_AT} $NORESTART ${NAME_DEFENCE:+-K} -- detector -P $DET_PRIO &
 else
     ${PIPE_CPU:+on -C $PIPE_CPU} detector -P $DET_PRIO &
 fi
