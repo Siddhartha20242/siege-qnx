@@ -129,6 +129,22 @@ class Tools(unittest.TestCase):
         self.assertIn("MISMATCH", read(out + ".md"))
 
 
+class SceneInputTests(unittest.TestCase):
+    def test_scene_is_wired_through(self):
+        scene = read(os.path.join(ROOT, "pipeline", "scene.h"))
+        self.assertIn("#define SCENE_N 16", scene)
+        self.assertIn("Creative Commons", scene)
+        self.assertIn("-s", read(os.path.join(ROOT, "pipeline", "frame_src.c")))
+        self.assertIn("${SCENE:+-s}", read(os.path.join(ROOT, "image", "pipeline.sh")))
+        self.assertIn("pipeline/scene.h", read(os.path.join(ROOT, "Makefile")))
+
+    def test_scene_results_are_recorded(self):
+        d = json.load(open(os.path.join(ROOT, "docs", "results", "real-images.json")))
+        by = {r["max_background"]: r for r in d["rows"]}
+        self.assertEqual(by[140]["exact"], 1.0)
+        self.assertLess(by[255]["exact"], 0.9)
+
+
 if __name__ == "__main__":
     unittest.main()
 

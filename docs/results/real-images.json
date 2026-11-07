@@ -1,0 +1,52 @@
+{
+ "photos": [
+  "china.jpg",
+  "flower.jpg"
+ ],
+ "licence": "CC BY 2.0 (via scikit-learn sample images)",
+ "object_level": 200,
+ "rows": [
+  {
+   "max_background": 60,
+   "exact": 1.0,
+   "within1": 1.0,
+   "crops": 1000
+  },
+  {
+   "max_background": 100,
+   "exact": 1.0,
+   "within1": 1.0,
+   "crops": 1000
+  },
+  {
+   "max_background": 140,
+   "exact": 1.0,
+   "within1": 1.0,
+   "crops": 1000
+  },
+  {
+   "max_background": 180,
+   "exact": 1.0,
+   "within1": 1.0,
+   "crops": 1000
+  },
+  {
+   "max_background": 200,
+   "exact": 1.0,
+   "within1": 1.0,
+   "crops": 1000
+  },
+  {
+   "max_background": 220,
+   "exact": 0.761,
+   "within1": 0.761,
+   "crops": 1000
+  },
+  {
+   "max_background": 255,
+   "exact": 0.68,
+   "within1": 0.68,
+   "crops": 1000
+  }
+ ]
+}

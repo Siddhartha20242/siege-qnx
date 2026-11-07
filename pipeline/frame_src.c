@@ -4,7 +4,9 @@
  * seeded generator, so every run sees identical input.
  */
 #include "common.h"
+#include "scene.h"
 
+static int use_scene;                    /* -s: real-photo backgrounds instead of noise */
 static uint32_t lcg_state = 0x5EED1234u;
 
 static uint32_t lcg(void)
@@ -18,9 +20,12 @@ static void make_frame(frame_msg_t *f, uint32_t n)
     int bx = 4 + (int)((n * 1) % 24);
     int by = 4 + (int)((n * 2) % 24);
 
-    for (int y = 0; y < FRAME_H; y++)
-        for (int x = 0; x < FRAME_W; x++)
-            f->px[y * FRAME_W + x] = (uint8_t)(lcg() & 0x0F);
+    if (use_scene)
+        memcpy(f->px, scene_px[n % SCENE_N], FRAME_W * FRAME_H);
+    else
+        for (int y = 0; y < FRAME_H; y++)
+            for (int x = 0; x < FRAME_W; x++)
+                f->px[y * FRAME_W + x] = (uint8_t)(lcg() & 0x0F);
 
     for (int y = by - 2; y <= by + 2; y++)
         for (int x = bx - 2; x <= bx + 2; x++)
@@ -35,8 +40,9 @@ int main(int argc, char **argv)
     int duration_s = 10, prio = 10, c;
     uint64_t period_ns = FRAME_PERIOD_NS;
 
-    while ((c = getopt(argc, argv, "d:P:p:")) != -1) {
-        if (c == 'd') duration_s = atoi(optarg);
+    while ((c = getopt(argc, argv, "d:P:p:s")) != -1) {
+        if (c == 's') use_scene = 1;
+        else if (c == 'd') duration_s = atoi(optarg);
         else if (c == 'P') prio = atoi(optarg);
         else if (c == 'p' && atoi(optarg) > 0) period_ns = (uint64_t)atoi(optarg) * 1000000ULL;   /* frame period, ms */
     }

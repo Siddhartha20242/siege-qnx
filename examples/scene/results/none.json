@@ -1,0 +1,367 @@
+[
+ {
+  "target": "emulator",
+  "profile": "none",
+  "scenario": "baseline (no attacker)",
+  "atk": "",
+  "atk_prio": 10,
+  "extra": {},
+  "runs": [
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 3272,
+    "p99": 4444,
+    "max": 4534,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 3357,
+      "p99": 4353,
+      "max": 4353
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 3234,
+      "p99": 4364,
+      "max": 4364
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 3249,
+      "p99": 4367,
+      "max": 4367
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 3360,
+      "p99": 4517,
+      "max": 4517
+     }
+    ],
+    "monitor": [],
+    "checked": 250,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2455,
+    "p99": 3732,
+    "max": 3870,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2627,
+      "p99": 3528,
+      "max": 3528
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2449,
+      "p99": 3795,
+      "max": 3795
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2434,
+      "p99": 3532,
+      "max": 3532
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2458,
+      "p99": 3586,
+      "max": 3586
+     }
+    ],
+    "monitor": [],
+    "checked": 250,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 3,
+    "lost": 1,
+    "stalls": 0,
+    "p50": 2658,
+    "p99": 24830,
+    "max": 62420,
+    "outages": 0,
+    "max_gap_ms": 74,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2634,
+      "p99": 3668,
+      "max": 3668
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2460,
+      "p99": 5920,
+      "max": 5920
+     },
+     {
+      "t": 3,
+      "late": 1,
+      "lost": 0,
+      "p50": 2728,
+      "p99": 25768,
+      "max": 25768
+     },
+     {
+      "t": 4,
+      "late": 2,
+      "lost": 1,
+      "p50": 2884,
+      "p99": 62420,
+      "max": 62420
+     }
+    ],
+    "monitor": [],
+    "checked": 249,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2713,
+    "p99": 4678,
+    "max": 6004,
+    "outages": 0,
+    "max_gap_ms": 23,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2724,
+      "p99": 3849,
+      "max": 3849
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2746,
+      "p99": 4210,
+      "max": 4210
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2713,
+      "p99": 6004,
+      "max": 6004
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2663,
+      "p99": 3972,
+      "max": 3972
+     }
+    ],
+    "monitor": [],
+    "checked": 250,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": false,
+    "late": 0,
+    "lost": 0,
+    "stalls": 0,
+    "p50": 2378,
+    "p99": 3662,
+    "max": 4036,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 0,
+    "samples": [
+     {
+      "t": 1,
+      "late": 0,
+      "lost": 0,
+      "p50": 2422,
+      "p99": 3510,
+      "max": 3510
+     },
+     {
+      "t": 2,
+      "late": 0,
+      "lost": 0,
+      "p50": 2132,
+      "p99": 3374,
+      "max": 3374
+     },
+     {
+      "t": 3,
+      "late": 0,
+      "lost": 0,
+      "p50": 2336,
+      "p99": 4036,
+      "max": 4036
+     },
+     {
+      "t": 4,
+      "late": 0,
+      "lost": 0,
+      "p50": 2402,
+      "p99": 3682,
+      "max": 3682
+     }
+    ],
+    "monitor": [],
+    "checked": 250,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ },
+ {
+  "target": "emulator",
+  "profile": "none",
+  "scenario": "cpu hog   @prio 20",
+  "atk": "cpu",
+  "atk_prio": 20,
+  "extra": {},
+  "runs": [
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 1,
+    "p50": 3402,
+    "p99": 9190,
+    "max": 9190,
+    "outages": 0,
+    "max_gap_ms": 24,
+    "abandoned": 1,
+    "samples": [],
+    "monitor": [],
+    "checked": 50,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 1,
+    "p50": 2835,
+    "p99": 9857,
+    "max": 9857,
+    "outages": 0,
+    "max_gap_ms": 27,
+    "abandoned": 1,
+    "samples": [],
+    "monitor": [],
+    "checked": 50,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 1,
+    "p50": 2676,
+    "p99": 3772,
+    "max": 3772,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "samples": [],
+    "monitor": [],
+    "checked": 50,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 1,
+    "p50": 3104,
+    "p99": 4190,
+    "max": 4190,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "samples": [],
+    "monitor": [],
+    "checked": 50,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   },
+   {
+    "fail": true,
+    "late": 0,
+    "lost": 0,
+    "stalls": 1,
+    "p50": 3118,
+    "p99": 4442,
+    "max": 4442,
+    "outages": 0,
+    "max_gap_ms": 21,
+    "abandoned": 1,
+    "samples": [],
+    "monitor": [],
+    "checked": 50,
+    "wrong": 0,
+    "restart_ms": null,
+    "outage_ms": null
+   }
+  ]
+ }
+]
