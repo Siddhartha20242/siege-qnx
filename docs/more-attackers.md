@@ -9,8 +9,8 @@ Failed runs out of 15 (95% Wilson interval for the failure rate in brackets):
 
 | Attacker | No hardening | `prio` | `isolate` | `budget` |
 |---|---|---|---|---|
-| memory bandwidth @ prio 20 | 15/15 (78-100%) | 0/15 (0-20%) | 0/15 (0-20%) | 1/15 (1-30%) |
-| kernel-call storm @ prio 20 | 15/15 (78-100%) | 0/15 (0-20%) | 0/15 (0-20%) | 0/15 (0-20%) |
+| memory bandwidth @ prio 20 | 15/15 (80-100%) | 0/15 (0-20%) | 0/15 (0-20%) | 1/15 (1-30%) |
+| kernel-call storm @ prio 20 | 15/15 (80-100%) | 0/15 (0-20%) | 0/15 (0-20%) | 0/15 (0-20%) |
 | memory bandwidth @ prio 5 | 0/15 (0-20%) | 0/15 (0-20%) | 0/15 (0-20%) | 0/15 (0-20%) |
 | kernel-call storm @ prio 5 | 0/15 (0-20%) | 1/15 (1-30%) | 0/15 (0-20%) | 0/15 (0-20%) |
 | timer storm @ prio 20 (5 runs) | 0/5 | 0/5 | 0/5 | 0/5 |
