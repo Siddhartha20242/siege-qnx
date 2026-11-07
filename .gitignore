@@ -2,3 +2,5 @@ build/
 .DS_Store
 image/local.build
 .siege-vm
+__pycache__/
+*.pyc
