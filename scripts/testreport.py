@@ -50,7 +50,7 @@ for f in args.files:
 best = {}
 for r in rows:
     k = (r["scenario"], r["profile"])
-    if k not in best or len(r["runs"]) > len(best[k]["runs"]):
+    if k not in best or sum(1 for x in r["runs"] if x) >= sum(1 for x in best[k]["runs"] if x):   # more valid runs wins; a tie goes to the later file
         best[k] = r
 rows = list(best.values())
 profiles = [p for p in ("none", "prio", "isolate", "budget") if any(r["profile"] == p for r in rows)]

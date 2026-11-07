@@ -1,0 +1,23 @@
+baseline (no attacker)         fail 0/15  worst_max_ms=71.2  median_p50_ms=1.4  late_frames=4
+cpu hog   @prio 10             fail 0/15  worst_max_ms=71.9  median_p50_ms=1.7  late_frames=3
+cpu hog   @prio 20             fail 0/15  worst_max_ms=49.5  median_p50_ms=1.4  late_frames=2
+flood     @prio 10             fail 0/15  worst_max_ms=7.4  median_p50_ms=1.4  late_frames=0
+flood     @prio 20             fail 0/15  worst_max_ms=13.8  median_p50_ms=1.5  late_frames=0
+workflood @prio 30             fail 1/15  worst_max_ms=68.5  median_p50_ms=2.8  late_frames=7
+AI neighbour@prio 10           fail 0/15  worst_max_ms=34.1  median_p50_ms=1.7  late_frames=2
+AI neighbour@prio 20           fail 0/15  worst_max_ms=30.3  median_p50_ms=1.6  late_frames=1
+priority inversion (plain mutex) fail 15/15  worst_max_ms=15.1  median_p50_ms=1.7  late_frames=0
+priority inversion (inheriting mutex) fail 0/15  worst_max_ms=11.9  median_p50_ms=1.7  late_frames=0
+priority inversion (default mutex) fail 0/15  worst_max_ms=7.5  median_p50_ms=1.5  late_frames=0
+mem hog   @prio 10             fail 0/15  worst_max_ms=103.7  median_p50_ms=1.6  late_frames=5
+fd exhaust@prio 10             fail 0/15  worst_max_ms=32.1  median_p50_ms=1.6  late_frames=3
+crash loop@prio 10             fail 0/15  worst_max_ms=31.6  median_p50_ms=1.5  late_frames=1
+crash loop@prio 20             fail 0/15  worst_max_ms=18.7  median_p50_ms=1.5  late_frames=0
+kill detector, no supervisor   fail 15/15  worst_max_ms=16.2  median_p50_ms=1.5  late_frames=0
+kill detector, supervised      fail 0/15  worst_max_ms=22.8  median_p50_ms=1.6  late_frames=1
+memory bandwidth @prio 20      fail 0/15  worst_max_ms=50.0  median_p50_ms=1.8  late_frames=7
+timer storm @prio 20           fail 0/15  worst_max_ms=20.7  median_p50_ms=1.6  late_frames=1
+kernel-call storm @prio 20     fail 1/15  worst_max_ms=157.3  median_p50_ms=1.6  late_frames=12
+memory bandwidth @prio 5       fail 3/15  worst_max_ms=297.7  median_p50_ms=2.7  late_frames=148
+kernel-call storm @prio 5      fail 1/15  worst_max_ms=176.0  median_p50_ms=2.2  late_frames=10
+memory bandwidth @prio 10      fail 2/15  worst_max_ms=3298.3  median_p50_ms=2.5  late_frames=63

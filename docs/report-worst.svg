@@ -1,114 +1,129 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 1080" width="860" height="1080" font-family="system-ui,sans-serif" font-size="12">
-<line x1="250.0" y1="26" x2="250.0" y2="1050" stroke="#6e7781" stroke-opacity=".25"/>
-<text x="250.0" y="1068" text-anchor="middle" fill="#6e7781">1 ms</text>
-<line x1="380.0" y1="26" x2="380.0" y2="1050" stroke="#6e7781" stroke-opacity=".25"/>
-<text x="380.0" y="1068" text-anchor="middle" fill="#6e7781">10 ms</text>
-<line x1="510.0" y1="26" x2="510.0" y2="1050" stroke="#6e7781" stroke-opacity=".25"/>
-<text x="510.0" y="1068" text-anchor="middle" fill="#6e7781">100 ms</text>
-<line x1="640.0" y1="26" x2="640.0" y2="1050" stroke="#6e7781" stroke-opacity=".25"/>
-<text x="640.0" y="1068" text-anchor="middle" fill="#6e7781">1 s</text>
-<line x1="770.0" y1="26" x2="770.0" y2="1050" stroke="#6e7781" stroke-opacity=".25"/>
-<text x="770.0" y="1068" text-anchor="middle" fill="#6e7781">10 s</text>
-<line x1="419.13389943631756" y1="22" x2="419.13389943631756" y2="1050" stroke="#bf8700" stroke-width="2" stroke-dasharray="5 4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 1230" width="860" height="1230" font-family="system-ui,sans-serif" font-size="12">
+<line x1="250.0" y1="26" x2="250.0" y2="1200" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="250.0" y="1218" text-anchor="middle" fill="#6e7781">1 ms</text>
+<line x1="380.0" y1="26" x2="380.0" y2="1200" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="380.0" y="1218" text-anchor="middle" fill="#6e7781">10 ms</text>
+<line x1="510.0" y1="26" x2="510.0" y2="1200" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="510.0" y="1218" text-anchor="middle" fill="#6e7781">100 ms</text>
+<line x1="640.0" y1="26" x2="640.0" y2="1200" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="640.0" y="1218" text-anchor="middle" fill="#6e7781">1 s</text>
+<line x1="770.0" y1="26" x2="770.0" y2="1200" stroke="#6e7781" stroke-opacity=".25"/>
+<text x="770.0" y="1218" text-anchor="middle" fill="#6e7781">10 s</text>
+<line x1="419.13389943631756" y1="22" x2="419.13389943631756" y2="1200" stroke="#bf8700" stroke-width="2" stroke-dasharray="5 4"/>
 <text x="423.13389943631756" y="18" fill="#bf8700">deadline 20 ms</text>
 <text x="8" y="52" fill="#6e7781">cpu hog   @prio 10</text>
-<rect x="250" y="36" width="237.66208847150074" height="13" rx="2" fill="#cf222e" opacity="1"/>
-<text x="492.66208847150074" y="47" fill="#6e7781">none: 67 ms</text>
-<rect x="250" y="54" width="108.87008229317928" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="363.8700822931793" y="65" fill="#6e7781">prio: 7 ms</text>
+<rect x="250" y="36" width="197.82951836402083" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="452.8295183640208" y="47" fill="#6e7781">none: 33 ms</text>
+<rect x="250" y="54" width="241.3449089920701" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="496.3449089920701" y="65" fill="#6e7781">prio: 72 ms</text>
 <text x="8" y="102" fill="#6e7781">cpu hog   @prio 20</text>
-<rect x="250" y="86" width="480.77827353226905" height="13" rx="2" fill="#cf222e" opacity="1"/>
-<text x="735.778273532269" y="97" fill="#6e7781">none: 4992 ms</text>
-<rect x="250" y="104" width="106.15445048339336" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="361.15445048339336" y="115" fill="#6e7781">prio: 7 ms</text>
+<rect x="250" y="86" width="480.67173054078467" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="735.6717305407847" y="97" fill="#6e7781">none: 4983 ms</text>
+<rect x="250" y="104" width="220.27471878050062" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="475.2747187805006" y="115" fill="#6e7781">prio: 49 ms</text>
 <text x="8" y="152" fill="#6e7781">flood     @prio 10</text>
-<rect x="250" y="136" width="107.76765402103001" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="362.76765402103" y="147" fill="#6e7781">none: 7 ms</text>
-<rect x="250" y="154" width="221.49491848566277" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="476.49491848566277" y="165" fill="#6e7781">prio: 51 ms</text>
+<rect x="250" y="136" width="135.96315101841685" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="390.96315101841685" y="147" fill="#6e7781">none: 11 ms</text>
+<rect x="250" y="154" width="113.12206374773729" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="368.1220637477373" y="165" fill="#6e7781">prio: 7 ms</text>
 <text x="8" y="202" fill="#6e7781">flood     @prio 20</text>
-<rect x="250" y="186" width="97.64625929962585" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="352.64625929962585" y="197" fill="#6e7781">none: 6 ms</text>
-<rect x="250" y="204" width="155.0772373942434" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="410.0772373942434" y="215" fill="#6e7781">prio: 16 ms</text>
+<rect x="250" y="186" width="231.7642810064604" height="13" rx="2" fill="#bf8700" opacity="1"/>
+<text x="486.7642810064604" y="197" fill="#6e7781">none: 61 ms</text>
+<rect x="250" y="204" width="148.26196018791734" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="403.26196018791734" y="215" fill="#6e7781">prio: 14 ms</text>
 <text x="8" y="252" fill="#6e7781">workflood @prio 30</text>
-<rect x="250" y="236" width="157.22300985252883" height="13" rx="2" fill="#cf222e" opacity="1"/>
-<text x="412.22300985252883" y="247" fill="#6e7781">none: 16 ms</text>
-<rect x="250" y="254" width="146.9433899043508" height="13" rx="2" fill="#bf8700" opacity="0.65"/>
-<text x="401.9433899043508" y="265" fill="#6e7781">prio: 14 ms</text>
+<rect x="250" y="236" width="248.00329110291779" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="503.0032911029178" y="247" fill="#6e7781">none: 81 ms</text>
+<rect x="250" y="254" width="238.62493659134634" height="13" rx="2" fill="#bf8700" opacity="0.65"/>
+<text x="493.62493659134634" y="265" fill="#6e7781">prio: 68 ms</text>
 <text x="8" y="302" fill="#6e7781">AI neighbour@prio 10</text>
-<rect x="250" y="286" width="157.0274589501867" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="412.0274589501867" y="297" fill="#6e7781">none: 16 ms</text>
-<rect x="250" y="304" width="90.95636162630854" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="345.95636162630854" y="315" fill="#6e7781">prio: 5 ms</text>
+<rect x="250" y="286" width="185.82580436963235" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="440.82580436963235" y="297" fill="#6e7781">none: 27 ms</text>
+<rect x="250" y="304" width="199.25310204618347" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="454.25310204618347" y="315" fill="#6e7781">prio: 34 ms</text>
 <text x="8" y="352" fill="#6e7781">AI neighbour@prio 20</text>
-<rect x="250" y="336" width="214.1648722175703" height="13" rx="2" fill="#cf222e" opacity="1"/>
-<text x="469.1648722175703" y="347" fill="#6e7781">none: 44 ms</text>
-<rect x="250" y="354" width="139.03280221149947" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="394.0328022114995" y="365" fill="#6e7781">prio: 12 ms</text>
+<rect x="250" y="336" width="254.54245461502654" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="509.54245461502654" y="347" fill="#6e7781">none: 91 ms</text>
+<rect x="250" y="354" width="192.54466930939725" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="447.54466930939725" y="365" fill="#6e7781">prio: 30 ms</text>
 <text x="8" y="402" fill="#6e7781">priority inversion (plain mutex)</text>
-<rect x="250" y="386" width="235.5657067309295" height="13" rx="2" fill="#cf222e" opacity="1"/>
-<text x="490.5657067309295" y="397" fill="#6e7781">none: 65 ms</text>
-<rect x="250" y="404" width="89.88656977872807" height="13" rx="2" fill="#cf222e" opacity="0.65"/>
-<text x="344.8865697787281" y="415" fill="#6e7781">prio: 5 ms</text>
+<rect x="250" y="386" width="100.79148583783206" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="355.79148583783206" y="397" fill="#6e7781">none: 6 ms</text>
+<rect x="250" y="404" width="153.08724725421746" height="13" rx="2" fill="#cf222e" opacity="0.65"/>
+<text x="408.08724725421746" y="415" fill="#6e7781">prio: 15 ms</text>
 <text x="8" y="452" fill="#6e7781">priority inversion (inheriting mutex)</text>
-<rect x="250" y="436" width="97.18373115589122" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="352.1837311558912" y="447" fill="#6e7781">none: 6 ms</text>
-<rect x="250" y="454" width="236.77972496714892" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="491.7797249671489" y="465" fill="#6e7781">prio: 66 ms</text>
+<rect x="250" y="436" width="218.11499198960632" height="13" rx="2" fill="#bf8700" opacity="1"/>
+<text x="473.1149919896063" y="447" fill="#6e7781">none: 48 ms</text>
+<rect x="250" y="454" width="139.69761579670518" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="394.6976157967052" y="465" fill="#6e7781">prio: 12 ms</text>
 <text x="8" y="502" fill="#6e7781">priority inversion (default mutex)</text>
-<rect x="250" y="486" width="129.63750576822565" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="384.63750576822565" y="497" fill="#6e7781">none: 10 ms</text>
-<rect x="250" y="504" width="127.18720912090475" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="382.18720912090475" y="515" fill="#6e7781">prio: 10 ms</text>
+<rect x="250" y="486" width="124.03897854784123" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="379.0389785478412" y="497" fill="#6e7781">none: 9 ms</text>
+<rect x="250" y="504" width="114.10318411244697" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="369.10318411244697" y="515" fill="#6e7781">prio: 8 ms</text>
 <text x="8" y="552" fill="#6e7781">mem hog   @prio 10</text>
-<rect x="250" y="536" width="117.76748960816019" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="372.7674896081602" y="547" fill="#6e7781">none: 8 ms</text>
-<rect x="250" y="554" width="77.04070677185769" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="332.0407067718577" y="565" fill="#6e7781">prio: 4 ms</text>
+<rect x="250" y="536" width="241.88286418058811" height="13" rx="2" fill="#bf8700" opacity="1"/>
+<text x="496.8828641805881" y="547" fill="#6e7781">none: 73 ms</text>
+<rect x="250" y="554" width="262.059948676201" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="517.059948676201" y="565" fill="#6e7781">prio: 104 ms</text>
 <text x="8" y="602" fill="#6e7781">fd exhaust@prio 10</text>
-<rect x="250" y="586" width="184.18056852311213" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="439.18056852311213" y="597" fill="#6e7781">none: 26 ms</text>
-<rect x="250" y="604" width="90.12733041073523" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="345.1273304107352" y="615" fill="#6e7781">prio: 5 ms</text>
+<rect x="250" y="586" width="127.82449583365087" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="382.8244958336509" y="597" fill="#6e7781">none: 10 ms</text>
+<rect x="250" y="604" width="195.89487984675782" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="450.8948798467578" y="615" fill="#6e7781">prio: 32 ms</text>
 <text x="8" y="652" fill="#6e7781">crash loop@prio 10</text>
-<rect x="250" y="636" width="66.178845852231" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="321.178845852231" y="647" fill="#6e7781">none: 3 ms</text>
-<rect x="250" y="654" width="102.51703226964673" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="357.51703226964673" y="665" fill="#6e7781">prio: 6 ms</text>
+<rect x="250" y="636" width="171.28305176076202" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="426.283051760762" y="647" fill="#6e7781">none: 21 ms</text>
+<rect x="250" y="654" width="194.97361216754064" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="449.97361216754064" y="665" fill="#6e7781">prio: 32 ms</text>
 <text x="8" y="702" fill="#6e7781">crash loop@prio 20</text>
-<rect x="250" y="686" width="105.53959080294203" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="360.53959080294203" y="697" fill="#6e7781">none: 6 ms</text>
-<rect x="250" y="704" width="97.96579765607783" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="352.9657976560778" y="715" fill="#6e7781">prio: 6 ms</text>
+<rect x="250" y="686" width="218.8382672434326" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="473.8382672434326" y="697" fill="#6e7781">none: 48 ms</text>
+<rect x="250" y="704" width="165.24271298770537" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="420.2427129877054" y="715" fill="#6e7781">prio: 19 ms</text>
 <text x="8" y="752" fill="#6e7781">memory bandwidth @prio 20</text>
-<rect x="250" y="736" width="480.7516905713843" height="13" rx="2" fill="#cf222e" opacity="1"/>
-<text x="735.7516905713843" y="747" fill="#6e7781">none: 4990 ms</text>
-<rect x="250" y="754" width="171.12249258590447" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="426.12249258590447" y="765" fill="#6e7781">prio: 21 ms</text>
+<rect x="250" y="736" width="480.5859267411463" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="735.5859267411463" y="747" fill="#6e7781">none: 4975 ms</text>
+<rect x="250" y="754" width="170.25745661980466" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="425.25745661980466" y="765" fill="#6e7781">prio: 20 ms</text>
 <text x="8" y="802" fill="#6e7781">timer storm @prio 20</text>
-<rect x="250" y="786" width="134.60586596399128" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="389.6058659639913" y="797" fill="#6e7781">none: 11 ms</text>
-<rect x="250" y="804" width="232.06510535284963" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="487.0651053528496" y="815" fill="#6e7781">prio: 61 ms</text>
+<rect x="250" y="786" width="231.64126191999594" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="486.64126191999594" y="797" fill="#6e7781">none: 61 ms</text>
+<rect x="250" y="804" width="171.1115906727357" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="426.1115906727357" y="815" fill="#6e7781">prio: 21 ms</text>
 <text x="8" y="852" fill="#6e7781">kernel-call storm @prio 20</text>
-<rect x="250" y="836" width="115.08225401158018" height="13" rx="2" fill="#cf222e" opacity="1"/>
-<text x="370.0822540115802" y="847" fill="#6e7781">none: 8 ms</text>
-<rect x="250" y="854" width="233.82278870342537" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="488.8227887034254" y="865" fill="#6e7781">prio: 63 ms</text>
+<rect x="250" y="836" width="129.2497883063008" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="384.2497883063008" y="847" fill="#6e7781">none: 10 ms</text>
+<rect x="250" y="854" width="158.82452691740718" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="413.8245269174072" y="865" fill="#6e7781">prio: 17 ms</text>
 <text x="8" y="902" fill="#6e7781">memory bandwidth @prio 5</text>
-<rect x="250" y="886" width="180.91787392084848" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="435.9178739208485" y="897" fill="#6e7781">none: 25 ms</text>
-<rect x="250" y="904" width="232.99816955072447" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="487.99816955072447" y="915" fill="#6e7781">prio: 62 ms</text>
+<rect x="250" y="886" width="222.74284918179984" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="477.74284918179984" y="897" fill="#6e7781">none: 52 ms</text>
+<rect x="250" y="904" width="154.36302731493197" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="409.36302731493197" y="915" fill="#6e7781">prio: 15 ms</text>
 <text x="8" y="952" fill="#6e7781">kernel-call storm @prio 5</text>
-<rect x="250" y="936" width="125.50068312796589" height="13" rx="2" fill="#1a7f37" opacity="1"/>
-<text x="380.5006831279659" y="947" fill="#6e7781">none: 9 ms</text>
-<rect x="250" y="954" width="272.7683236071488" height="13" rx="2" fill="#bf8700" opacity="0.65"/>
-<text x="527.7683236071488" y="965" fill="#6e7781">prio: 125 ms</text>
+<rect x="250" y="936" width="109.83047410486307" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="364.8304741048631" y="947" fill="#6e7781">none: 7 ms</text>
+<rect x="250" y="954" width="103.57269822651654" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="358.57269822651654" y="965" fill="#6e7781">prio: 6 ms</text>
 <text x="8" y="1002" fill="#6e7781">memory bandwidth @prio 10</text>
-<rect x="250" y="986" width="220.56948133975482" height="13" rx="2" fill="#cf222e" opacity="1"/>
-<text x="475.5694813397548" y="997" fill="#6e7781">none: 50 ms</text>
-<rect x="250" y="1004" width="207.06810705516546" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
-<text x="462.06810705516546" y="1015" fill="#6e7781">prio: 39 ms</text>
+<rect x="250" y="986" width="263.89424042035375" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="518.8942404203538" y="997" fill="#6e7781">none: 107 ms</text>
+<rect x="250" y="1004" width="153.6693735014603" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="408.6693735014603" y="1015" fill="#6e7781">prio: 15 ms</text>
+<text x="8" y="1052" fill="#6e7781">name squat, detector alive</text>
+<rect x="250" y="1036" width="90.93380988538661" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="345.9338098853866" y="1047" fill="#6e7781">none: 5 ms</text>
+<rect x="250" y="1054" width="86.1339657013238" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="341.1339657013238" y="1065" fill="#6e7781">prio: 5 ms</text>
+<text x="8" y="1102" fill="#6e7781">name squat, race after restart</text>
+<rect x="250" y="1086" width="95.71082285761474" height="13" rx="2" fill="#cf222e" opacity="1"/>
+<text x="350.71082285761474" y="1097" fill="#6e7781">none: 5 ms</text>
+<rect x="250" y="1104" width="88.25471390719565" height="13" rx="2" fill="#cf222e" opacity="0.65"/>
+<text x="343.25471390719565" y="1115" fill="#6e7781">prio: 5 ms</text>
+<text x="8" y="1152" fill="#6e7781">name squat, race after restart (owner check)</text>
+<rect x="250" y="1136" width="69.6540378072367" height="13" rx="2" fill="#1a7f37" opacity="1"/>
+<text x="324.6540378072367" y="1147" fill="#6e7781">none: 3 ms</text>
+<rect x="250" y="1154" width="63.18067422709146" height="13" rx="2" fill="#1a7f37" opacity="0.65"/>
+<text x="318.18067422709146" y="1165" fill="#6e7781">prio: 3 ms</text>
 </svg>

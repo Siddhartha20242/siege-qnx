@@ -167,6 +167,36 @@
       "expect": {
         "none": "fail"
       }
+    },
+    {
+      "label": "name squat, detector alive",
+      "attacker": "squat",
+      "prio": 20
+    },
+    {
+      "label": "name squat, race after restart",
+      "attacker": "squat",
+      "prio": 20,
+      "env": {
+        "SUPERVISE": 1,
+        "KILL_AT": 2
+      },
+      "expect": {
+        "none": "fail",
+        "prio": "fail",
+        "isolate": "fail",
+        "budget": "fail"
+      }
+    },
+    {
+      "label": "name squat, race after restart (owner check)",
+      "attacker": "squat",
+      "prio": 20,
+      "env": {
+        "SUPERVISE": 1,
+        "KILL_AT": 2,
+        "NAME_DEFENCE": 1
+      }
     }
   ]
 }

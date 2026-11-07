@@ -50,3 +50,18 @@ likely cause is that equal-priority sharing is timeslice-based and its effect on
 deadline depends on how fast the emulated CPU runs, which changes with the load on the
 host Mac. I have not tested that explanation. Higher pipeline priority removed it in
 every run. The earlier documents have been updated to say so.
+
+## The full 15-run matrix, and a long-boot artefact
+
+Every scenario was then run 15 times under every profile (`results/full-*.json`, 23 scenarios
+x 4 profiles). In that run, the last scenarios of the `prio` profile (memory bandwidth at
+priority 5 and 10, kernel-call storm at priority 5) lost 10 of 45 runs to "no result", and
+the runs that did return showed failures (3 of 9, 1 of 12, 2 of 14) that make no sense: the
+attacker was at priority 5 and the pipeline at 40. One `isolate` run of `workflood` was also
+lost. The same scenarios run again in fresh boots (`results/rerun-*.json`) lost no runs and
+failed none (0 of 15 each), and the `isolate` workflood result reproduced at 15 of 15.
+
+The reports use the re-runs for those cells and keep the original files. The likely cause is
+that the guest degrades over one long boot of about 90 minutes, but I did not test that.
+Practical consequence: for long matrices, split them into several boots. The report tools
+now prefer the file with more valid runs, and the later file on a tie.

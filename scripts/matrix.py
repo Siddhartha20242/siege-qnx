@@ -76,13 +76,15 @@ with (SSHShell(args.ssh, args.remote_dir) if args.ssh else Console(args.image)) 
             late, lost, stalls, p50, p99, mx, outages, _of, gap, aband = m.groups()
             samples = [dict(t=int(a), late=int(b), lost=int(c_), p50=int(d), p99=int(e), max=int(f_)) for a, b, c_, d, e, f_ in
                        re.findall(r"SUMMARY t=(\d+) frames=\d+ late=(\d+) lost=(\d+) stalls=\d+ p50_us=(\d+) p99_us=(\d+) max_us=(\d+)", out)]
+            mon = [dict(k=int(a), at_ms=int(b), p_fail=float(c_), pattern=d) for a, b, c_, d in
+                   re.findall(r"MONITOR k=(\d+) at_ms=(\d+) p_fail=([\d.]+) pattern=(.+)", out)]
             ck = re.search(r"checked=(\d+) wrong=(\d+)", out)
             rs = re.search(r"death_to_ready_ms=(\d+)", out)
             og = re.search(r"OUTAGE ms=(\d+)", out)
             res.append(dict(fail="RESULT FAIL" in out, late=int(late), lost=int(lost), stalls=int(stalls),
                             p50=int(p50), p99=int(p99), max=int(mx),
                             outages=int(outages or 0), max_gap_ms=int(gap or 0), abandoned=int(aband or 0),
-                            samples=samples,
+                            samples=samples, monitor=mon,
                             checked=int(ck.group(1)) if ck else 0, wrong=int(ck.group(2)) if ck else 0,
                             restart_ms=int(rs.group(1)) if rs else None,
                             outage_ms=int(og.group(1)) if og else None))

@@ -39,10 +39,10 @@ for f in args.files:
     rows += json.load(open(f))
 rows = [r for r in rows if not args.only_profile or r["profile"] in args.only_profile]
 
-best = {}                                    # same (profile, scenario) in several files: keep the one with more runs
+best = {}                                    # same (profile, scenario) in several files: keep the one with more valid runs (a tie goes to the later file)
 for r in rows:
     k = (r["profile"], r["scenario"])
-    if k not in best or len(r["runs"]) > len(best[k]["runs"]):
+    if k not in best or sum(1 for x in r["runs"] if x) >= sum(1 for x in best[k]["runs"] if x):   # more valid runs wins; a tie goes to the later file
         best[k] = r
 rows = list(best.values())
 

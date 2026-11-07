@@ -71,10 +71,10 @@ for r in rows:
     timed = [x for x in r["runs"] if x and x.get("samples")]
     if timed:
         timelines.setdefault(key, []).extend(timed)
-    if key in cell and cell[key]["n"] >= n:      # same scenario in several files: keep the one with more runs
+    if key in cell and cell[key]["valid"] > len(runs):      # same scenario in several files: more valid runs wins, a tie goes to the later file
         continue
     cell[key] = dict(
-        n=n, fails=sum(1 for x in runs if x["fail"]),
+        valid=len(runs), n=n, fails=sum(1 for x in runs if x["fail"]),
         p50=statistics.median([x["p50"] for x in runs]) if runs else None,
         worst=max((x["max"] for x in runs), default=None),
         gap=max((x["max_gap_ms"] for x in runs), default=0),
