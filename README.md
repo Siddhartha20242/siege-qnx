@@ -488,8 +488,8 @@ runs, and CPU starvation in 28 of 46. Treat it as an experiment, not a feature t
   is not a claim about real camera data.
 * **Nothing has run on real hardware.** `docs/hardware.md` and `./siege hw`
   make it a one-command job on a QNX 8.0 board; the transport and installer
-  were tested against a stand-in, not a board. If you have one, please run it
-  and share the result.
+  were tested against a QNX 8.0 x86-64 system in QEMU ([`docs/pc.md`](docs/pc.md)),
+  not a board. If you have one, please run it and share the result.
 * **Outside use is still zero.** Only the author has run Siege. The "Try it"
   section above is how to change that.
 * **No adaptive partitioning.** It is not part of the free SDP. The `budget`

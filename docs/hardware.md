@@ -10,7 +10,8 @@ Siege runs on real hardware without the QEMU image. Its programs are ordinary
 aarch64 QNX executables and its launch scripts are plain `ksh`, so they can be
 copied to any QNX 8.0 aarch64 target and driven over `ssh`. **This path has
 not been run on hardware yet.** The transport and the installer were tested
-against a stand-in machine; the rest is untested, and this page says so so
+against a QNX 8.0 x86-64 system in QEMU (see [`pc.md`](pc.md)), which is a real QNX
+system but emulated; the aarch64 board path and any physical machine are untested, and this page says so so
 that whoever tries it first knows.
 
 ## What you need
