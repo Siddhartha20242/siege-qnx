@@ -49,9 +49,9 @@ and QNX's default mutex does inherit.**
 In the priority-inversion scenario a low-priority process takes a lock the
 pipeline needs, and hogs at a medium priority keep it from running. With a
 mutex created with `PTHREAD_PRIO_NONE` the detector waited for the lock for
-almost five seconds and the pipeline never recovered (5 of 5 runs, under every
+almost five seconds and the pipeline never recovered (15 of 15 runs, under every
 profile). With `PTHREAD_PRIO_INHERIT` the longest wait was about three
-milliseconds (0 of 5 failed under every profile). The **system default** mutex
+milliseconds (59 of 60 runs passed across the four profiles). The **system default** mutex
 behaved like the inheriting one, also 0 of 5 under every profile, so on QNX the
 unsafe case has to be chosen on purpose. Raising the pipeline's priority did not help,
 nor did giving it its own CPU or capping the hogs: only the inheriting mutex

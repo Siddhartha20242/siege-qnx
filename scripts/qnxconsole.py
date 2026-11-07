@@ -73,6 +73,12 @@ class Console:
         self.close()
 
 
+def split_host(host):
+    """"user@host:2222" -> ("user@host", "2222"); no port -> (host, None). For targets behind a forwarded port, such as QEMU."""
+    dest, _, port = host.rpartition(":")
+    return (dest, port) if dest and port.isdigit() else (host, None)
+
+
 class SSHShell:
     """Run commands on a real QNX target over ssh, with the same interface as Console.
 
@@ -84,13 +90,15 @@ class SSHShell:
 
     def __init__(self, host, remote_dir="/data/siege"):
         self.host, self.remote_dir = host, remote_dir
+        self.dest, self.port = split_host(host)
         probe = self._ssh("true", 15)
         if probe.returncode != 0:
             raise SystemExit(f"siege: cannot reach {host} over ssh with a key: {probe.stderr.strip()}\n"
                              f"  Check the address, then install your key: ssh-copy-id {host}")
 
     def _ssh(self, command, timeout):
-        return subprocess.run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8", self.host, command],
+        port = ["-p", self.port] if self.port else []
+        return subprocess.run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8"] + port + [self.dest, command],
                               capture_output=True, text=True, timeout=timeout)
 
     def run(self, command, timeout=60):

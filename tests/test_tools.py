@@ -166,3 +166,29 @@ class NewTooling(unittest.TestCase):
     def test_siegewrap_is_in_the_image(self):
         self.assertIn("siegewrap=build/bin/siegewrap", self.read("image", "ram.build"))
         self.assertIn("siegewrap", self.read("Makefile"))
+
+
+class TargetAddressing(unittest.TestCase):
+    def test_host_port_is_split_for_forwarded_ssh(self):
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
+        from qnxconsole import split_host
+        self.assertEqual(split_host("root@127.0.0.1:2222"), ("root@127.0.0.1", "2222"))
+        self.assertEqual(split_host("root@10.0.0.5"), ("root@10.0.0.5", None))
+        self.assertEqual(split_host("host:name"), ("host:name", None))
+
+    def test_report_treats_labelled_emulator_targets_as_emulation(self):
+        with open(os.path.join(os.path.dirname(__file__), "..", "scripts", "report.py")) as f:
+            src = f.read()
+        self.assertIn('t.startswith("emulator")', src)
+
+    def test_matrix_has_reboot_and_label_options(self):
+        with open(os.path.join(os.path.dirname(__file__), "..", "scripts", "matrix.py")) as f:
+            src = f.read()
+        for opt in ("--reboot-every", "--target-label"):
+            self.assertIn(opt, src)
+
+    def test_makefile_builds_for_either_architecture(self):
+        with open(os.path.join(os.path.dirname(__file__), "..", "Makefile")) as f:
+            src = f.read()
+        self.assertIn("ARCH    ?= aarch64le", src)
+        self.assertIn("-Vgcc_nto$(ARCH)", src)

@@ -194,12 +194,16 @@ def hw(args):
     import argparse
     ap = argparse.ArgumentParser(prog="siege hw")
     ap.add_argument("action", choices=["install", "check"])
-    ap.add_argument("host", help="user@host of the QNX target")
+    ap.add_argument("host", help="user@host of the QNX target; user@host:2222 for a forwarded ssh port")
     ap.add_argument("--dir", default="/data/siege", help="install directory on the target (default /data/siege)")
+    ap.add_argument("--bin", default=None, help="directory with the programs built for the target (default build/bin; build/x86_64/bin for a PC)")
     a = ap.parse_args(args)
+    sys.path.insert(0, SCRIPTS)
+    from qnxconsole import split_host
+    dest, port = split_host(a.host)           # user@host:2222 works for a target behind a forwarded port
 
     def ssh(cmd, timeout=30):
-        return run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8", a.host, cmd], timeout)
+        return run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8"] + (["-p", port] if port else []) + [dest, cmd], timeout)
 
     code, out = ssh("true")
     if code != 0:
@@ -208,7 +212,7 @@ def hw(args):
         return 1
 
     if a.action == "install":
-        bindir = os.path.join(ROOT, "build", "bin")
+        bindir = os.path.abspath(a.bin) if a.bin else os.path.join(ROOT, "build", "bin")
         if not os.path.isdir(bindir) or not os.listdir(bindir):
             print(f"{R}nothing to install:{X} build/bin is empty. Run ./siege build first.")
             return 1
@@ -218,14 +222,14 @@ def hw(args):
         if code:
             print(f"{R}could not create {a.dir} on the target:{X} {out}")
             return 1
-        code, out = run(["scp", "-q", "-o", "BatchMode=yes"] + files + [f"{a.host}:{a.dir}/"], 120)
+        code, out = run(["scp", "-q", "-o", "BatchMode=yes"] + (["-P", port] if port else []) + files + [f"{dest}:{a.dir}/"], 120)
         if code:
             print(f"{R}copy failed:{X} {out}")
             return 1
         ssh(f"chmod +x {a.dir}/*")
         print(f"installed {len(files)} files in {a.dir} on {a.host}")
 
-    code, out = ssh(f"export PATH={a.dir}:$PATH; uname -a; for t in pipeline.sh attacker controller detector frame_src sieged supervisor; "
+    code, out = ssh(f"export PATH={a.dir}:$PATH; uname -a; for t in pipeline.sh attacker controller detector frame_src sieged supervisor siegewrap; "
                     f"do command -v $t >/dev/null && echo found:$t || echo MISSING:$t; done; "
                     f"[ -x /bin/ksh ] && echo found:ksh || echo MISSING:ksh")
     print(out)

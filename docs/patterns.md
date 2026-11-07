@@ -27,8 +27,10 @@ STALLED. Median latency is seconds, about 80% of frames are late.
 at priority 10 only run when it stops. This is strict fixed-priority
 scheduling doing what it is designed to do.
 
-**Seen.** `cpu hog @prio 20`, no hardening: **15/15 runs failed**, worst frame
-5.0 s, median 2.5 s, longest silence 5,010 ms. Under `prio`: 0/15. Under
+**Seen.** `cpu hog @prio 20`, no hardening: **15/15 runs failed** in every 15-run
+set. In one set the worst frame was 5.0 s with a longest silence of 5,010 ms; in the
+latest full matrix the controller gave up after 3 s without a frame in 14 of 15 runs,
+so no latency was reported. Both are total starvation. Under `prio`: 0/15. Under
 `isolate`: 0/15. Under `budget`: 1/15 (one 66 ms spike).
 
 **Detect.** `max_gap_ms` about as long as the attack, and a median latency in
@@ -107,8 +109,8 @@ thread that wakes up waits for the running one's slice to end, which costs
 milliseconds. That is invisible against a 20 ms deadline and fatal against 5 ms.
 
 **Seen.** The reference pipeline (20 ms) at the same priority as a CPU hog:
-8/15 failed with no hardening (11/15 in a repeat; an earlier 5-run check showed 0/5,
-so the effect is unstable under emulation), 0/15 at a higher priority. The `ticker` example (5 ms, [`examples/ticker`](../examples/ticker/)):
+8/15, 9/15 and 11/15 failed with no hardening in three separate 15-run sets (an earlier
+5-run check showed 0/5, so the effect is unstable under emulation), and 0/15 at a higher priority. The `ticker` example (5 ms, [`examples/ticker`](../examples/ticker/)):
 **3/3 failed** against a same-priority CPU hog and against a crash loop. With
 the ticker at priority 40: 0/3.
 
@@ -125,7 +127,7 @@ gives up after 3 s of silence.
 **Cause.** A pipeline stage died and nothing replaced it. This is not a
 scheduling problem, so no scheduling profile can help.
 
-**Seen.** `kill detector, no supervisor`: **5/5 failed under all four
+**Seen.** `kill detector, no supervisor`: **15/15 failed under all four
 profiles**. With the supervisor: 0/15 under every profile.
 
 **Detect.** A run that ends with `abandoned=1`: the controller stopped hearing
@@ -147,13 +149,13 @@ high-priority pipeline waits behind work that is below it. This is the
 mechanism behind the 1997 Mars Pathfinder resets (see
 [`why-qnx.md`](why-qnx.md)).
 
-**Seen.** `priority inversion (plain mutex)` failed **5 of 5 runs under every
+**Seen.** `priority inversion (plain mutex)` failed **15 of 15 runs under every
 profile**: no hardening, `prio` (pipeline at priority 40), `isolate` and
 `budget`. In an instrumented run the detector's longest wait for the lock was
 about 4.95 s and the pipeline never recovered. With a `PTHREAD_PRIO_INHERIT`
-mutex the same scenario passed **5 of 5 under every profile**, with a longest
-wait of about 3 ms. The **system default** mutex also passed 5 of 5 under every
-profile: on QNX the unsafe protocol (`PTHREAD_PRIO_NONE`) has to be chosen
+mutex the same scenario passed in 59 of 60 runs (one failure of 15 with no hardening), with a longest
+wait of about 3 ms. The **system default** mutex passed 60 of 60 across the four
+profiles: on QNX the unsafe protocol (`PTHREAD_PRIO_NONE`) has to be chosen
 explicitly.
 
 **Detect.** The detector prints `DET shared lock: ... longest wait` at the end

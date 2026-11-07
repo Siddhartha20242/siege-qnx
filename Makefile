@@ -1,8 +1,9 @@
-# Cross-compile for QNX SDP 8.0, aarch64le. Run inside the VM after
+# Cross-compile for QNX SDP 8.0. Default aarch64le; `make ARCH=x86_64 BIN=build/x86_64/bin` builds for a PC. Run inside the VM after
 # `source ~/qnx800/qnxsdp-env.sh` (scripts/build.sh does this for you).
-CC      = qcc -Vgcc_ntoaarch64le
+ARCH    ?= aarch64le
+CC      = qcc -Vgcc_nto$(ARCH)
 CFLAGS  = -O2 -Wall -Wextra -std=gnu11
-BIN     = build/bin
+BIN     ?= build/bin
 PROGS   = frame_src detector controller attacker probe supervisor sieged b64cat siegewrap
 
 EXAMPLES = ticker pipeprobe

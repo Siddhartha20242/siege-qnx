@@ -55,7 +55,7 @@ for r in rows:
 scenarios.sort(key=lambda s: order.index(s) if s in order else len(order))
 
 targets = sorted({r.get("target", "emulator") for r in rows})
-if all(t == "emulator" for t in targets):
+if all(t.startswith("emulator") for t in targets):
     MEASURED = "Measured in QEMU emulation: compare rows with each other, not with hardware latencies."
 elif all(t.startswith("hardware") for t in targets):
     MEASURED = "Measured on real hardware (" + ", ".join(t.split(":", 1)[1] for t in targets) + ")."

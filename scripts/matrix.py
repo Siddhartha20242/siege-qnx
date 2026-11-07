@@ -26,6 +26,7 @@ ap.add_argument("--reboot-every", type=int, default=10, metavar="N",
                 help="in QEMU, boot a fresh guest every N scenarios (0 = never). One very long boot degraded in testing; see docs/more-attackers.md")
 ap.add_argument("--only", action="append", default=[], help="substring filter on scenario labels (repeatable)")
 ap.add_argument("--ssh", help="run on real hardware over ssh (user@host) instead of in QEMU; see docs/hardware.md")
+ap.add_argument("--target-label", help="what to record as the target of these results; default 'hardware:<host>' with --ssh. Use e.g. 'emulator-x86_64' when the ssh target is a QEMU guest")
 ap.add_argument("--remote-dir", default="/data/siege", help="where ./siege hw install put the programs")
 ap.add_argument("--image", default=os.path.join(here, "..", "build", "siege.ifs"))
 args = ap.parse_args()
@@ -108,7 +109,7 @@ try:
                             restart_ms=int(rs.group(1)) if rs else None,
                             outage_ms=int(og.group(1)) if og else None))
         ok = [r for r in res if r]
-        results.append(dict(target=("hardware:" + args.ssh) if args.ssh else "emulator", profile=args.profile, scenario=sc["label"], atk=sc.get("attacker", ""),
+        results.append(dict(target=args.target_label or (("hardware:" + args.ssh) if args.ssh else "emulator"), profile=args.profile, scenario=sc["label"], atk=sc.get("attacker", ""),
                             atk_prio=sc.get("prio", 10), extra=sc.get("env", {}), runs=res))
         print(f"{sc['label']:30} fail {sum(r['fail'] for r in ok)}/{len(res)}  "
               f"worst_max_ms={max((r['max'] for r in ok), default=0)/1000:.1f}  "
