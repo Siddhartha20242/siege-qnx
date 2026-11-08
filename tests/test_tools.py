@@ -359,3 +359,14 @@ class DevOpsFilesTests(unittest.TestCase):
             text = read(os.path.join(ROOT, f))
             self.assertNotIn("COPY /opt", text)
             self.assertNotIn("qnx800.run", text)
+
+
+class TraceMarkTests(unittest.TestCase):
+    def test_controller_marks_are_off_by_default_and_documented(self):
+        src = read(os.path.join(ROOT, "pipeline", "controller.c"))
+        self.assertIn('getenv("SIEGE_TRACE")', src)
+        self.assertIn("_NTO_TRACE_INSERTUSRSTREVENT", src)
+        self.assertIn("if (!trace_marks_on", src)             # nothing is written unless asked, so measurements are unchanged
+        doc = read(os.path.join(ROOT, "docs", "trace-marks.md"))
+        self.assertIn("USREVENT", doc)
+        self.assertIn("SIEGE_TRACE=1", read(os.path.join(ROOT, "scripts", "trace_capture.py")))

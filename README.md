@@ -459,6 +459,9 @@ runs, and CPU starvation in 28 of 46. Treat it as an experiment, not a feature t
   `MsgReply`, `MsgError` (`pipeline/*.c`)
 * Bounded blocking calls: `TimerTimeout` on send, reply and receive
   (`pipeline/common.h`, `pipeline/controller.c`)
+* Kernel tracing: `tracelogger` and `traceprinter` on the instrumented kernel, plus the controller's own
+  `TraceEvent(_NTO_TRACE_INSERTUSRSTREVENT)` events that mark each stall in the trace
+  (`scripts/trace_capture.py`, `pipeline/controller.c`, [`docs/trace-marks.md`](docs/trace-marks.md))
 * Scheduling: `SCHED_RR`, `SCHED_SPORADIC`, `ThreadCtl(_NTO_TCTL_RUNMASK)`,
   `on -p`, `on -C` (`pipeline/attacker.c`, `pipeline/probe.c`,
   `image/pipeline.sh`)

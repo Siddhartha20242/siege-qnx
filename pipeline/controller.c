@@ -11,11 +11,28 @@
  */
 #include "common.h"
 #include <math.h>
+#include <sys/trace.h>
 #include "monitor.h"
 
+#define TRACE_MARK_ID  1           /* user event id (0..1023) for a late frame in the kernel trace */
+#define MAX_TRACE_MARKS 400         /* never flood the trace buffer */
 #define MAX_SAMPLES 65536
 #define OUTAGE_NS   100000000ULL    /* silence that counts as an outage */
 #define ABANDON_NS  3000000000ULL   /* give up if nothing arrives this long */
+
+/* SIEGE_TRACE=1: write a user event into the kernel trace (tracelogger) when the controller sees a stall,
+ * an outage or a late frame, so a trace shows what every process was doing around each missed deadline. */
+static int trace_marks_on;
+static unsigned trace_marks;
+static void trace_mark(const char *what, unsigned a, unsigned b)
+{
+    if (!trace_marks_on || trace_marks >= MAX_TRACE_MARKS) return;
+    char text[48];
+    snprintf(text, sizeof text, "%s %u %u", what, a, b);
+    if (TraceEvent(_NTO_TRACE_INSERTUSRSTREVENT, TRACE_MARK_ID, text) == -1 && trace_marks == 0)
+        printf("TRACE user event failed: %s\n", strerror(errno));
+    trace_marks++;
+}
 
 static uint32_t lat_all[MAX_SAMPLES];
 static uint32_t lat_win[MAX_SAMPLES];
@@ -140,6 +157,7 @@ int main(int argc, char **argv)
     /* Optional interference predictor (MONITOR=1): a small trained network reads the first
      * seconds of this run's per-second summaries and predicts the verdict early. It sees
      * only what the controller measures. See tools/train_monitor.py and docs/predictor.md. */
+    trace_marks_on = getenv("SIEGE_TRACE") && atoi(getenv("SIEGE_TRACE")) > 0;
     int mon_on = getenv("MONITOR") && atoi(getenv("MONITOR")) > 0;
     pthread_t mon_tid;
     if (mon_on) pthread_create(&mon_tid, NULL, monitor_thread, NULL);
@@ -153,6 +171,7 @@ int main(int argc, char **argv)
         if (rcvid == -1 && errno == ETIMEDOUT) {
             if (started) {
                 all.stalls++; win.stalls++;
+                trace_mark("stall", all.stalls, (unsigned)((now_ns() - last) / 1000000ULL));
                 if (now_ns() - last > ABANDON_NS) { abandoned = 1; break; }
             }
             continue;
@@ -193,6 +212,7 @@ int main(int argc, char **argv)
             if (gap_ns > OUTAGE_NS) {
                 outages++;
                 outage_frames += gap;
+                trace_mark("outage", (unsigned)(gap_ns / 1000000ULL), gap);
                 printf("OUTAGE ms=%u frames=%u\n", (unsigned)(gap_ns / 1000000ULL), gap);
             } else {
                 all.lost += gap;
@@ -215,7 +235,10 @@ int main(int argc, char **argv)
         uint64_t lat_ns = now - m.d.t_capture_ns;
         uint32_t lat_us = (uint32_t)(lat_ns / 1000ULL);
         all.frames++; win.frames++;
-        if (lat_ns > deadline_ns) { all.late++; win.late++; }
+        if (lat_ns > deadline_ns) {
+            all.late++; win.late++;
+            trace_mark("late", m.d.seq, lat_us);
+        }
         if (n_all < MAX_SAMPLES) lat_all[n_all++] = lat_us;
         if (n_win < MAX_SAMPLES) lat_win[n_win++] = lat_us;
 

@@ -15,6 +15,7 @@ Where to start depends on what you want.
 | [`why-qnx.md`](why-qnx.md) | Which findings depend on how QNX works and which would hold on any fixed-priority scheduler, with the history behind priority inversion |
 | [`adas-isolation.md`](adas-isolation.md) | The same pipeline configured as a 30 Hz front-camera driver-assistance stack sharing a machine with lower-criticality software, and how the findings map to freedom-from-interference vocabulary |
 | [`security-policy.md`](security-policy.md) | QNX security policies (connect denial, priority ceiling, name-attach denial) against the scheduling profiles, with the predictions made before the runs |
+| [`trace-marks.md`](trace-marks.md) | The controller's own events written into the QNX kernel trace with `TraceEvent`, and who held the CPU before each stall |
 | [`docker.md`](docker.md) | The tools container, the experimental builder image, what the CI workflow checks, and why there is no Kubernetes |
 | [`code-review.md`](code-review.md) | An independent read of the C programs: what was found, what was fixed, what was left and why, and what it means for the published numbers |
 | [`for-teams.md`](for-teams.md) | How a team integrating mixed-criticality software on QNX would use Siege: the loop, which mechanism for which symptom, what to hand a reviewer, and where it stops |
