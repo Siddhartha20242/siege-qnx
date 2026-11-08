@@ -50,6 +50,8 @@ bin/on
 bin/ksh
 [type=link] sh=ksh
 bin/pidin
+bin/secpolpush
+bin/ability
 usr/sbin/tracelogger
 lib/libtracelog.so.1
 usr/lib/libtracelog.so.1
@@ -92,3 +94,10 @@ usr/lib/libz.so.2
 [perms=0555] b64cat=build/bin/b64cat
 [perms=0555] pipeline.sh=image/pipeline.sh
 [perms=0555] harness.sh=image/harness.sh
+# `on -T name` looks the type names up in secpol.bin; every variant declares the same types in the same order.
+[perms=0444] secpol.bin=build/secpol-open.bin
+[perms=0444] secpol-open.bin=build/secpol-open.bin
+[perms=0444] secpol-connect.bin=build/secpol-connect.bin
+[perms=0444] secpol-ceiling.bin=build/secpol-ceiling.bin
+[perms=0444] secpol-names.bin=build/secpol-names.bin
+[perms=0444] secpol-full.bin=build/secpol-full.bin

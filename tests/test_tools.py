@@ -139,7 +139,8 @@ class SceneInputTests(unittest.TestCase):
         self.assertIn("pipeline/scene.h", read(os.path.join(ROOT, "Makefile")))
 
     def test_scene_results_are_recorded(self):
-        d = json.load(open(os.path.join(ROOT, "docs", "results", "real-images.json")))
+        with open(os.path.join(ROOT, "docs", "results", "real-images.json")) as f:
+            d = json.load(f)
         by = {r["max_background"]: r for r in d["rows"]}
         self.assertEqual(by[140]["exact"], 1.0)
         self.assertLess(by[255]["exact"], 0.9)
@@ -147,7 +148,8 @@ class SceneInputTests(unittest.TestCase):
 
 class FrontierTests(unittest.TestCase):
     def test_grid_and_replay(self):
-        d = json.load(open(os.path.join(ROOT, "docs", "results", "frontier-grid.json")))
+        with open(os.path.join(ROOT, "docs", "results", "frontier-grid.json")) as f:
+            d = json.load(f)
         self.assertEqual(len(d["cells"]), 54)
         r = subprocess.run([PY, os.path.join(ROOT, "scripts", "frontier.py"), "replay", "--seeds", "20", "--budgets", "14",
                             "--out", os.path.join(tempfile.mkdtemp(), "r.json")],
@@ -158,6 +160,52 @@ class FrontierTests(unittest.TestCase):
     def test_attacker_has_rate_knobs(self):
         self.assertIn("ATK_RATE", read(os.path.join(ROOT, "image", "pipeline.sh")))
         self.assertIn("frontier", read(os.path.join(ROOT, "siege")))
+
+
+class SecpolTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("gen_secpol", os.path.join(ROOT, "tools", "gen_secpol.py"))
+        cls.g = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cls.g)
+
+    def atk_block(self, text):
+        start = text.index("allow atk_t self:ability {")
+        return text[start:text.index("}", start)]
+
+    def test_committed_policies_match_generator(self):
+        for name, kw in self.g.VARIANTS.items():
+            self.assertEqual(read(os.path.join(ROOT, "image", "secpol", name + ".secpol")), self.g.policy(name, **kw), name)
+
+    def test_variants_restrict_what_they_claim(self):
+        P = {n: self.g.policy(n, **kw) for n, kw in self.g.VARIANTS.items()}
+        self.assertIn("allow atk_t det_t:channel connect;", P["open"])
+        self.assertNotIn("allow atk_t det_t:channel connect;", P["connect"])
+        self.assertIn("priority:1-9", P["ceiling"])
+        self.assertNotIn("\n    priority\n", self.atk_block(P["ceiling"]))
+        self.assertIn("\n    priority\n", self.atk_block(P["open"]))
+        self.assertNotIn("pathspace", self.atk_block(P["names"]))
+        self.assertIn("pathspace", self.atk_block(P["open"]))
+        self.assertNotIn("allow_attach atk_t", P["names"])
+        full = P["full"]
+        self.assertNotIn("allow atk_t det_t:channel connect;", full)
+        self.assertIn("priority:1-9", full)
+        self.assertNotIn("pathspace", self.atk_block(full))
+
+    def test_ceiling_is_below_the_pipeline(self):
+        self.assertLess(self.g.CEILING, 10)       # equal priority already breaks the pipeline (docs/more-attackers.md)
+
+    def test_every_variant_is_in_image_and_build(self):
+        ram = read(os.path.join(ROOT, "image", "ram.build"))
+        for name in self.g.VARIANTS:
+            self.assertIn(f"secpol-{name}.bin=build/secpol-{name}.bin", ram)
+        self.assertIn("bin/secpolpush", ram)
+        self.assertIn("secpolcompile -m", read(os.path.join(ROOT, "scripts", "build.sh")))
+        sh = read(os.path.join(ROOT, "image", "pipeline.sh"))
+        self.assertIn("secpolpush /proc/boot/secpol-$SECPOL.bin", sh)
+        self.assertIn("-T det_t", sh)
+        self.assertIn("-T atk_t", sh)
 
 
 if __name__ == "__main__":
@@ -223,3 +271,63 @@ class TargetAddressing(unittest.TestCase):
             src = f.read()
         self.assertIn("ARCH    ?= aarch64le", src)
         self.assertIn("-Vgcc_nto$(ARCH)", src)
+
+
+class ShowAndListTests(unittest.TestCase):
+    """The no-install commands: they must work from a clean checkout and say true things."""
+
+    def test_show_main_matrix_runs_without_qnx(self):
+        out = subprocess.run([PY, os.path.join(ROOT, "siege"), "show", "--no-color"], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stderr)
+        self.assertIn("workflood @prio 30", out.stdout)
+        row = [l for l in out.stdout.splitlines() if l.startswith("workflood @prio 30")][0].split()
+        self.assertEqual(row[-4:], ["15/15", "1/15", "15/15", "15/15"])      # the headline finding, as committed
+
+    def test_show_reads_given_files_and_colours_flaky_cells(self):
+        with tempfile.TemporaryDirectory() as d:
+            f = os.path.join(d, "r.json")
+            write_json(f, [entry("none", "a", "cpu", 20, [run(fail=True)] * 2 + [run()] * 2),
+                           entry("prio", "a", "cpu", 20, [run()] * 4)])
+            out = subprocess.run([PY, os.path.join(ROOT, "siege"), "show", f, "--no-color"], capture_output=True, text=True)
+            self.assertEqual(out.returncode, 0, out.stderr)
+            self.assertIn("2/4", out.stdout)
+            self.assertIn("0/4", out.stdout)
+
+    def test_show_rejects_files_with_no_results(self):
+        with tempfile.TemporaryDirectory() as d:
+            f = os.path.join(d, "x.json")
+            write_json(f, {"not": "results"})
+            out = subprocess.run([PY, os.path.join(ROOT, "siege"), "show", f], capture_output=True, text=True)
+            self.assertNotEqual(out.returncode, 0)
+            self.assertIn("no scenario results", out.stderr)
+
+    def test_list_names_profiles_and_scenarios(self):
+        out = subprocess.run([PY, os.path.join(ROOT, "siege"), "list", "--config",
+                              os.path.join(ROOT, "examples", "secpol", "siege.json")], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stderr)
+        for word in ("secpol-ceiling", "workflood", "name squat"):
+            self.assertIn(word, out.stdout)
+
+    def test_readme_start_here_commands_exist(self):
+        text = read(os.path.join(ROOT, "README.md"))
+        self.assertIn("## Start here", text)
+        for cmd in ("show", "list", "doctor"):
+            self.assertIn(f"./siege {cmd}", text)
+            self.assertIn(cmd, read(os.path.join(ROOT, "siege")))
+
+
+class SecpolDocTests(unittest.TestCase):
+    def test_security_policy_doc_links_resolve(self):
+        import re
+        doc = os.path.join(ROOT, "docs", "security-policy.md")
+        text = read(doc)
+        for target in re.findall(r"\]\((\.\./[^)#]+|[a-z][^):#]+)\)", text):
+            self.assertTrue(os.path.exists(os.path.normpath(os.path.join(ROOT, "docs", target))), target)
+
+    def test_every_secpol_scenario_has_declared_expectations(self):
+        with open(os.path.join(ROOT, "examples", "secpol", "siege.json")) as f:
+            cfg = json.load(f)
+        declared = [s for s in cfg["scenarios"] if "expect" in s]
+        self.assertGreaterEqual(len(declared), 9)
+        for s in declared:
+            self.assertEqual(set(s["expect"]), set(cfg["profiles"]), s["label"])

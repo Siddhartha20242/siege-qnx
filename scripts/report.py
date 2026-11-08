@@ -19,12 +19,16 @@ ap.add_argument("--config", default=os.path.join(here, "..", "siege.json"), help
 ap.add_argument("--deadline", type=int, help="deadline in ms, for the charts (default: from the config)")
 args = ap.parse_args()
 
-PROFILE_ORDER = ["none", "prio", "isolate", "budget"]
+PROFILE_ORDER = ["none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol"]
 PROFILE_NOTE = {
     "none": "default round-robin priority 10",
     "prio": "pipeline at priority 40",
     "isolate": "pipeline on CPU 1, attackers on CPU 0",
     "budget": "attackers capped by SCHED_SPORADIC (10 ms / 100 ms)",
+    "secpol-connect": "security policy: attackers may not connect to the detector's channel",
+    "secpol-ceiling": "security policy: attackers may not raise their priority above 9",
+    "secpol-names": "security policy: attackers may not attach a name to the path space",
+    "secpol": "security policy: all three restrictions together",
 }
 
 # Interference channels, in the vocabulary safety engineers use for "freedom from interference".

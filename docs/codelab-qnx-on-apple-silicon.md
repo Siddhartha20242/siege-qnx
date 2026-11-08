@@ -15,6 +15,16 @@ Steps 1 to 5 were done on a real machine (macOS on an M3 Pro, Ubuntu 24.04.5,
 QNX SDP 8.0) and the fixes in the troubleshooting section are problems that
 actually came up.
 
+## Before you start
+
+You need these from the start, so nothing surprises you later:
+
+* A Mac with an M-series chip and about 30 GB of free disk.
+* [Homebrew](https://brew.sh), which Step 8 uses to install QEMU.
+* [UTM](https://mac.getutm.app) (Step 1) and the Ubuntu 24.04 Desktop for Arm64 ISO.
+* A free qnx.com account (Step 4). Use the Ubuntu **desktop** in the VM: the QNX
+  Software Center installer is a graphical program.
+
 ## How it fits together
 
 The QNX SDP 8.0 build tools (`qcc`, `mkifs`) run on x86-64 Linux or Windows.
@@ -55,6 +65,8 @@ curl -fsSL https://raw.githubusercontent.com/Siddhartha20242/siege-qnx/main/scri
 bash vm-setup.sh --check   # reports what is missing, changes nothing
 bash vm-setup.sh           # does it; asking for sudo
 ```
+
+(No network access to GitHub from the VM? Copy `scripts/vm-setup.sh` from your clone with `scp` instead.)
 
 It checks each step first, so it is safe to run twice, and it ends by printing the
 address to give `./siege setup`. It does not do the QNX account, licence or Software
@@ -187,6 +199,8 @@ ls $QNX_TARGET/aarch64le/boot/sys/startup-qemu-virt
 You should see the `gcc_ntoaarch64le` toolchain listed and the startup file
 should exist. Run the `source` line in every new terminal before using QNX
 tools.
+
+If the SDP ends up anywhere other than `~/qnx800`, remember its path: Step 9 needs it as `SIEGE_SDP`.
 
 ## Step 6. Your first QNX program
 
@@ -347,9 +361,11 @@ You should get a file of about 3.7 MB.
 
 ## Step 8. Boot it on your Mac
 
-Copy the image out of the VM. Install the SSH server there once
-(`sudo apt install -y openssh-server`) and find its address with
-`hostname -I`. Then on the Mac:
+First check that the Mac can reach the VM: `ssh youruser@VM-ADDRESS echo ok` should print `ok`. In UTM's network settings use **Shared Network**; if it hangs, see the UTM network documentation.
+
+Copy the image out of the VM. Its SSH server is already running if you ran
+`vm-setup.sh`; otherwise install it once (`sudo apt install -y openssh-server`).
+Find the VM's address with `hostname -I`. Then on the Mac:
 
 ```sh
 brew install qemu
@@ -382,6 +398,22 @@ Press **Ctrl-A, then x** to quit QEMU.
 
 That is the full loop: edit on the Mac, cross-compile in the VM, build an
 image, boot it in QEMU.
+
+## Step 9. Run Siege on what you just built
+
+Everything above is the foundation the Siege project uses. On the Mac:
+
+```sh
+git clone https://github.com/Siddhartha20242/siege-qnx && cd siege-qnx
+./siege setup youruser@VM-ADDRESS    # the VM from Step 1; it checks the SDP and tells you what is missing
+./siege doctor                       # everything should say ok
+./siege build                        # cross-compile in the VM, build build/siege.ifs here
+./siege live                         # open http://127.0.0.1:8766, pick "workflood @prio 30", press Run
+```
+
+The repository only needs to be on the Mac; `./siege build` copies the sources into
+the VM and brings the image back. If the SDP is not in `~/qnx800` in the VM, set
+`SIEGE_SDP=/path/to/qnx800` first.
 
 ## Troubleshooting
 

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """siege: one command for building, running, testing and reporting.
 
+    ./siege show [secpol|FILES]  the measured results as a table in your terminal (nothing to install; --open for the HTML report)
+    ./siege list              what a config can run: scenarios and hardening profiles
     ./siege doctor            check that everything needed is installed and reachable
     ./siege setup user@host   remember the machine that has the QNX SDP
     ./siege build             cross-compile and build the QNX image
@@ -27,6 +29,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 SCRIPTS = os.path.join(ROOT, "scripts")
 
 TOOLS = {
+    "show": ("show.py", "show saved results in the terminal; works with nothing installed"),
     "build": ("build.sh", "cross-compile and build the QNX image (build/siege.ifs)"),
     "boot": ("run.sh", "boot the image interactively in QEMU (-n skips the rebuild)"),
     "live": ("live.py", "browser dashboard that runs scenarios on QNX"),
@@ -39,7 +42,8 @@ TOOLS = {
     "demo": ("demo.py", "the demo scenes as a typed terminal session"),
 }
 
-G, R, Y, B, D, X = "\033[32m", "\033[31m", "\033[33m", "\033[1m", "\033[2m", "\033[0m"
+G, R, Y, B, D, X = ("\033[32m", "\033[31m", "\033[33m", "\033[1m", "\033[2m", "\033[0m") \
+    if sys.stdout.isatty() and not os.environ.get("NO_COLOR") else ("",) * 6
 
 
 def vm_address():
@@ -63,6 +67,7 @@ def run(cmd, timeout=30):
 def doctor(args):
     """Check each requirement and say how to fix what is missing."""
     problems = 0
+    first_fix = []
 
     def line(ok, what, detail="", fix=None, warn=False):
         nonlocal problems
@@ -71,6 +76,8 @@ def doctor(args):
         if not ok:
             if not warn:
                 problems += 1
+                if not first_fix and fix:
+                    first_fix.append(fix if isinstance(fix, str) else fix[0])
             for f in ([fix] if isinstance(fix, str) else (fix or [])):
                 print(f"        fix: {f}")
 
@@ -97,9 +104,16 @@ def doctor(args):
     else:
         vm = vm_address()
         if not vm:
-            line(False, "build machine", "none configured",
-                 ["a machine with the QNX SDP: ./siege setup user@host",
-                  "or build locally: source ~/qnx800/qnxsdp-env.sh (x86-64 Linux or Windows hosts)"])
+            mac = sys.platform == "darwin"
+            steps = (["the QNX tools only run on x86-64 Linux or Windows, so a Mac needs a free Ubuntu VM. In order:",
+                      "  1. create the VM            docs/codelab-qnx-on-apple-silicon.md, Step 1",
+                      "  2. inside it, run           bash vm-setup.sh   (the codelab's shortcut for Steps 2 and 3)",
+                      "  3. get QNX SDP 8.0 in it    codelab Steps 4 and 5 (needs your own free QNX account)",
+                      "  4. back here, run           ./siege setup user@vm-address"]
+                     if mac else
+                     ["a machine with the QNX SDP: ./siege setup user@host",
+                      "or build locally: source ~/qnx800/qnxsdp-env.sh (x86-64 Linux or Windows hosts)"])
+            line(False, "build machine", "none configured", steps)
         else:
             line(bool(shutil.which("rsync")), "rsync on this machine", "", "macOS: it ships with the OS; Linux: sudo apt install rsync")
             code, out = run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=6", vm, "true"], 15)
@@ -138,7 +152,10 @@ def doctor(args):
 
     print()
     if problems:
-        print(f"{R}{problems} problem(s).{X} Fix the lines above, then run ./siege doctor again.")
+        print(f"{R}{problems} thing(s) missing for building and running on QNX.{X} "
+              f"Reading the results needs none of it: ./siege show, ./siege frontier replay (about a minute), ./siege selftest")
+        if first_fix:
+            print(f"{B}To build and run:{X} " + ("follow the numbered steps above" if first_fix[0].rstrip().endswith(":") else f"start with {first_fix[0]}"))
         return 1
     print(f"{G}Ready.{X} Next: ./siege build, then ./siege live")
     return 0
@@ -188,6 +205,32 @@ def init(args):
     print(f"     and read PIPE_PRIO if you want the 'prio' profile to set its priority (examples/ticker/ticker.c does).")
     print(f"  3. ./siege build && ./siege test --config siege-{a.name}.json --profile none --json none.json")
     print(f"  4. ./siege test --config siege-{a.name}.json --profile prio --json prio.json && ./siege report none.json prio.json")
+    return 0
+
+
+def list_config(args):
+    """Say what a config can run, so nobody has to read the JSON."""
+    import argparse
+    ap = argparse.ArgumentParser(prog="siege list")
+    ap.add_argument("--config", default=os.path.join(ROOT, "siege.json"))
+    a = ap.parse_args(args)
+    try:
+        cfg = json.load(open(a.config))
+    except (OSError, ValueError) as e:
+        print(f"{R}cannot read {a.config}:{X} {e}")
+        return 1
+    sys.path.insert(0, SCRIPTS)
+    profiles = cfg.get("profiles", [])
+    print(f"{B}{os.path.relpath(a.config, ROOT)}{X}: deadline {cfg.get('deadline_ms')} ms, "
+          f"{cfg.get('duration_s', 5)} s runs, {cfg.get('runs', 3)} runs each by default (--runs N changes it)\n")
+    print(f"{B}Hardening profiles{X}  (./siege test --profile NAME)")
+    for p in (profiles if isinstance(profiles, list) else list(profiles)):
+        print(f"  {p}")
+    print(f"\n{B}Scenarios{X}  (./siege test --only 'part of a label')")
+    for sc in cfg.get("scenarios", []):
+        atk = sc.get("attacker") or "-"
+        prio = f"priority {sc['prio']}" if "prio" in sc else ""
+        print(f"  {sc['label']:46} {D}{atk:10} {prio}{X}")
     return 0
 
 
@@ -256,6 +299,8 @@ def main():
         return setup(rest)
     if cmd == "init":
         return init(rest)
+    if cmd == "list":
+        return list_config(rest)
     if cmd == "hw":
         return hw(rest)
     if cmd == "presubmit":

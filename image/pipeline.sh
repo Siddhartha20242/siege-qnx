@@ -37,6 +37,9 @@ ATK_DELAY=${ATK_DELAY:-1}
 #   prio     the pipeline outranks its neighbours (priority 40)
 #   isolate  the pipeline owns CPU 1, neighbours are confined to CPU 0
 #   budget   neighbours are capped with SCHED_SPORADIC (10 ms per 100 ms)
+#   secpol-connect | secpol-ceiling | secpol-names | secpol (all three)
+#            a QNX security policy is pushed into the kernel; the detector runs as type det_t
+#            and the attackers as type atk_t (image/secpol/*.secpol, tools/gen_secpol.py)
 PROFILE=${PROFILE:-none}
 export PROFILE
 SUPERVISE=${SUPERVISE:-0}
@@ -46,8 +49,19 @@ case $PROFILE in
     prio)    SRC_PRIO=40; DET_PRIO=40; CTL_PRIO=40 ;;
     isolate) PIPE_CPU=1; ATK_CPU=0 ;;
     budget)  ATK_SS=${ATK_SS:-10:100} ;;
+    secpol|secpol-*) SECPOL=${PROFILE#secpol}; SECPOL=${SECPOL#-}; SECPOL=${SECPOL:-full} ;;
     *)       echo "pipeline.sh: unknown PROFILE '$PROFILE'"; exit 2 ;;
 esac
+
+# Security policy profiles: push the compiled policy, then give the detector and the
+# attackers their types. The pipeline's priorities are left as they are in 'none'.
+if [ -n "$SECPOL" ]; then
+    secpolpush /proc/boot/secpol-$SECPOL.bin || { echo "pipeline.sh: secpolpush $SECPOL failed"; exit 3; }
+    DET_T="-T det_t"
+    ATK_T="-T atk_t -p 9"           # starts at 9, below the pipeline; any raise is up to the policy
+fi
+ON_DET=""; [ -n "$PIPE_CPU$DET_T" ] && ON_DET="on ${PIPE_CPU:+-C $PIPE_CPU} $DET_T"
+ON_ATK=""; [ -n "$ATK_CPU$ATK_T" ] && ON_ATK="on ${ATK_CPU:+-C $ATK_CPU} $ATK_T"
 
 # Emulator calibration: QEMU adds ~3 ms whenever an idle virtual CPU is woken,
 # which real hardware does not. A priority-1 spinner per CPU keeps them busy
@@ -70,9 +84,9 @@ waitfor /dev/name/local/siege_ctl 5
 if [ "$SUPERVISE" = "1" ] || [ -n "$KILL_AT" ]; then
     NORESTART=""
     [ "$SUPERVISE" = "1" ] || NORESTART="-r 0"
-    ${PIPE_CPU:+on -C $PIPE_CPU} supervisor -P 50 ${KILL_AT:+-k $KILL_AT} $NORESTART ${NAME_DEFENCE:+-K} -- detector -P $DET_PRIO &
+    $ON_DET supervisor -P 50 ${KILL_AT:+-k $KILL_AT} $NORESTART ${NAME_DEFENCE:+-K} -- detector -P $DET_PRIO &
 else
-    ${PIPE_CPU:+on -C $PIPE_CPU} detector -P $DET_PRIO &
+    $ON_DET detector -P $DET_PRIO &
 fi
 DET_PID=$!
 waitfor /dev/name/local/siege_det 5
@@ -83,7 +97,7 @@ ATK_PIDS=""
 if [ -n "$ATK" ]; then
     sleep $ATK_DELAY
     for a in $ATK; do
-        ${ATK_CPU:+on -C $ATK_CPU} attacker -m $a -d $((DUR - ATK_DELAY + 1)) -P $ATK_PRIO ${ATK_SS:+-s $ATK_SS} ${ATK_RATE:+-r $ATK_RATE} ${ATK_WORK:+-w $ATK_WORK} &
+        $ON_ATK attacker -m $a -d $((DUR - ATK_DELAY + 1)) -P $ATK_PRIO ${ATK_SS:+-s $ATK_SS} ${ATK_RATE:+-r $ATK_RATE} ${ATK_WORK:+-w $ATK_WORK} &
         ATK_PIDS="$ATK_PIDS $!"
     done
 fi

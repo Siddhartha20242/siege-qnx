@@ -144,6 +144,7 @@ def grid_table(truth):
 
 def cmd_replay(args):
     truth, d = load_truth()
+    print(f"Replaying {args.seeds} seeds on the saved grid; this takes about a minute.", file=sys.stderr, flush=True)
     seeds = range(args.seeds)
     lines = [f"Answer key: {len(CELLS)} cells measured, {d['runs']} runs each; a cell counts as failing if most runs failed "
              f"({sum(truth.values())} of {len(CELLS)} fail). Accuracy = share of all cells the model classifies correctly "

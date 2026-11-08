@@ -2,6 +2,8 @@
 
 Stress-testing for real-time isolation on QNX 8.0.
 
+**Try it now, with nothing installed:** `./siege show` prints every measured result in your terminal.
+
 A real-time pipeline is only as safe as its worst neighbour. Siege runs a
 camera-to-steering pipeline on QNX, attacks it with misbehaving processes
 (a CPU hog, an inference-style compute neighbour, a message flood, a lock held
@@ -15,6 +17,26 @@ anything: passing runs show an isolation setup survived the attacks tried, not
 that it is free from interference in general.
 
 ![How Siege fits together](docs/architecture.svg)
+
+## Start here
+
+Pick the row that matches what you have. Each one is a working path, and
+`./siege doctor` tells you exactly which step you are missing.
+
+| You have | Do this | You get |
+|---|---|---|
+| Only Python 3 | `./siege show` | Every measured result as a table in your terminal. `./siege show secpol` for the security-policy runs. No QNX, QEMU or account needed. |
+| Python 3 and `numpy` | `./siege frontier replay` | The attack-boundary learner re-run on the saved measurements. |
+| QNX SDP 8.0 on x86-64 Linux | `./siege build && ./siege live` | The dashboard: pick an attack and a hardening profile, press Run, watch the deadlines. |
+| A Mac (Apple Silicon) | follow the [codelab](docs/codelab-qnx-on-apple-silicon.md) once, then `./siege setup user@vm` | The same, with the QNX tools running in a free Ubuntu VM. |
+
+`./siege list` shows every attack and profile you can run, and `./siege --help`
+lists all commands. `./siege show secpol` shows the profiles that use QNX
+security policy: `secpol-connect` stops the attacker sending to the detector at
+all, `secpol-ceiling` stops it raising its own priority above the pipeline's,
+`secpol-names` stops it registering a service name, and `secpol` is all three.
+The comparison against the scheduling profiles is in
+[`docs/security-policy.md`](docs/security-policy.md).
 
 ## The finding
 
@@ -94,8 +116,8 @@ Every scenario ran against every hardening profile (15 runs each;
 * **A killed detector is never replaced without a supervisor.** With one it
   was serving again in about 3 ms (median).
 * **Memory, descriptor and crash-loop attacks and a plain message flood did
-  not break it** at the default priority (no failure in 5 runs each; that is
-  "not observed", not "cannot happen").
+  not break it** at the default priority (0 of 15 runs failed for descriptors and
+  crash loops; memory failed 1 of 15; "not observed" is not "cannot happen").
 
 ![All scenarios against all profiles](docs/report-heatmap.svg)
 
@@ -169,7 +191,8 @@ only for testing the page.)
 ## Try it and tell us what you think
 
 Siege has so far been used only by its author, so outside eyes are the most
-useful thing it can get. If you work with QNX and have ten minutes:
+useful thing it can get. [`docs/first-run-test.md`](docs/first-run-test.md) is a
+ten-minute checklist that needs no QNX. If you work with QNX and have ten minutes:
 
 ```sh
 git clone https://github.com/Siddhartha20242/siege-qnx && cd siege-qnx
@@ -178,7 +201,7 @@ git clone https://github.com/Siddhartha20242/siege-qnx && cd siege-qnx
 ./siege live          # open http://127.0.0.1:8766, pick "workflood @prio 30", press Run
 ```
 
-Then open an issue with the "I tried Siege" template: what worked, what
+Then [open an issue](https://github.com/Siddhartha20242/siege-qnx/issues/new/choose) with the "I tried Siege" template: what worked, what
 confused you, and whether you agree with the findings. If you have a real
 board, [`docs/hardware.md`](docs/hardware.md) shows how to run the same tests
 on it and share the result.

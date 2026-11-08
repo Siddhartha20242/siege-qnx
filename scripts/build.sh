@@ -11,7 +11,7 @@
 set -e
 cd "$(dirname "$0")/.."
 
-STEPS='make -s && cat image/ram.build $(ls image/local.build 2>/dev/null) > build/image.build && mkifs build/image.build build/siege.ifs'
+STEPS='make -s && for p in image/secpol/*.secpol; do secpolcompile -m -o build/secpol-$(basename $p .secpol).bin $p || exit 1; done && cat image/ram.build $(ls image/local.build 2>/dev/null) > build/image.build && mkifs build/image.build build/siege.ifs'
 mkdir -p build
 
 if [ -n "$QNX_TARGET" ] && command -v qcc >/dev/null 2>&1; then

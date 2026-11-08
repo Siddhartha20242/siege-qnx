@@ -28,7 +28,17 @@ static long g_ss_budget_ms, g_ss_period_ms;   /* SCHED_SPORADIC budget, 0 = off 
 /* Set this thread's scheduling: plain round-robin, or a sporadic server that
  * caps the thread at budget_ms of CPU per period_ms, then drops it to a low
  * priority until the budget is replenished. */
+static volatile int g_prio_denied;      /* threads whose request for g_prio the kernel refused (security policy) */
+
+static int atk_set_prio_raw(void);
 static int atk_set_prio(void)
+{
+    int rc = atk_set_prio_raw();
+    if (rc) g_prio_denied++;
+    return rc;
+}
+
+static int atk_set_prio_raw(void)
 {
     if (!g_ss_period_ms) return set_prio(g_prio);
 
@@ -546,6 +556,6 @@ int main(int argc, char **argv)
         fprintf(stderr, "attacker: unknown mode '%s'\n", mode);
         return 2;
     }
-    printf("ATK mode=%s ran_ms=%u\n", mode, (unsigned)((now_ns() - t_start) / 1000000ULL));
+    printf("ATK mode=%s ran_ms=%u prio_want=%d prio_denied=%d\n", mode, (unsigned)((now_ns() - t_start) / 1000000ULL), g_prio, g_prio_denied);
     return rc;
 }
