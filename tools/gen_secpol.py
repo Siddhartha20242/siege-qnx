@@ -36,7 +36,7 @@ def abilities(skip=(), extra=()):
     return "{\n" + "\n".join(rows) + "\n}"
 
 
-def policy(name, connect=True, ceiling=False, names=True):
+def policy(name, connect=True, ceiling=False, names=True, det_drop=()):
     skip = set()
     extra = []
     if ceiling:
@@ -50,7 +50,7 @@ def policy(name, connect=True, ceiling=False, names=True):
             "# The pipeline, the shell and the harness keep every ability, as before any policy.",
             f"allow default self:ability {abilities(extra=['settypeid:atk_t,det_t', 'gain_priv:channel_connect'])};",
             "allow_attach default /...;",
-            f"allow det_t self:ability {abilities()};",
+            f"allow det_t self:ability {abilities(det_drop)};",
             "allow_attach det_t /...;",
             "# The camera and controller (type default) send to the detector's channel.",
             "allow default det_t:channel connect;",
@@ -69,6 +69,18 @@ def policy(name, connect=True, ceiling=False, names=True):
     return "\n".join(text) + "\n"
 
 
+LEAST_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "det_least.txt")
+PROBE_OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "image", "secpol-probe")
+
+
+def det_least():
+    """The abilities det_t keeps in the `least` variant: tools/det_least.txt, written by tools/minimize_policy.py."""
+    if not os.path.exists(LEAST_FILE):
+        return None
+    with open(LEAST_FILE) as f:
+        return [w for w in f.read().split() if not w.startswith("#")]
+
+
 VARIANTS = {
     "open":    dict(),
     "connect": dict(connect=False),
@@ -76,6 +88,12 @@ VARIANTS = {
     "names":   dict(names=False),
     "full":    dict(connect=False, ceiling=True, names=False),
 }
+
+VARIANTS["bare"] = dict(det_drop=ABILITIES)     # control: det_t holds no ability at all. If the pipeline still runs, the probes prove nothing.
+VARIANTS["minimal"] = dict(connect=False, ceiling=True, names=False, det_drop=ABILITIES)     # all three restrictions, det_t with no abilities
+least = det_least()
+if least is not None:
+    VARIANTS["least"] = dict(connect=False, ceiling=True, names=False, det_drop=tuple(a for a in ABILITIES if a not in least))
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)

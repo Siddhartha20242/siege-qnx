@@ -114,9 +114,17 @@ int main(int argc, char **argv)
          * our own after 5 s of silence instead of waiting for ever. */
         uint64_t idle_ns = 5000000000ULL;
         TimerTimeout(CLOCK_MONOTONIC, _NTO_TIMEOUT_RECEIVE, NULL, &idle_ns, NULL);
-        int rcvid = MsgReceive(att->chid, &f, sizeof f, NULL);
+        struct _msg_info info;
+        int rcvid = MsgReceive(att->chid, &f, sizeof f, &info);
         if (rcvid == -1 && errno == ETIMEDOUT && frames_seen > 0) break;
         if (rcvid <= 0) continue;           /* pulse or error */
+        /* Never trust the sender's length: a short message would leave the rest of f holding the
+         * previous message (or uninitialised stack). STOP is just the type; every other message
+         * is a whole frame_msg_t. */
+        if (info.msglen < (int)sizeof f.type || (f.type != MSG_STOP && info.msglen < (int)sizeof f)) {
+            MsgError(rcvid, EBADMSG);
+            continue;
+        }
 
         if (f.type == MSG_STOP) {
             MsgReply(rcvid, 0, &reply, 1);

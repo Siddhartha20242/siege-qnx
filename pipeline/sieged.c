@@ -32,7 +32,8 @@ static int io_read(resmgr_context_t *ctp, io_read_t *msg, iofunc_ocb_t *ocb)
     read_buf[sizeof read_buf - 1] = '\0';
 
     int len = (int)strlen(read_buf);
-    int off = (int)ocb->offset;
+    /* The offset is 64-bit and any reader can seek it anywhere: compare before narrowing. */
+    int off = ocb->offset > (off_t)len ? len : (int)ocb->offset;
     int n = len - off;
     if (n < 0) n = 0;
     if (n > (int)msg->i.nbytes) n = (int)msg->i.nbytes;
@@ -51,6 +52,7 @@ static int on_stats(message_context_t *ctp, int code, unsigned flags, void *hand
 {
     (void)code; (void)flags; (void)handle;
     const stats_msg_t *m = (const stats_msg_t *)ctp->msg;
+    if (ctp->info.msglen < (int)sizeof *m) { MsgError(ctp->rcvid, EBADMSG); return 0; }
     strncpy(status_text, m->text, sizeof status_text - 1);
     status_text[sizeof status_text - 1] = '\0';
     MsgReply(ctp->rcvid, EOK, NULL, 0);

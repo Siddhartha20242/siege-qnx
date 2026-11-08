@@ -13,7 +13,7 @@ import argparse, glob, json, os, subprocess, sys, webbrowser
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 G, R, Y, B, D, X = "\033[32m", "\033[31m", "\033[33m", "\033[1m", "\033[2m", "\033[0m"
-ORDER = ["none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol"]
+ORDER = ["none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol", "secpol-least", "secpol-minimal"]
 
 
 def main_files():
@@ -71,6 +71,7 @@ LEGEND = {
     "budget": "neighbours capped by a CPU budget",
     "secpol-connect": "policy: attacker may not send to the detector", "secpol-ceiling": "policy: attacker may not raise its priority past 9",
     "secpol-names": "policy: attacker may not register a service name", "secpol": "policy: all three at once",
+    "secpol-least": "all three, and the detector keeps only 5 abilities", "secpol-minimal": "all three, and the detector keeps no abilities",
 }
 
 

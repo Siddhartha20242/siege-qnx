@@ -15,6 +15,8 @@ Where to start depends on what you want.
 | [`why-qnx.md`](why-qnx.md) | Which findings depend on how QNX works and which would hold on any fixed-priority scheduler, with the history behind priority inversion |
 | [`adas-isolation.md`](adas-isolation.md) | The same pipeline configured as a 30 Hz front-camera driver-assistance stack sharing a machine with lower-criticality software, and how the findings map to freedom-from-interference vocabulary |
 | [`security-policy.md`](security-policy.md) | QNX security policies (connect denial, priority ceiling, name-attach denial) against the scheduling profiles, with the predictions made before the runs |
+| [`code-review.md`](code-review.md) | An independent read of the C programs: what was found, what was fixed, what was left and why, and what it means for the published numbers |
+| [`for-teams.md`](for-teams.md) | How a team integrating mixed-criticality software on QNX would use Siege: the loop, which mechanism for which symptom, what to hand a reviewer, and where it stops |
 | [`first-run-test.md`](first-run-test.md) | A ten-minute checklist for a first-time user, and what to send back |
 | [`test-report.html`](test-report.html) / [`test-report.md`](test-report.md) | The same evidence as a safety-style test record: numbered test cases, pass criteria, traceability, limits, sign-off. Evidence, not certification |
 

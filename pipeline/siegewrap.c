@@ -82,7 +82,15 @@ int main(int argc, char **argv)
             exited = 1;
         }
     }
-    if (!exited) { kill(child, SIGTERM); waitpid(child, &status, 0); }
+    if (!exited) {
+        /* Ask politely, then insist: a child that ignores SIGTERM must not hang the wrapper before it prints RESULT. */
+        kill(child, SIGTERM);
+        for (int w = 0; w < 20 && waitpid(child, &status, WNOHANG) != child; w++) {
+            struct timespec ts = { 0, 100000000L };
+            nanosleep(&ts, NULL);
+            if (w == 19) { kill(child, SIGKILL); waitpid(child, &status, 0); }
+        }
+    }
 
     int died = exited && !overran && !(WIFEXITED(status) && WEXITSTATUS(status) == 0);
     qsort(lat_us, done, sizeof lat_us[0], cmp_u32);

@@ -54,7 +54,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    uint32_t total = (uint32_t)duration_s * (uint32_t)(1000000000ULL / period_ns);
+    uint32_t total = (uint32_t)(((uint64_t)duration_s * 1000000000ULL) / period_ns);   /* multiply first: dividing first lost frames at -p 30 */
     uint32_t sent = 0, dropped = 0;
     frame_msg_t f;
     uint8_t reply;

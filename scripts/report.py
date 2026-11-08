@@ -19,7 +19,7 @@ ap.add_argument("--config", default=os.path.join(here, "..", "siege.json"), help
 ap.add_argument("--deadline", type=int, help="deadline in ms, for the charts (default: from the config)")
 args = ap.parse_args()
 
-PROFILE_ORDER = ["none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol"]
+PROFILE_ORDER = ["none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol", "secpol-least", "secpol-minimal"]
 PROFILE_NOTE = {
     "none": "default round-robin priority 10",
     "prio": "pipeline at priority 40",
@@ -28,6 +28,8 @@ PROFILE_NOTE = {
     "secpol-connect": "security policy: attackers may not connect to the detector's channel",
     "secpol-ceiling": "security policy: attackers may not raise their priority above 9",
     "secpol-names": "security policy: attackers may not attach a name to the path space",
+    "secpol-least": "security policy: all three restrictions, and the detector keeps only the 5 abilities the probes could not rule out",
+    "secpol-minimal": "security policy: all three restrictions, and the detector holds no abilities at all",
     "secpol": "security policy: all three restrictions together",
 }
 

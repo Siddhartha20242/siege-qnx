@@ -53,7 +53,7 @@ for r in rows:
     if k not in best or sum(1 for x in r["runs"] if x) >= sum(1 for x in best[k]["runs"] if x):   # more valid runs wins; a tie goes to the later file
         best[k] = r
 rows = list(best.values())
-profiles = [p for p in ("none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol") if any(r["profile"] == p for r in rows)]
+profiles = [p for p in ("none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol", "secpol-least", "secpol-minimal") if any(r["profile"] == p for r in rows)]
 scenarios = sorted({r["scenario"] for r in rows}, key=lambda s: order.index(s) if s in order else len(order))
 meta = {r["scenario"]: dict(atk=r.get("atk", ""), extra=r.get("extra", {}) or {}) for r in rows}
 targets = sorted({r.get("target", "emulator") for r in rows})

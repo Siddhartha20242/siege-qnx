@@ -1,0 +1,6 @@
+# Abilities det_t keeps in the `least` policy. Written by tools/minimize_policy.py combine.
+runstate
+umask
+trace
+chroot
+xprocess_mem_read

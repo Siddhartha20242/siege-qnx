@@ -1,0 +1,326 @@
+{
+ "trials": 2,
+ "minutes": 16.0,
+ "results": {
+  "open": {
+   "built": true,
+   "passes": 4,
+   "trials": 4
+  },
+  "probe-spawn_setuid": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-spawn_setgid": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-setuid": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-setgid": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-getid": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-pathspace": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-reboot": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-cpumode": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-runstate": {
+   "built": true,
+   "passes": 1,
+   "trials": 2
+  },
+  "probe-confset": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-rsrcdbmgr": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-session": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-umask": {
+   "built": true,
+   "passes": 1,
+   "trials": 2
+  },
+  "probe-event": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-rlimit": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-mem_add": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-mem_phys": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-mem_special": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-mem_global": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-mem_peer": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-mem_lock": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-spawn": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-fork": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-prot_exec": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-wait": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-msg_queue": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-clockset": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-dumper": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-interrupt": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-io": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-trace": {
+   "built": true,
+   "passes": 1,
+   "trials": 2
+  },
+  "probe-priority": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-connection": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-schedule": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-signal": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-timer": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-pgrp": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-map_fixed": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-path_trust": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-swap": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-rconstraint": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-child_newapp": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-public_channel": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-aps_root": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-able_create": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-runstate_burst": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-default_timer_tolerance": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-xprocess_query": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-chroot": {
+   "built": true,
+   "passes": 1,
+   "trials": 2
+  },
+  "probe-power": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-prot_write_and_exec": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-srandom": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-rlimit_peer": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-mac_policy": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-xprocess_able": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-xprocess_debug": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-xprocess_mem_read": {
+   "built": true,
+   "passes": 1,
+   "trials": 2
+  },
+  "probe-high_resolution_timer": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-untrusted_exec": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-server_monitor": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-sigev_thread": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-privreg": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  },
+  "probe-mountifs": {
+   "built": true,
+   "passes": 2,
+   "trials": 2
+  }
+ }
+}

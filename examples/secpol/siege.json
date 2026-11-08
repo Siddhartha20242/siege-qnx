@@ -9,7 +9,9 @@
     "secpol-connect",
     "secpol-ceiling",
     "secpol-names",
-    "secpol"
+    "secpol",
+    "secpol-least",
+    "secpol-minimal"
   ],
   "scenarios": [
     {
@@ -19,7 +21,9 @@
         "secpol-connect": "pass",
         "secpol-ceiling": "pass",
         "secpol-names": "pass",
-        "secpol": "pass"
+        "secpol": "pass",
+        "secpol-least": "pass",
+        "secpol-minimal": "pass"
       }
     },
     {
@@ -36,7 +40,9 @@
         "secpol-connect": "fail",
         "secpol-ceiling": "pass",
         "secpol-names": "fail",
-        "secpol": "pass"
+        "secpol": "pass",
+        "secpol-least": "pass",
+        "secpol-minimal": "pass"
       }
     },
     {
@@ -53,7 +59,9 @@
         "secpol-connect": "pass",
         "secpol-ceiling": "pass",
         "secpol-names": "fail",
-        "secpol": "pass"
+        "secpol": "pass",
+        "secpol-least": "pass",
+        "secpol-minimal": "pass"
       }
     },
     {
@@ -65,7 +73,9 @@
         "secpol-connect": "fail",
         "secpol-ceiling": "pass",
         "secpol-names": "fail",
-        "secpol": "pass"
+        "secpol": "pass",
+        "secpol-least": "pass",
+        "secpol-minimal": "pass"
       }
     },
     {
@@ -80,7 +90,9 @@
         "secpol-connect": "fail",
         "secpol-ceiling": "fail",
         "secpol-names": "fail",
-        "secpol": "fail"
+        "secpol": "fail",
+        "secpol-least": "fail",
+        "secpol-minimal": "fail"
       }
     },
     {
@@ -94,7 +106,9 @@
         "secpol-connect": "pass",
         "secpol-ceiling": "pass",
         "secpol-names": "pass",
-        "secpol": "pass"
+        "secpol": "pass",
+        "secpol-least": "pass",
+        "secpol-minimal": "pass"
       }
     },
     {
@@ -111,7 +125,9 @@
         "secpol-connect": "pass",
         "secpol-ceiling": "pass",
         "secpol-names": "pass",
-        "secpol": "pass"
+        "secpol": "pass",
+        "secpol-least": "pass",
+        "secpol-minimal": "pass"
       }
     },
     {
@@ -127,7 +143,9 @@
         "secpol-connect": "fail",
         "secpol-ceiling": "fail",
         "secpol-names": "pass",
-        "secpol": "pass"
+        "secpol": "pass",
+        "secpol-least": "pass",
+        "secpol-minimal": "pass"
       }
     },
     {
@@ -144,7 +162,9 @@
         "secpol-connect": "pass",
         "secpol-ceiling": "pass",
         "secpol-names": "pass",
-        "secpol": "pass"
+        "secpol": "pass",
+        "secpol-least": "pass",
+        "secpol-minimal": "pass"
       }
     }
   ]

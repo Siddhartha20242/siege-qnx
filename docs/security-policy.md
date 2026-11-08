@@ -30,6 +30,8 @@ neighbour. Everything else keeps the default type with all abilities, as before 
 | `secpol-ceiling` | any priority above **9** (the pipeline runs at 10) |
 | `secpol-names` | the `pathspace` ability and `allow_attach`, so it cannot register a service name |
 | `secpol` | all three |
+| `secpol-least` | all three, and the detector's type keeps only 5 abilities (see below) |
+| `secpol-minimal` | all three, and the detector's type holds no abilities |
 
 ## Results
 
@@ -71,26 +73,84 @@ What this shows, in order of how much it matters:
    earlier results are kept in
    [`examples/secpol/results-before-fix/`](../examples/secpol/results-before-fix/).
 
+## Least privilege: what the detector actually needs
+
+In the policies above the detector's type holds every ability, as the pipeline did before any
+policy. That is the opposite of least privilege, so we measured what it needs
+([`tools/minimize_policy.py`](../tools/minimize_policy.py), raw data in
+[`docs/results/secpol-minimize.json`](results/secpol-minimize.json)).
+
+1. 63 probe policies were built into one image, each removing **one** ability from the
+   detector's type.
+2. Each was loaded on the target and the pipeline run twice with the detector killed and
+   restarted by its supervisor two seconds in (that exercises starting, naming,
+   scheduling and restarting a process).
+3. An ability counts as not needed only if every trial passed.
+
+**58 of 63 passed in every trial.** Five (`runstate`, `umask`, `trace`, `chroot`,
+`xprocess_mem_read`) passed only 1 of 2. They have no plausible connection to this
+pipeline, and the baseline itself fails now and then in QEMU, so we treat them as noise,
+but we kept them in `secpol-least` to be safe.
+
+**The control matters more than the count.** A detector type with *no* abilities at all
+(`bare`, an extra control variant) also passed the supervised-kill run 6 of 6. So the
+probes are not broken: this pipeline, on the paths we ran, does not use any gated ability.
+The policy statements it does need are the channel rules and `allow_attach`.
+
+Then the whole matrix was run under `secpol-least` and `secpol-minimal` (all three
+restrictions, with the detector holding 5 and 0 abilities). Failures out of 10:
+
+| Scenario | all three, full abilities | least (5) | minimal (0) |
+|---|---|---|---|
+| baseline, no attacker | 1 | 1 | 0 |
+| CPU hog at priority 20 | 1 | 0 | 1 |
+| `workflood` at priority 30 | 0 | 1 | 0 |
+| AI neighbour at priority 20 | 0 | 2 | 0 |
+| memory bandwidth at priority 10 | 1 | 0 | 0 |
+| name squat after a restart | 0 | 0 | 0 |
+| same, owner check | 0 | 0 | 0 |
+| plain mutex priority inversion | **10** | **10** | **10** |
+
+Taking the detector's abilities from 63 to 0 changed nothing we can see beyond the
+run-to-run noise. `least` shows 2 of 10 on the AI neighbour, the largest scatter in these
+cells; we did not investigate whether it is noise or a real effect of the five kept abilities.
+
+**Limits.** Only the detector's type was reduced; the camera, controller and shell are
+still `default` with every ability. "Not needed" means not needed by the paths we
+exercised (start, name, serve, restart, be killed): it says nothing about code paths we
+didn't run, or other QNX versions. Removing one ability at a time can miss two that are
+needed together, which is why the combined policies were run, not assumed.
+
 ## Predictions versus outcome
 
-The expected pass or fail for 45 scenario-and-profile pairs was written into
-`examples/secpol/siege.json` before the first run. A "pass" means zero failures in 10.
+The expected pass or fail for 63 scenario-and-profile pairs was written into
+`examples/secpol/siege.json` before each profile was run (the `least` and `minimal`
+expectations were set equal to those of the all-three policy, before their runs). A "pass"
+means zero failures in 10.
 
-**41 of 45 matched.** The four misses are each a single failed run out of ten, in cells
+**55 of 63 matched.** The eight misses are each one or two failed runs out of ten, in cells
 predicted to have none:
 
 | Cell | Failures |
 |---|---|
 | baseline, all three | 1/10 |
+| baseline, `least` | 1/10 |
 | CPU hog at 20, all three | 1/10 |
+| CPU hog at 20, `minimal` | 1/10 |
+| `workflood`, `least` | 1/10 |
+| AI neighbour, `least` | **2/10** |
 | name squat with the detector alive, no policy | 1/10 |
 | owner check, `ceiling` | 1/10 |
 
-The first is a run with **no attacker at all**. Single bad runs happen in QEMU without any
+Two of these are runs with **no attacker at all** (baseline). Single bad runs happen in QEMU without any
 attack, so one failure in ten is not evidence that a policy leaks. It does mean we cannot
 claim these cells are perfect, and we do not.
 
 ## What this does not show
+
+* **Two code versions.** The first five profiles were measured before the robustness fixes in
+  [`code-review.md`](code-review.md); `least` and `minimal` after. The spot check there found no
+  changed outcome, but the policy matrix itself was not re-run on the fixed code.
 
 * **QEMU only.** Timing is emulated. The policy mechanisms are the real QNX ones, but no
   hardware run has been done.
@@ -98,9 +158,8 @@ claim these cells are perfect, and we do not.
   where the untrusted software is started with a restricted type. It does not model an
   exploit in a running process, and Siege does not use secure boot or the policy
   generation tools.
-* **The detector, camera and controller keep every ability.** This is a policy that
-  restricts the neighbour, not a least-privilege policy for the pipeline. A real
-  deployment would shrink `det_t` and `default` too; we did not.
+* **The camera, controller and shell keep every ability.** The detector's type was
+  measured down to almost nothing (above); the rest of the pipeline was not.
 * **A policy cannot stop an authorised client misbehaving.** If a neighbour is allowed to
   talk to a shared service and runs at the pipeline's priority, no permission is
   violated and the pipeline still suffers. That is the case the scheduling profiles

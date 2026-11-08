@@ -147,7 +147,8 @@ int main(int argc, char **argv)
     for (;;) {
         uint64_t to = STALL_NS;
         TimerTimeout(CLOCK_MONOTONIC, _NTO_TIMEOUT_RECEIVE, NULL, &to, NULL);
-        int rcvid = MsgReceive(att->chid, &m, sizeof m, NULL);
+        struct _msg_info info;
+        int rcvid = MsgReceive(att->chid, &m, sizeof m, &info);
 
         if (rcvid == -1 && errno == ETIMEDOUT) {
             if (started) {
@@ -157,13 +158,20 @@ int main(int argc, char **argv)
             continue;
         }
         if (rcvid <= 0) continue;
+        if (info.msglen < (int)sizeof m.type) { MsgError(rcvid, EBADMSG); continue; }
 
         if (m.type == MSG_STOP) {
             MsgReply(rcvid, 0, &reply, 1);
             break;
         }
         MsgReply(rcvid, 0, &reply, 1);
-        if (m.type != MSG_DET) continue;
+        if (m.type != MSG_DET) {
+            /* Stray messages must not keep a dead pipeline alive: the give-up check used to run only
+             * when a receive timed out, so a process sending every 100 ms postponed it for ever. */
+            if (started && now_ns() - last > ABANDON_NS) { abandoned = 1; break; }
+            continue;
+        }
+        if (info.msglen < (int)sizeof m.d) continue;      /* short MSG_DET: do not read stale fields */
 
         uint64_t now = now_ns();
         uint64_t gap_ns = started ? now - last : 0;

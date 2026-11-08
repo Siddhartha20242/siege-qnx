@@ -3,4 +3,5 @@ build/
 image/local.build
 .siege-vm
 __pycache__/
+image/secpol-probe/
 *.pyc
