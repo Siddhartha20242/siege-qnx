@@ -148,6 +148,10 @@ claim these cells are perfect, and we do not.
 
 ## What this does not show
 
+* **Two scenarios were pinned afterwards.** `cpu hog @prio 10` and `memory bandwidth @prio 10` had
+  no prediction written before their runs; their expected outcomes in `examples/secpol/siege.json` were
+  set from the results so that CI covers all 84 cases. They are not part of the 55-of-63 count.
+
 * **Two code versions.** The first five profiles were measured before the robustness fixes in
   [`code-review.md`](code-review.md); `least` and `minimal` after. The spot check there found no
   changed outcome, but the policy matrix itself was not re-run on the fixed code.

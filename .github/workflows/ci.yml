@@ -1,0 +1,52 @@
+# Runs on GitHub's own runners, so it needs no QNX. It checks the tooling, then checks that the committed
+# measurements still match the expectations declared in the configs. To run the attacks themselves on every
+# change you need a runner with the SDP: see examples/ci/github-actions.yml.
+name: ci
+on: [push, pull_request]
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install numpy==1.26.4
+      - name: Tooling tests
+        run: ./siege selftest
+      - name: Results table
+        run: ./siege show --no-color
+
+  evidence:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Main matrix matches its declared expectations
+        run: python3 scripts/junit.py $(python3 scripts/results_files.py) --out junit-main.xml
+      - name: Security-policy matrix matches its declared expectations
+        run: python3 scripts/junit.py --config examples/secpol/siege.json examples/secpol/results/*.json --out junit-secpol.xml
+      - name: Build the report from the saved results
+        run: ./siege report $(python3 scripts/results_files.py) --out report-ci
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evidence
+          path: |
+            junit-main.xml
+            junit-secpol.xml
+            report-ci.html
+
+  docker:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools image builds and runs
+        run: |
+          docker build -t siege .
+          docker run --rm siege show --no-color
+          docker run --rm siege selftest
+      - name: Builder image builds (experimental, only the build is checked)
+        run: docker build --platform linux/amd64 -f docker/builder/Dockerfile -t siege-builder .

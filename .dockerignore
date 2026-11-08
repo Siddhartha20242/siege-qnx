@@ -1,0 +1,7 @@
+.git
+.notes
+build
+.siege-vm
+__pycache__
+*.pyc
+image/secpol-probe

@@ -26,6 +26,7 @@ Pick the row that matches what you have. Each one is a working path, and
 | You have | Do this | You get |
 |---|---|---|
 | Only Python 3 | `./siege show` | Every measured result as a table in your terminal. `./siege show secpol` for the security-policy runs. No QNX, QEMU or account needed. |
+| Only Docker | `docker build -t siege . && docker run --rm siege` | The same results table and the tooling tests, in a container. No QNX needed ([`docs/docker.md`](docs/docker.md)). |
 | Python 3 and `numpy` | `./siege frontier replay` | The attack-boundary learner re-run on the saved measurements. |
 | QNX SDP 8.0 on x86-64 Linux | `./siege build && ./siege live` | The dashboard: pick an attack and a hardening profile, press Run, watch the deadlines. |
 | A Mac (Apple Silicon) | follow the [codelab](docs/codelab-qnx-on-apple-silicon.md) once, then `./siege setup user@vm` | The same, with the QNX tools running in a free Ubuntu VM. |

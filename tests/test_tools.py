@@ -331,3 +331,31 @@ class SecpolDocTests(unittest.TestCase):
         self.assertGreaterEqual(len(declared), 9)
         for s in declared:
             self.assertEqual(set(s["expect"]), set(cfg["profiles"]), s["label"])
+
+
+class DevOpsFilesTests(unittest.TestCase):
+    def test_workflow_parses_and_only_uses_real_commands(self):
+        import yaml
+        with open(os.path.join(ROOT, ".github", "workflows", "ci.yml")) as f:
+            wf = yaml.safe_load(f)
+        self.assertEqual(set(wf["jobs"]), {"tests", "evidence", "docker"})
+        text = read(os.path.join(ROOT, ".github", "workflows", "ci.yml"))
+        for path in ("scripts/junit.py", "scripts/results_files.py", "examples/secpol/siege.json", "docker/builder/Dockerfile"):
+            self.assertIn(path, text)
+            self.assertTrue(os.path.exists(os.path.join(ROOT, path)), path)
+
+    def test_declared_expectations_still_match_committed_results(self):
+        out = subprocess.run([PY, os.path.join(ROOT, "scripts", "junit.py"), "--config",
+                              os.path.join(ROOT, "examples", "secpol", "siege.json"),
+                              *sorted(__import__("glob").glob(os.path.join(ROOT, "examples", "secpol", "results", "*.json"))),
+                              "--out", os.devnull], capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0, out.stdout)
+
+    def test_dockerfile_keeps_qnx_and_notes_out(self):
+        ignore = read(os.path.join(ROOT, ".dockerignore"))
+        for item in (".git", ".notes", "build"):
+            self.assertIn(item, ignore)
+        for f in ("Dockerfile", os.path.join("docker", "builder", "Dockerfile")):
+            text = read(os.path.join(ROOT, f))
+            self.assertNotIn("COPY /opt", text)
+            self.assertNotIn("qnx800.run", text)

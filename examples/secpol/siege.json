@@ -29,7 +29,17 @@
     {
       "label": "cpu hog   @prio 10",
       "attacker": "cpu",
-      "prio": 10
+      "prio": 10,
+      "expect": {
+        "none": "fail",
+        "secpol-connect": "fail",
+        "secpol-ceiling": "pass",
+        "secpol-names": "fail",
+        "secpol": "pass",
+        "secpol-least": "pass",
+        "secpol-minimal": "pass"
+      },
+      "note": "expectation pinned after the runs; this scenario had no prediction written beforehand"
     },
     {
       "label": "cpu hog   @prio 20",
@@ -114,7 +124,17 @@
     {
       "label": "memory bandwidth @prio 10",
       "attacker": "membw",
-      "prio": 10
+      "prio": 10,
+      "expect": {
+        "none": "fail",
+        "secpol-connect": "fail",
+        "secpol-ceiling": "pass",
+        "secpol-names": "fail",
+        "secpol": "pass",
+        "secpol-least": "pass",
+        "secpol-minimal": "pass"
+      },
+      "note": "expectation pinned after the runs; this scenario had no prediction written beforehand"
     },
     {
       "label": "name squat, detector alive",

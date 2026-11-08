@@ -1,0 +1,10 @@
+# docker compose run --rm show            the measured results
+# docker compose run --rm show secpol     the security-policy runs
+# docker compose run --rm test            the tooling tests
+services:
+  show:
+    build: .
+    command: ["show"]
+  test:
+    build: .
+    command: ["selftest"]
