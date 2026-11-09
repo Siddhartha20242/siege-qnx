@@ -20,7 +20,7 @@ What this shows and does not show:
 * The two attackers that fail the unhardened pipeline at priority 20 never block, so
   they behave as CPU hogs above the pipeline's priority. That is the known
   priority-starvation pattern, not a new one, and raising the pipeline's priority,
-  giving it its own CPU, or capping the attacker's CPU all fix it.
+  giving it its own CPU, or demoting the attacker after a CPU budget all fix it.
 * At priority 5, where the pipeline always wins the CPU, neither attacker broke it in
   15 runs. The 1 of 5 failure seen earlier for memory bandwidth did not repeat, so it
   was noise. No memory-bandwidth effect was observed. QEMU's memory timing is not

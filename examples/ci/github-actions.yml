@@ -6,16 +6,29 @@
 name: siege
 on: [push, pull_request]
 
+concurrency:
+  group: siege-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+
 jobs:
   isolation:
     runs-on: [self-hosted, qnx]
+    timeout-minutes: 90          # a QEMU hang must not hold the runner for ever
     env:
       SIEGE_VM: ${{ vars.SIEGE_VM }}          # user@host of the machine with the SDP
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check the build machine
+        run: ./siege doctor
+
       - name: Build the image
         run: scripts/build.sh
+
+      - name: Baseline first (a pipeline that fails its own baseline cannot be gated)
+        run: scripts/matrix.py --profile none --runs 5 --only baseline
 
       - name: Attack the profile you ship
         run: scripts/matrix.py --profile prio --runs 5 --json prio.json

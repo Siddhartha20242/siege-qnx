@@ -27,7 +27,7 @@ neighbour. Everything else keeps the default type with all abilities, as before 
 | Profile | What `atk_t` is denied |
 |---|---|
 | `secpol-connect` | connecting to the detector's channel, so it cannot send to it at all |
-| `secpol-ceiling` | any priority above **9** (the pipeline runs at 10) |
+| `secpol-ceiling` | any priority above **9** (the pipeline runs at 10). In the policy this is the line `priority:1-9` in the attacker type's ability list, in place of the plain `priority` ability. `secpolcompile` accepted it and the attacker's attempts to raise itself were refused (`prio_denied` in its output). QNX's [security policy language](https://qnx.com/developers/docs/8.0/com.qnx.doc.security.system/topic/manual/secpol_language.html) documents a range for an ability, and the `secpol` utility page shows `priority:255` in an example, so the form is consistent with the documented syntax; we have not read the page that defines the priority ability's exact meaning, so check it before copying the line |
 | `secpol-names` | the `pathspace` ability and `allow_attach`, so it cannot register a service name |
 | `secpol` | all three |
 | `secpol-least` | all three, and the detector's type keeps only 5 abilities (see below) |
@@ -92,10 +92,17 @@ policy. That is the opposite of least privilege, so we measured what it needs
 pipeline, and the baseline itself fails now and then in QEMU, so we treat them as noise,
 but we kept them in `secpol-least` to be safe.
 
-**The control matters more than the count.** A detector type with *no* abilities at all
-(`bare`, an extra control variant) also passed the supervised-kill run 6 of 6. So the
-probes are not broken: this pipeline, on the paths we ran, does not use any gated ability.
-The policy statements it does need are the channel rules and `allow_attach`.
+**A zero-ability type passing is a finding about the pipeline, not a validation of the probes.** A detector type with *no* abilities at
+all (`bare`, an extra control variant) also passed the supervised-kill run 6 of 6. That means this pipeline, on the paths we ran, does not
+use any ability the policy gates. It cannot tell us the probes can detect a missing ability, so a **positive control** was run separately:
+asking for priority 100 (above the unprivileged limit) works in a process of the open-policy type and is refused with
+"Operation not permitted" in a process of the zero-ability detector type. So the type really is enforced, and the pipeline simply did not
+need what it lacks. The policy statements it does need are the channel rules and `allow_attach`.
+
+**Removing `priority` does not cap priority; granting it with a range does.** Under the zero-ability types the supervisor still ran at
+priority 50 (`pidin` showed `50r`), because ordinary processes may use priorities up to 63 without the ability. The ceiling works only
+because the attacker type is granted `priority:1-9` explicitly: its attempts to raise itself to 30 were refused (`prio_denied`). Anyone
+copying the policy needs to know which of the two they are relying on.
 
 Then the whole matrix was run under `secpol-least` and `secpol-minimal` (all three
 restrictions, with the detector holding 5 and 0 abilities). Failures out of 10:
@@ -120,6 +127,25 @@ still `default` with every ability. "Not needed" means not needed by the paths w
 exercised (start, name, serve, restart, be killed): it says nothing about code paths we
 didn't run, or other QNX versions. Removing one ability at a time can miss two that are
 needed together, which is why the combined policies were run, not assumed.
+
+## Re-running the cells that missed
+
+The cells that missed their predictions were re-run at larger sizes, to see whether they were noise
+([`examples/secpol/repeats/`](../examples/secpol/repeats/)):
+
+| Cell | First run | Larger re-run |
+|---|---|---|
+| baseline, no attacker, `none` | 0/10 | **1/30** (95% interval 1 to 17%) |
+| baseline, `secpol` | 1/10 | **1/30** |
+| baseline, `secpol-least` | 1/10 | **1/30** |
+| CPU hog at 20, `secpol` | 1/10 | **0/20** (0 to 16%) |
+| CPU hog at 20, `secpol-minimal` | 1/10 | **1/20** |
+| AI neighbour at 20, `secpol-least` | 2/10 | **0/20** |
+
+A clean run with no attacker fails about 1 time in 30 in this emulator, with or without a policy, so a single failed run in ten is
+inside the noise. The AI-neighbour cell that looked like the largest effect did not repeat. The other missed cells
+(`workflood` under `least`, name squat with the detector alive under `none`, the owner check under `ceiling`) were not re-run at
+this size.
 
 ## Predictions versus outcome
 
@@ -148,9 +174,11 @@ claim these cells are perfect, and we do not.
 
 ## What this does not show
 
+* **This is a launch-time configuration test, not an isolation test.** The attacker is put in `atk_t` by the launcher, and the policy is loaded at run time with `secpolpush` from a shell of type `default`, which holds every ability (including the ones to load a policy and to change a process's type). Anything running as `default` could replace the policy. A deployment would load an immutable policy at boot, which we did not do; the `-m` (mutable) compile option exists only so a test can push several policies.
+
 * **Two scenarios were pinned afterwards.** `cpu hog @prio 10` and `memory bandwidth @prio 10` had
   no prediction written before their runs; their expected outcomes in `examples/secpol/siege.json` were
-  set from the results so that CI covers all 84 cases. They are not part of the 55-of-63 count.
+  set from the results so that CI covers every case. They are not part of the 55-of-63 count.
 
 * **Two code versions.** The first five profiles were measured before the robustness fixes in
   [`code-review.md`](code-review.md); `least` and `minimal` after. The spot check there found no

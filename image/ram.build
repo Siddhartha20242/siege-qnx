@@ -104,3 +104,4 @@ usr/lib/libz.so.2
 [perms=0444] secpol-least.bin=build/secpol-least.bin
 [perms=0444] secpol-bare.bin=build/secpol-bare.bin
 [perms=0444] secpol-minimal.bin=build/secpol-minimal.bin
+[perms=0444] secpol-lockdown.bin=build/secpol-lockdown.bin

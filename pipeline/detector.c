@@ -93,7 +93,18 @@ int main(int argc, char **argv)
     int use_cnn = !strcmp(model, "cnn");
     set_prio_report("detector", prio);
 
-    name_attach_t *att = name_attach(NULL, DET_NAME, 0);
+    /* DET_FIXED_PRIO=1: a control experiment. The channel is created with _NTO_CHF_FIXED_PRIORITY, so the thread
+     * that receives a message keeps the detector's own priority instead of taking the sender's. Messages are still
+     * queued by sender priority. If a flood from priority 30 still breaks the pipeline with this on, the priority
+     * boost is not what does the damage. Off by default; see docs/mechanism-control.md. */
+    dispatch_t *dpp = NULL;
+    if (getenv("DET_FIXED_PRIO") && atoi(getenv("DET_FIXED_PRIO")) > 0) {
+        int chid = ChannelCreate(_NTO_CHF_FIXED_PRIORITY | _NTO_CHF_UNBLOCK | _NTO_CHF_DISCONNECT);
+        if (chid == -1) { perror("detector: ChannelCreate"); return 1; }
+        dpp = dispatch_create_channel(chid, DISPATCH_FLAG_NOLOCK);
+        if (!dpp) { perror("detector: dispatch_create_channel"); return 1; }
+    }
+    name_attach_t *att = name_attach(dpp, DET_NAME, 0);
     if (!att) { perror("detector: name_attach"); return 1; }
 
     int ctl = open_name(CTL_NAME, 50);
@@ -128,7 +139,7 @@ int main(int argc, char **argv)
 
         if (f.type == MSG_STOP) {
             MsgReply(rcvid, 0, &reply, 1);
-            uint16_t stop = MSG_STOP;
+            struct { uint16_t type, pad; uint32_t total; } stop = { MSG_STOP, 0, info.msglen >= 8 ? f.seq : 0 };
             timeout_send_reply(1000000000ULL);
             MsgSend(ctl, &stop, sizeof stop, &reply, sizeof reply);
             break;

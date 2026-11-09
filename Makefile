@@ -14,7 +14,7 @@ $(BIN)/%: pipeline/%.c pipeline/common.h | $(BIN)
 	$(CC) $(CFLAGS) -o $@ $<
 
 $(BIN)/detector: pipeline/model.h
-$(BIN)/frame_src: pipeline/scene.h
+$(BIN)/frame_src: pipeline/scene.h pipeline/scene_hard.h
 
 # The controller's predictor uses expf and log1pf.
 $(BIN)/controller: pipeline/controller.c pipeline/common.h pipeline/monitor.h | $(BIN)

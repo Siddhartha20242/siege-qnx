@@ -6,9 +6,13 @@
 #   docker run --rm siege                  # ./siege show
 #   docker run --rm siege show secpol
 #   docker run --rm siege selftest
+# The base image is pinned by tag only: a digest could not be looked up from the author's machine.
 FROM python:3.12-slim
 RUN pip install --no-cache-dir numpy==1.26.4
+ENV PYTHONDONTWRITEBYTECODE=1
+RUN useradd --create-home siege
 WORKDIR /siege
-COPY . .
+COPY --chown=siege:siege . .
+USER siege
 ENTRYPOINT ["./siege"]
 CMD ["show"]

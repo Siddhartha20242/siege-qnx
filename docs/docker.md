@@ -13,6 +13,12 @@ The image holds Siege's host tools and the saved measurements. It runs anywhere 
 does, with no QNX, no QEMU and no account, so a reviewer can read the evidence, run the tests and
 rebuild the report in one command. `docker compose run --rm show` does the same.
 
+To keep a report, mount a folder, because files written inside the container are lost when it exits:
+
+```sh
+mkdir -p out && docker run --rm -v "$PWD/out:/out" siege report $(docker run --rm --entrypoint python3 siege scripts/results_files.py) --out /out/report
+```
+
 **What it cannot hold.** The QNX SDP and any QNX boot image are not ours to redistribute, so
 neither is in the image, and the attacks themselves still need QNX and QEMU (see the README).
 
@@ -34,10 +40,10 @@ QNX, on every push:
 | Job | What it checks |
 |---|---|
 | `tests` | The tooling tests, and that `./siege show` prints |
-| `evidence` | Every committed measurement still matches the outcome declared for it in the config: 104 of 104 cases of the main matrix, 84 of 84 of the security-policy matrix. It also builds the HTML report from the saved results and uploads it with the JUnit files |
+| `evidence` | Every committed measurement still matches the outcome declared for it in the config, for the main matrix and the security-policy matrix (the job prints the case counts). It also builds the HTML report from the saved results and uploads it with the JUnit files |
 | `docker` | The tools image builds and runs, and the builder image builds |
 
-`evidence` guards the data and the declared expectations, not the attacks. If someone edits a result file or an
+`evidence` is a consistency check on saved data: it guards the data and the declared expectations, not the attacks, and it can only fail if someone edits a result or an expectation so they disagree. If someone edits a result file or an
 expectation so they disagree, the build fails. To run the attacks on every change you need a runner with the SDP
 ([`examples/ci/github-actions.yml`](../examples/ci/github-actions.yml)).
 

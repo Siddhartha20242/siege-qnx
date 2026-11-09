@@ -1,0 +1,339 @@
+{
+ "band": [
+  37.577,
+  41.532
+ ],
+ "rows": [
+  {
+   "object_level": 150,
+   "object_size": 3,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 0.9,
+   "right_accepted": 0,
+   "right_rejected": 270,
+   "wrong_accepted": 0,
+   "wrong_rejected": 30
+  },
+  {
+   "object_level": 150,
+   "object_size": 3,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.56,
+   "right_accepted": 0,
+   "right_rejected": 168,
+   "wrong_accepted": 7,
+   "wrong_rejected": 125
+  },
+  {
+   "object_level": 150,
+   "object_size": 5,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 1.0,
+   "right_accepted": 0,
+   "right_rejected": 300,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0
+  },
+  {
+   "object_level": 150,
+   "object_size": 5,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.62,
+   "right_accepted": 0,
+   "right_rejected": 186,
+   "wrong_accepted": 10,
+   "wrong_rejected": 104
+  },
+  {
+   "object_level": 150,
+   "object_size": 7,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 1.0,
+   "right_accepted": 0,
+   "right_rejected": 300,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0
+  },
+  {
+   "object_level": 150,
+   "object_size": 7,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.68,
+   "right_accepted": 0,
+   "right_rejected": 204,
+   "wrong_accepted": 2,
+   "wrong_rejected": 94
+  },
+  {
+   "object_level": 175,
+   "object_size": 3,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 0.933,
+   "right_accepted": 0,
+   "right_rejected": 280,
+   "wrong_accepted": 0,
+   "wrong_rejected": 20
+  },
+  {
+   "object_level": 175,
+   "object_size": 3,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.547,
+   "right_accepted": 0,
+   "right_rejected": 164,
+   "wrong_accepted": 14,
+   "wrong_rejected": 122
+  },
+  {
+   "object_level": 175,
+   "object_size": 5,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 1.0,
+   "right_accepted": 0,
+   "right_rejected": 300,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0
+  },
+  {
+   "object_level": 175,
+   "object_size": 5,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.647,
+   "right_accepted": 0,
+   "right_rejected": 194,
+   "wrong_accepted": 5,
+   "wrong_rejected": 101
+  },
+  {
+   "object_level": 175,
+   "object_size": 7,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 1.0,
+   "right_accepted": 0,
+   "right_rejected": 300,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0
+  },
+  {
+   "object_level": 175,
+   "object_size": 7,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.693,
+   "right_accepted": 0,
+   "right_rejected": 208,
+   "wrong_accepted": 7,
+   "wrong_rejected": 85
+  },
+  {
+   "object_level": 200,
+   "object_size": 3,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 0.94,
+   "right_accepted": 0,
+   "right_rejected": 282,
+   "wrong_accepted": 0,
+   "wrong_rejected": 18
+  },
+  {
+   "object_level": 200,
+   "object_size": 3,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.603,
+   "right_accepted": 0,
+   "right_rejected": 181,
+   "wrong_accepted": 2,
+   "wrong_rejected": 117
+  },
+  {
+   "object_level": 200,
+   "object_size": 5,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 1.0,
+   "right_accepted": 300,
+   "right_rejected": 0,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0
+  },
+  {
+   "object_level": 200,
+   "object_size": 5,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.653,
+   "right_accepted": 196,
+   "right_rejected": 0,
+   "wrong_accepted": 7,
+   "wrong_rejected": 97
+  },
+  {
+   "object_level": 200,
+   "object_size": 7,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 1.0,
+   "right_accepted": 300,
+   "right_rejected": 0,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0
+  },
+  {
+   "object_level": 200,
+   "object_size": 7,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.647,
+   "right_accepted": 194,
+   "right_rejected": 0,
+   "wrong_accepted": 5,
+   "wrong_rejected": 101
+  },
+  {
+   "object_level": 225,
+   "object_size": 3,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 0.977,
+   "right_accepted": 0,
+   "right_rejected": 293,
+   "wrong_accepted": 0,
+   "wrong_rejected": 7
+  },
+  {
+   "object_level": 225,
+   "object_size": 3,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.637,
+   "right_accepted": 1,
+   "right_rejected": 190,
+   "wrong_accepted": 5,
+   "wrong_rejected": 104
+  },
+  {
+   "object_level": 225,
+   "object_size": 5,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 1.0,
+   "right_accepted": 0,
+   "right_rejected": 300,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0
+  },
+  {
+   "object_level": 225,
+   "object_size": 5,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.733,
+   "right_accepted": 0,
+   "right_rejected": 220,
+   "wrong_accepted": 0,
+   "wrong_rejected": 80
+  },
+  {
+   "object_level": 225,
+   "object_size": 7,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 1.0,
+   "right_accepted": 0,
+   "right_rejected": 300,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0
+  },
+  {
+   "object_level": 225,
+   "object_size": 7,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.763,
+   "right_accepted": 0,
+   "right_rejected": 229,
+   "wrong_accepted": 0,
+   "wrong_rejected": 71
+  },
+  {
+   "object_level": 250,
+   "object_size": 3,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 0.99,
+   "right_accepted": 0,
+   "right_rejected": 297,
+   "wrong_accepted": 0,
+   "wrong_rejected": 3
+  },
+  {
+   "object_level": 250,
+   "object_size": 3,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.763,
+   "right_accepted": 0,
+   "right_rejected": 229,
+   "wrong_accepted": 3,
+   "wrong_rejected": 68
+  },
+  {
+   "object_level": 250,
+   "object_size": 5,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 1.0,
+   "right_accepted": 0,
+   "right_rejected": 300,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0
+  },
+  {
+   "object_level": 250,
+   "object_size": 5,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.923,
+   "right_accepted": 0,
+   "right_rejected": 277,
+   "wrong_accepted": 0,
+   "wrong_rejected": 23
+  },
+  {
+   "object_level": 250,
+   "object_size": 7,
+   "max_background": 140,
+   "crops": 300,
+   "accuracy": 1.0,
+   "right_accepted": 0,
+   "right_rejected": 300,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0
+  },
+  {
+   "object_level": 250,
+   "object_size": 7,
+   "max_background": 255,
+   "crops": 300,
+   "accuracy": 0.943,
+   "right_accepted": 0,
+   "right_rejected": 283,
+   "wrong_accepted": 0,
+   "wrong_rejected": 17
+  }
+ ],
+ "note": "band calibrated on a 5x5 object at 200 over noise; applied unchanged to other objects; photos are the two held-out crops sets"
+}

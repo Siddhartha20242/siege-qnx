@@ -37,6 +37,9 @@ ATK_DELAY=${ATK_DELAY:-1}
 #   prio     the pipeline outranks its neighbours (priority 40)
 #   isolate  the pipeline owns CPU 1, neighbours are confined to CPU 0
 #   budget   neighbours are capped with SCHED_SPORADIC (10 ms per 100 ms)
+#   fortress everything at once: pipeline priority 40, the lockdown security policy (no abilities for any pipeline
+#            process, attackers capped at priority 9 and denied the detector's channel and service names), a supervisor
+#            for the detector, and the supervisor's owner check on its name
 #   secpol-connect | secpol-ceiling | secpol-names | secpol (all three)
 #            a QNX security policy is pushed into the kernel; the detector runs as type det_t
 #            and the attackers as type atk_t (image/secpol/*.secpol, tools/gen_secpol.py)
@@ -49,6 +52,7 @@ case $PROFILE in
     prio)    SRC_PRIO=40; DET_PRIO=40; CTL_PRIO=40 ;;
     isolate) PIPE_CPU=1; ATK_CPU=0 ;;
     budget)  ATK_SS=${ATK_SS:-10:100} ;;
+    fortress) SRC_PRIO=40; DET_PRIO=40; CTL_PRIO=40; SECPOL=lockdown; SUPERVISE=1; NAME_DEFENCE=1 ;;
     secpol|secpol-*) SECPOL=${PROFILE#secpol}; SECPOL=${SECPOL#-}; SECPOL=${SECPOL:-full} ;;
     *)       echo "pipeline.sh: unknown PROFILE '$PROFILE'"; exit 2 ;;
 esac
@@ -58,10 +62,13 @@ esac
 if [ -n "$SECPOL" ]; then
     secpolpush /proc/boot/secpol-$SECPOL.bin || { echo "pipeline.sh: secpolpush $SECPOL failed"; exit 3; }
     DET_T="-T det_t"
+    case $SECPOL in lockdown*) SRC_T="-T src_t"; CTL_T="-T ctl_t" ;; esac     # camera and controller in their own zero-ability types
     ATK_T="-T atk_t -p 9"           # starts at 9, below the pipeline; any raise is up to the policy
 fi
 ON_DET=""; [ -n "$PIPE_CPU$DET_T" ] && ON_DET="on ${PIPE_CPU:+-C $PIPE_CPU} $DET_T"
 ON_ATK=""; [ -n "$ATK_CPU$ATK_T" ] && ON_ATK="on ${ATK_CPU:+-C $ATK_CPU} $ATK_T"
+ON_SRC=""; [ -n "$PIPE_CPU$SRC_T" ] && ON_SRC="on ${PIPE_CPU:+-C $PIPE_CPU} $SRC_T"
+ON_CTL=""; [ -n "$PIPE_CPU$CTL_T" ] && ON_CTL="on ${PIPE_CPU:+-C $PIPE_CPU} $CTL_T"
 
 # Emulator calibration: QEMU adds ~3 ms whenever an idle virtual CPU is woken,
 # which real hardware does not. A priority-1 spinner per CPU keeps them busy
@@ -78,7 +85,7 @@ if [ ! -e /dev/siege ]; then
     sieged &
     waitfor /dev/siege 5
 fi
-${PIPE_CPU:+on -C $PIPE_CPU} controller -P $CTL_PRIO -D $DEADLINE_MS -T $TOL_PM -R $RECOVERY_MS &
+$ON_CTL controller -P $CTL_PRIO -D $DEADLINE_MS -T $TOL_PM -R $RECOVERY_MS &
 CTL_PID=$!
 waitfor /dev/name/local/siege_ctl 5
 if [ "$SUPERVISE" = "1" ] || [ -n "$KILL_AT" ]; then
@@ -90,7 +97,7 @@ else
 fi
 DET_PID=$!
 waitfor /dev/name/local/siege_det 5
-${PIPE_CPU:+on -C $PIPE_CPU} frame_src -d $DUR -P $SRC_PRIO ${FRAME_MS:+-p $FRAME_MS} ${SCENE:+-s} &
+$ON_SRC frame_src -d $DUR -P $SRC_PRIO ${FRAME_MS:+-p $FRAME_MS} ${SCENE:+-s} ${SCENE_HARD:+-S} &
 SRC_PID=$!
 ATK_PIDS=""
 

@@ -37,7 +37,9 @@ cases matched the expectation declared in the config.
 | Shared lock | lock shared with a QM task, default mutex | pass | pass | pass | pass |
 | Fault recovery | detector killed, supervised restart | pass | pass | pass | pass |
 
-"Pass" means at most 20% of runs failed; "fail 5/5" means all five did. The
+"Pass" means at most 20% of runs failed (the CI gate's threshold); "fail 5/5" means all five did. With only 5 runs, **"pass" means
+"not observed in 5 runs"**: even 0 of 5 failing has a 95% upper bound of about 43%, so this table is not evidence that an ADAS function meets any
+failure-rate target, and it was not run with long soak times, where rare worst-case latency would show up. The
 full table with confidence intervals is in
 [`examples/adas/report.md`](../examples/adas/report.md).
 

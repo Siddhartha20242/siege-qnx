@@ -4,6 +4,9 @@
 name: ci
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   tests:
     runs-on: ubuntu-24.04
@@ -18,6 +21,8 @@ jobs:
       - name: Results table
         run: ./siege show --no-color
 
+  # Evidence consistency, not an attack run: it can only fail if a result file or an expectation is edited so they disagree.
+  # junit.py and report.py need no numpy; if one ever imports it, add `pip install numpy==1.26.4` here as in the tests job.
   evidence:
     runs-on: ubuntu-24.04
     steps:
@@ -25,9 +30,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Main matrix matches its declared expectations
+      - name: Evidence consistency, main matrix
         run: python3 scripts/junit.py $(python3 scripts/results_files.py) --out junit-main.xml
-      - name: Security-policy matrix matches its declared expectations
+      - name: Evidence consistency, security-policy matrix
         run: python3 scripts/junit.py --config examples/secpol/siege.json examples/secpol/results/*.json --out junit-secpol.xml
       - name: Build the report from the saved results
         run: ./siege report $(python3 scripts/results_files.py) --out report-ci

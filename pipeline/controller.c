@@ -147,6 +147,21 @@ int main(int argc, char **argv)
 
     counts_t all = {0}, win = {0};
     uint32_t n_all = 0, n_win = 0, secs = 0;
+    int gate_on = 0;
+    int32_t gate_lo = 0, gate_hi = 0;
+    uint32_t flagged_wrong = 0, flagged_right = 0, silent_wrong = 0;
+    /* Advisory safe state (needs SCORE_BAND): enter it when at least SAFE_K of the last SAFE_WIN detections were unsure,
+     * leave it when none of the last SAFE_WIN is. It is reported and written to the kernel trace, and it never changes the
+     * verdict. This is a first version, to measure how fast and how often it triggers; see docs/confidence-gate.md. */
+    unsigned safe_win = getenv("SAFE_WIN") ? (unsigned)atoi(getenv("SAFE_WIN")) : 8;
+    unsigned safe_k = getenv("SAFE_K") ? (unsigned)atoi(getenv("SAFE_K")) : 3;
+    if (safe_win < 1 || safe_win > 31) safe_win = 8;
+    uint32_t unsure_bits = 0, safe_entries = 0, safe_frames = 0;
+    uint64_t first_unsure_ns = 0, tts_sum_ms = 0;
+    int in_safe = 0;
+    if (getenv("SCORE_BAND") && sscanf(getenv("SCORE_BAND"), "%d:%d", &gate_lo, &gate_hi) == 2) gate_on = 1;
+    uint32_t trailing = 0, end_gap_ms = 0;      /* frames lost after the last one seen; silence before STOP */
+    int strict = getenv("STRICT") && atoi(getenv("STRICT")) > 0;   /* STRICT=1: also count outage and trailing losses */
     uint32_t expect = 0, outages = 0, outage_frames = 0, max_gap_ms = 0, checked = 0, wrong = 0;
     int started = 0, abandoned = 0;
     uint64_t t0 = 0, next_report = 0, last = 0;
@@ -181,6 +196,9 @@ int main(int argc, char **argv)
 
         if (m.type == MSG_STOP) {
             MsgReply(rcvid, 0, &reply, 1);
+            /* How many frames never reached us after the last one, and how long the last silence was. */
+            if (info.msglen >= 8 && m.d.seq > expect) trailing = m.d.seq - expect;
+            if (started) end_gap_ms = (uint32_t)((now_ns() - last) / 1000000ULL);
             break;
         }
         MsgReply(rcvid, 0, &reply, 1);
@@ -229,7 +247,31 @@ int main(int argc, char **argv)
          * really was, so a pipeline that is on time but wrong still fails. */
         if (m.d.model) {
             checked++;
-            if (abs(m.d.x - m.d.gt_x) > 1 || abs(m.d.y - m.d.gt_y) > 1) wrong++;
+            int is_wrong = abs(m.d.x - m.d.gt_x) > 1 || abs(m.d.y - m.d.gt_y) > 1;
+            if (is_wrong) wrong++;
+            /* SCORE_BAND=lo:hi (in the detector's units, score*1000): the detector's own score for the true object falls
+             * in a narrow band; a score outside it means something else is driving the answer, so flag the answer as
+             * unsure. This only counts; the verdict is unchanged. We know the truth here, so we can say how many wrong
+             * answers the gate would have caught. See tools/eval_confidence.py. */
+            if (gate_on) {
+                int unsure = m.d.score < gate_lo || m.d.score > gate_hi;
+                if (unsure) { if (is_wrong) flagged_wrong++; else flagged_right++; trace_mark("unsure", (unsigned)m.d.seq, (unsigned)m.d.score); }
+                else if (is_wrong) silent_wrong++;
+                int was = __builtin_popcount(unsure_bits);
+                unsure_bits = ((unsure_bits << 1) | (unsure ? 1u : 0u)) & ((1u << safe_win) - 1u);
+                int cnt = __builtin_popcount(unsure_bits);
+                if (was == 0 && unsure) first_unsure_ns = now;
+                if (!in_safe && cnt >= (int)safe_k) {
+                    uint64_t tts = (now - first_unsure_ns) / 1000000ULL;
+                    in_safe = 1; safe_entries++; tts_sum_ms += tts;
+                    printf("SAFE enter seq=%u unsure_in_last_%u=%d time_from_first_unsure_ms=%llu\n", (unsigned)m.d.seq, safe_win, cnt, (unsigned long long)tts);
+                    trace_mark("safe", (unsigned)m.d.seq, (unsigned)tts);
+                } else if (in_safe && cnt == 0) {
+                    in_safe = 0;
+                    printf("SAFE clear seq=%u\n", (unsigned)m.d.seq);
+                }
+                if (in_safe) safe_frames++;
+            }
         }
 
         uint64_t lat_ns = now - m.d.t_capture_ns;
@@ -278,6 +320,8 @@ int main(int argc, char **argv)
     printf("FINAL t=%u frames=%u late=%u lost=%u stalls=%u p50_us=%u p99_us=%u max_us=%u outages=%u outage_frames=%u max_gap_ms=%u abandoned=%d checked=%u wrong=%u\n",
            secs, all.frames, all.late, all.lost, all.stalls, p.p50, p.p99, p.mx,
            outages, outage_frames, max_gap_ms, abandoned, checked, wrong);
+    if (gate_on) printf("GATE band=%d:%d flagged_wrong=%u flagged_right=%u silent_wrong=%u safe_entries=%u safe_frames=%u mean_time_to_safe_ms=%u\n", gate_lo, gate_hi, flagged_wrong, flagged_right, silent_wrong, safe_entries, safe_frames, safe_entries ? (unsigned)(tts_sum_ms / safe_entries) : 0u);
+    if (trailing || end_gap_ms > 100) printf("TAIL lost_after_last=%u silence_before_stop_ms=%u\n", trailing, end_gap_ms);
 
     /* Emulation produces rare isolated outliers, so the verdict is a late-frame
      * budget rather than "zero misses": PASS if at most tol_permille of frames
@@ -285,11 +329,16 @@ int main(int argc, char **argv)
      * pipeline never went quiet for good. */
     uint32_t total = all.frames + all.lost;
     uint32_t bad = all.late + all.lost;
+    if (strict) {          /* the default verdict ignores frames lost inside a 100-500 ms outage and after the last frame */
+        total += outage_frames + trailing;
+        bad += outage_frames + trailing;
+        if (end_gap_ms > max_gap_ms) max_gap_ms = end_gap_ms;
+    }
     uint32_t late_pm = total ? (uint32_t)(((uint64_t)bad * 1000) / total) : 1000;
     int accurate = checked == 0 || wrong * 1000ULL <= (uint64_t)checked * acc_pm;
     int pass = !abandoned && total && late_pm <= tol_permille && max_gap_ms <= recovery_ms && accurate;
-    printf("RESULT %s late_pm=%u tol_pm=%u max_gap_ms=%u recovery_ms=%u\n",
-           pass ? "PASS" : "FAIL", late_pm, tol_permille, max_gap_ms, recovery_ms);
+    printf("RESULT %s late_pm=%u tol_pm=%u max_gap_ms=%u recovery_ms=%u%s\n",
+           pass ? "PASS" : "FAIL", late_pm, tol_permille, max_gap_ms, recovery_ms, strict ? " strict=1" : "");
 
     char st[240];
     snprintf(st, sizeof st, "state=%s final frames=%u late=%u lost=%u outages=%u max_gap_ms=%u p99_us=%u\n",

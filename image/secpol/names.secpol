@@ -3,6 +3,8 @@
 type default;
 type det_t;     # the detector (and its supervisor): owner of the pipeline's service channel
 type atk_t;     # the untrusted neighbour: the attacker programs
+type src_t;     # the camera (frame_src); only the `lockdown` variant puts a process in it
+type ctl_t;     # the controller; only the `lockdown` variant puts a process in it
 
 # The pipeline, the shell and the harness keep every ability, as before any policy.
 allow default self:ability {
@@ -70,7 +72,7 @@ allow default self:ability {
     sigev_thread
     privreg
     mountifs
-    settypeid:atk_t,det_t
+    settypeid:atk_t,det_t,src_t,ctl_t
     gain_priv:channel_connect
 };
 allow_attach default /...;

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """siege: one command for building, running, testing and reporting.
 
+    ./siege start             where you are and the one command to run next
     ./siege show [secpol|FILES]  the measured results as a table in your terminal (nothing to install; --open for the HTML report)
     ./siege list              what a config can run: scenarios and hardening profiles
     ./siege doctor            check that everything needed is installed and reachable
@@ -208,6 +209,35 @@ def init(args):
     return 0
 
 
+def start(args):
+    """Say where you are and the one command to run next. Makes no changes."""
+    print(f"{B}siege start{X}  (looks at your machine, changes nothing)\n")
+    print(f"{B}No setup needed:{X}  ./siege show        the measured results as a table\n")
+    img = os.path.join(ROOT, "build", "siege.ifs")
+    has_qemu = bool(shutil.which("qemu-system-aarch64"))
+    local = bool(os.environ.get("QNX_TARGET")) and bool(shutil.which("qcc"))
+    vm = vm_address()
+    if os.path.exists(img) and has_qemu:
+        print(f"{G}You are ready to run QNX.{X}")
+        print(f"  Next:  ./siege live        (browser dashboard: pick an attack, press Run)")
+        print(f"  Or:    ./siege test --profile prio --runs 5")
+    elif os.path.exists(img):
+        print(f"{Y}An image is built, but QEMU is missing.{X}")
+        print("  Next:  " + ("brew install qemu" if sys.platform == "darwin" else "sudo apt install qemu-system-arm"))
+    elif local or vm:
+        print(f"{Y}A QNX build machine is set up, but no image is built yet.{X}")
+        print("  Next:  ./siege build       (then ./siege live)")
+    elif sys.platform == "darwin":
+        print(f"{Y}No QNX tools yet.{X} They only run on x86-64 Linux, so a Mac needs a free Ubuntu VM:")
+        print("  Next:  follow docs/codelab-qnx-on-apple-silicon.md (about 2 hours, mostly downloads), then ./siege setup user@vm")
+    else:
+        print(f"{Y}No QNX tools found.{X}")
+        print("  Next:  install QNX SDP 8.0 (free), load it with: source ~/qnx800/qnxsdp-env.sh, then ./siege build")
+    print(f"{D}For CI: docs/for-teams.md explains the evidence gate (Python only) and the attack gate (needs QNX).{X}")
+    print(f"\n{D}./siege doctor explains every check; ./siege --help lists every command.{X}")
+    return 0
+
+
 def list_config(args):
     """Say what a config can run, so nobody has to read the JSON."""
     import argparse
@@ -301,6 +331,8 @@ def main():
         return init(rest)
     if cmd == "list":
         return list_config(rest)
+    if cmd == "start":
+        return start(rest)
     if cmd == "hw":
         return hw(rest)
     if cmd == "presubmit":

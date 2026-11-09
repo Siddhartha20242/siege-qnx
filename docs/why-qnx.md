@@ -32,8 +32,9 @@ above the camera at priority 10. QNX delivers messages to a server highest
 sender priority first, and the server runs at the priority of the client it is
 serving. So the camera's frames wait behind the flood, and the pipeline stops
 delivering frames, while the attacker itself barely uses any CPU.
-Only raising the pipeline's priority fixed it. Giving the pipeline its own CPU
-and capping the attacker's CPU did not, because the bottleneck is the shared
+Of the scheduling settings, only raising the pipeline's priority fixed it (a security policy that denies the
+attacker the connection also did). Giving the pipeline its own CPU
+and demoting the attacker after a CPU budget did not, because the bottleneck is the shared
 server's queue, not CPU time.
 The same pattern appears in an unmodified QNX system service: a program whose
 latency goes through the `pipe` manager failed 5 of 5 runs when another process
@@ -45,16 +46,16 @@ the property is only safe if every client of a shared service is trusted to
 run below the pipeline.
 
 **2. A mutex that does not inherit priority reproduces the Pathfinder failure,
-and QNX's default mutex does inherit.**
+and in our test a mutex made with default attributes behaved like an inheriting one (QNX documents inheritance as its default protocol; semaphores and hand-made locks do not inherit).**
 In the priority-inversion scenario a low-priority process takes a lock the
 pipeline needs, and hogs at a medium priority keep it from running. With a
 mutex created with `PTHREAD_PRIO_NONE` the detector waited for the lock for
 almost five seconds and the pipeline never recovered (15 of 15 runs, under every
 profile). With `PTHREAD_PRIO_INHERIT` the longest wait was about three
 milliseconds (59 of 60 runs passed across the four profiles). The **system default** mutex
-behaved like the inheriting one, also 0 of 5 under every profile, so on QNX the
-unsafe case has to be chosen on purpose. Raising the pipeline's priority did not help,
-nor did giving it its own CPU or capping the hogs: only the inheriting mutex
+behaved like the inheriting one, also 0 of 15 under every profile, so with a plain `pthread_mutex_t` the
+unsafe case had to be chosen on purpose here (other kinds of lock do not inherit). Raising the pipeline's priority did not help,
+nor did giving it its own CPU or demoting the hogs: only the inheriting mutex
 did, as it did on Pathfinder.
 
 **3. Faults stay inside their process.**
@@ -62,9 +63,9 @@ At the default priority the pipeline kept its deadlines against a process
 holding 300 MB and touching it, a process exhausting its descriptors, channels
 and connections (997, 100 and 65,533 in our runs), and a process crashing and
 restarting about 1,800 times in seven seconds. None of those broke the
-pipeline. QNX runs services and drivers as ordinary user-space processes, so a
-failure is confined to the process that has it. This is a statement about
-those attacks, not a proof that nothing can interfere (see the confidence
+pipeline. QNX runs services and drivers as ordinary user-space processes, so these
+failures stayed inside the process that had them. That holds for these attacks only (the attackers were not memory-limited and, in the policy runs,
+held abilities such as direct access to hardware), not as a general property, and it is not a proof that nothing can interfere (see the confidence
 bounds in the report).
 
 **4. Services are restarted from outside, quickly.**
@@ -91,7 +92,8 @@ and runs from RAM. Every process in it is one we chose.
 * A periodic compute neighbour (the `ai` attacker) delays a lower-priority
   pipeline in proportion to its bursts, wherever it runs.
 * Per-thread CPU budgets (`SCHED_SPORADIC`) are part of POSIX. QNX implements
-  them, and they restored the CPU-hog and AI-neighbour cases.
+  them as a demotion: when the budget is used up the thread drops to a low priority and can still use idle CPU.
+  That restored the CPU-hog and AI-neighbour cases here because the pipeline outranks the low priority.
 * CPU affinity separates CPU contention, and nothing else.
 
 ## What the measurements do not show

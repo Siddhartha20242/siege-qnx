@@ -73,7 +73,7 @@ at the lost-frame count and at which clients talk to the shared service.
 
 **Fix.** Raise the pipeline's priority above every client of the shared
 service (`prio`). **Not fixed by** giving the pipeline its own CPU, and **not
-fixed by** capping the attacker's CPU: it uses almost none, and the damage
+fixed by** demoting the attacker after a CPU budget: it uses almost none, and the damage
 happens in a queue that CPU isolation does not touch. This is the finding
 that depends most on how QNX message passing works.
 

@@ -5,8 +5,9 @@
  */
 #include "common.h"
 #include "scene.h"
+#include "scene_hard.h"
 
-static int use_scene;                    /* -s: real-photo backgrounds instead of noise */
+static int use_scene;                    /* -s: real-photo backgrounds (brightest pixel 140); -S: harder ones (255, brighter than the object) */
 static uint32_t lcg_state = 0x5EED1234u;
 
 static uint32_t lcg(void)
@@ -20,7 +21,9 @@ static void make_frame(frame_msg_t *f, uint32_t n)
     int bx = 4 + (int)((n * 1) % 24);
     int by = 4 + (int)((n * 2) % 24);
 
-    if (use_scene)
+    if (use_scene == 2)
+        memcpy(f->px, scene_hard_px[n % SCENE_HARD_N], FRAME_W * FRAME_H);
+    else if (use_scene)
         memcpy(f->px, scene_px[n % SCENE_N], FRAME_W * FRAME_H);
     else
         for (int y = 0; y < FRAME_H; y++)
@@ -40,8 +43,9 @@ int main(int argc, char **argv)
     int duration_s = 10, prio = 10, c;
     uint64_t period_ns = FRAME_PERIOD_NS;
 
-    while ((c = getopt(argc, argv, "d:P:p:s")) != -1) {
+    while ((c = getopt(argc, argv, "d:P:p:sS")) != -1) {
         if (c == 's') use_scene = 1;
+        else if (c == 'S') use_scene = 2;
         else if (c == 'd') duration_s = atoi(optarg);
         else if (c == 'P') prio = atoi(optarg);
         else if (c == 'p' && atoi(optarg) > 0) period_ns = (uint64_t)atoi(optarg) * 1000000ULL;   /* frame period, ms */
@@ -90,7 +94,9 @@ int main(int argc, char **argv)
     }
 
     /* Tell the detector (and through it the controller) we are done. */
-    uint16_t stop = MSG_STOP;
+    /* STOP carries how many frames the camera produced, so the controller can count frames lost after the last one
+     * it saw. Older senders and receivers still work: a bare 2-byte STOP means "unknown". */
+    struct { uint16_t type, pad; uint32_t total; } stop = { MSG_STOP, 0, sent + dropped };
     timeout_send_reply(1000000000ULL);
     MsgSend(coid, &stop, sizeof stop, &reply, sizeof reply);
 

@@ -51,3 +51,11 @@ This is a real defence only under its assumptions:
 
 Files: `pipeline/attacker.c` (`squat`), `pipeline/supervisor.c` (`-o`, `-K`), the `NAME_DEFENCE=1`
 variable in `image/pipeline.sh`, scenarios in `siege.json`, raw runs in `results/squat-*.json`.
+
+## An assumption we have not tested
+
+The squatter in these runs accepts the camera's frames and never replies. We assumed the camera's send timeout
+(`TimerTimeout`) releases it after a few milliseconds. A reviewer pointed out that `name_attach` may create its channel with
+the unblock flag set, in which case a client already waiting for a reply is released by a pulse that our servers ignore,
+and the squatter would hold the camera blocked for the whole squat. We have not checked this on QNX. The pass and fail
+outcomes of the squat rows should not change, but the number of dropped frames could.

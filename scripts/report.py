@@ -19,17 +19,19 @@ ap.add_argument("--config", default=os.path.join(here, "..", "siege.json"), help
 ap.add_argument("--deadline", type=int, help="deadline in ms, for the charts (default: from the config)")
 args = ap.parse_args()
 
-PROFILE_ORDER = ["none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol", "secpol-least", "secpol-minimal"]
+PROFILE_ORDER = ["none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol", "secpol-least", "secpol-minimal", "secpol-lockdown", "fortress"]
 PROFILE_NOTE = {
     "none": "default round-robin priority 10",
     "prio": "pipeline at priority 40",
     "isolate": "pipeline on CPU 1, attackers on CPU 0",
-    "budget": "attackers capped by SCHED_SPORADIC (10 ms / 100 ms)",
+    "budget": "attackers demoted to priority 2 by SCHED_SPORADIC after 10 ms of CPU per 100 ms",
     "secpol-connect": "security policy: attackers may not connect to the detector's channel",
     "secpol-ceiling": "security policy: attackers may not raise their priority above 9",
     "secpol-names": "security policy: attackers may not attach a name to the path space",
     "secpol-least": "security policy: all three restrictions, and the detector keeps only the 5 abilities the probes could not rule out",
     "secpol-minimal": "security policy: all three restrictions, and the detector holds no abilities at all",
+    "fortress": "everything together: pipeline priority 40, the lockdown security policy, a supervisor and its owner check",
+    "secpol-lockdown": "security policy: all three restrictions, and the detector, camera and controller each run in their own type with no abilities",
     "secpol": "security policy: all three restrictions together",
 }
 
@@ -168,20 +170,25 @@ if base:
 for sc in broken:
     b = cell[(sc, "none")]
     name = sc.strip()
-    if never_recovered(b):
-        findings.append(("break", f"{name}: the pipeline went silent and never recovered in {b['fails']}/{b['n']} runs "
-                         "(the controller gave up after 3 s). Pattern 5, a dead service with no supervisor (docs/patterns.md): "
-                         "scheduling profiles cannot help; a supervisor can."))
-        continue
     silence = f", longest silence {b['gap']} ms" if b["gap"] else ""
-    txt = (f"{name} breaks the unhardened pipeline in {b['fails']}/{b['n']} runs ({ci(b)}; "
-           f"worst frame {ms(b['worst'])}{silence}).")
+    if never_recovered(b):
+        txt = (f"{name}: the pipeline went silent and never recovered in {b['fails']}/{b['n']} runs "
+               f"(the controller gave up after 3 s; {ci(b)}).")
+    else:
+        txt = (f"{name} breaks the unhardened pipeline in {b['fails']}/{b['n']} runs ({ci(b)}; "
+               f"worst frame {ms(b['worst'])}{silence}).")
     if fixed[sc]:
         txt += f" Restored by: {', '.join(fixed[sc])}."
     if reduced[sc]:
         txt += f" Reduced by: {', '.join(reduced[sc])}."
     if not_fixed[sc]:
         txt += f" Not helped by: {', '.join(not_fixed[sc])}."
+    if never_recovered(b) and ("kill detector" in sc or "name squat" in sc):
+        # Pattern 5 is about a service that died (or whose name was taken) and nobody replaced it; a silence from
+        # starvation or a lock is a different cause and gets its own diagnosis below, if any.
+        txt += " Pattern 5, a dead service with no supervisor (docs/patterns.md): scheduling profiles cannot help; a supervisor can."
+        findings.append(("break", txt))
+        continue
     if sc in diagnosis:
         title, fix = PATTERNS[diagnosis[sc]]
         txt += f" Looks like pattern {diagnosis[sc]}, {title.lower()} (docs/patterns.md): {fix}."

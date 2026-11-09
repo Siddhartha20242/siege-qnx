@@ -1,0 +1,91 @@
+{
+ "calibration": {
+  "frames": 3000,
+  "correct": 3000,
+  "band": [
+   37.577,
+   41.532
+  ]
+ },
+ "per_brightness": [
+  {
+   "max_background": 60,
+   "crops": 1000,
+   "accuracy": 1.0,
+   "right_accepted": 1000,
+   "right_rejected": 0,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0,
+   "accuracy_of_accepted": 1.0
+  },
+  {
+   "max_background": 100,
+   "crops": 1000,
+   "accuracy": 1.0,
+   "right_accepted": 1000,
+   "right_rejected": 0,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0,
+   "accuracy_of_accepted": 1.0
+  },
+  {
+   "max_background": 140,
+   "crops": 1000,
+   "accuracy": 1.0,
+   "right_accepted": 1000,
+   "right_rejected": 0,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0,
+   "accuracy_of_accepted": 1.0
+  },
+  {
+   "max_background": 180,
+   "crops": 1000,
+   "accuracy": 1.0,
+   "right_accepted": 1000,
+   "right_rejected": 0,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0,
+   "accuracy_of_accepted": 1.0
+  },
+  {
+   "max_background": 200,
+   "crops": 1000,
+   "accuracy": 1.0,
+   "right_accepted": 1000,
+   "right_rejected": 0,
+   "wrong_accepted": 0,
+   "wrong_rejected": 0,
+   "accuracy_of_accepted": 1.0
+  },
+  {
+   "max_background": 220,
+   "crops": 1000,
+   "accuracy": 0.751,
+   "right_accepted": 751,
+   "right_rejected": 0,
+   "wrong_accepted": 44,
+   "wrong_rejected": 205,
+   "accuracy_of_accepted": 0.9447
+  },
+  {
+   "max_background": 255,
+   "crops": 1000,
+   "accuracy": 0.695,
+   "right_accepted": 695,
+   "right_rejected": 0,
+   "wrong_accepted": 24,
+   "wrong_rejected": 281,
+   "accuracy_of_accepted": 0.9666
+  }
+ ],
+ "pooled": {
+  "right_acc": 6446,
+  "right_rej": 0,
+  "wrong_acc": 68,
+  "wrong_rej": 486,
+  "accuracy_before": 0.9209,
+  "accuracy_of_accepted": 0.9896
+ },
+ "note": "band calibrated on synthetic frames only, applied unchanged to held-out real-photo crops (right-hand 30% of two CC BY 2.0 photos; object level 200)"
+}

@@ -402,6 +402,54 @@ static int mode_squat(void)
     return 0;
 }
 
+/* ---- forge: malformed and forged messages ------------------------------
+ *   FORGE=short  messages shorter than the protocol needs, to the detector and the controller. The receivers check the
+ *                length (MsgError EBADMSG), so this should change nothing.
+ *   FORGE=seq    one well-formed frame carrying a huge sequence number. Nothing in the pipeline authenticates the sender, so the
+ *                controller believes it and its loss accounting breaks. A security policy that denies this process the
+ *                detector's channel is the QNX answer. Used to test those claims on QNX; see docs/forged-messages.md. */
+static volatile uint32_t forge_sent, forge_ok, forge_err;
+
+static int mode_forge(void)
+{
+    atk_set_prio();
+    const char *kind = getenv("FORGE") ? getenv("FORGE") : "short";
+    int det = open_name(DET_NAME, 50);
+    if (det == -1) { fprintf(stderr, "forge: cannot connect to %s\n", DET_NAME); printf("FORGE kind=%s connect=denied\n", kind); return 1; }
+    int ctl = !strcmp(kind, "short") ? open_name(CTL_NAME, 5) : -1;
+    uint8_t reply;
+    if (!strcmp(kind, "seq")) {
+        frame_msg_t f;
+        memset(&f, 0, sizeof f);
+        f.type = MSG_FRAME;
+        f.seq = 0xFFFFFFF0u;
+        f.t_capture_ns = now_ns();
+        timeout_send_reply(IPC_TIMEOUT_NS);
+        forge_sent++;
+        if (MsgSend(det, &f, sizeof f, &reply, sizeof reply) == -1) forge_err++; else forge_ok++;
+        while (running()) usleep(100000);
+    } else {
+        uint16_t shortmsg[6];
+        while (running()) {
+            for (int len = 2; len <= 10; len += 4) {
+                shortmsg[0] = MSG_FRAME; shortmsg[1] = 0; shortmsg[2] = 0x7777; shortmsg[3] = 0x7777;
+                timeout_send_reply(IPC_TIMEOUT_NS);
+                forge_sent++;
+                if (MsgSend(det, shortmsg, (size_t)len, &reply, sizeof reply) == -1) forge_err++; else forge_ok++;
+                if (ctl != -1) {
+                    shortmsg[0] = MSG_DET;
+                    timeout_send_reply(IPC_TIMEOUT_NS);
+                    forge_sent++;
+                    if (MsgSend(ctl, shortmsg, (size_t)len, &reply, sizeof reply) == -1) forge_err++; else forge_ok++;
+                }
+            }
+            usleep(10000);
+        }
+    }
+    printf("FORGE kind=%s sent=%u accepted=%u rejected=%u\n", kind, forge_sent, forge_ok, forge_err);
+    return 0;
+}
+
 /* ---- flood: queue junk messages at the detector ----------------------- */
 
 static volatile uint32_t flood_sent, flood_rejected, flood_timeout;
@@ -549,6 +597,7 @@ int main(int argc, char **argv)
     else if (!strcmp(mode, "timerstorm")) rc = mode_timerstorm(n < 0 ? 4 : n);
     else if (!strcmp(mode, "kcall")) rc = mode_kcall(n < 0 ? 2 : n);
     else if (!strcmp(mode, "squat")) rc = mode_squat();
+    else if (!strcmp(mode, "forge")) rc = mode_forge();
     else if (!strcmp(mode, "fd"))    rc = mode_fd(n);
     else if (!strcmp(mode, "crash")) rc = mode_crash();
     else if (!strcmp(mode, "child")) return crash_child();

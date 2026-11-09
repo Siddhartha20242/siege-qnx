@@ -1,0 +1,50 @@
+{
+  "deadline_ms": 20,
+  "tolerance_permille": 20,
+  "recovery_ms": 500,
+  "duration_s": 5,
+  "runs": 10,
+  "profiles": [
+    "none",
+    "secpol-connect",
+    "secpol-lockdown"
+  ],
+  "scenarios": [
+    {
+      "label": "baseline (no attacker)",
+      "expect": {
+        "none": "pass",
+        "secpol-connect": "pass",
+        "secpol-lockdown": "pass"
+      }
+    },
+    {
+      "label": "forge: short messages",
+      "attacker": "forge",
+      "prio": 10,
+      "env": {
+        "FORGE": "short"
+      },
+      "expect": {
+        "none": "pass",
+        "secpol-connect": "pass",
+        "secpol-lockdown": "pass"
+      },
+      "note": "PREDICTION written before the run: the length checks reject them, so nothing changes"
+    },
+    {
+      "label": "forge: one bogus sequence number",
+      "attacker": "forge",
+      "prio": 10,
+      "env": {
+        "FORGE": "seq"
+      },
+      "expect": {
+        "none": "fail",
+        "secpol-connect": "pass",
+        "secpol-lockdown": "pass"
+      },
+      "note": "PREDICTION written before the run: nothing authenticates the sender, so it breaks the controller's accounting under none; a policy denying the connection stops it"
+    }
+  ]
+}

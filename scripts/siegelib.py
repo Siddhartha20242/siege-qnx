@@ -48,7 +48,8 @@ def aggregate(runs):
         return None
     ps = sorted(r["p50"] for r in ok)
     return dict(
-        n=len(runs), fails=sum(1 for r in ok if r["fail"]),
+        n=len(runs), fails=sum(1 for r in ok if r["fail"]) + (len(runs) - len(ok)),   # a run with no result counts as a failure, never as a pass
+       
         p50=ps[len(ps) // 2], worst=max(r["max"] for r in ok),
         gap=max(r.get("max_gap_ms", 0) for r in ok), late=sum(r["late"] for r in ok),
         lost=sum(r["lost"] for r in ok), outages=sum(r.get("outages", 0) for r in ok),
@@ -63,8 +64,8 @@ def diagnose(atk, atk_prio, agg):
     """
     if not agg or agg["fails"] == 0:
         return None
-    if agg["abandoned"]:
-        return 5
+    if agg["abandoned"] and atk in ("", None, "squat"):
+        return 5        # a stage died (or its name was taken) and nothing replaced it
     if atk in ("flood", "workflood", "pipeflood"):
         return 2
     if atk == "ai":

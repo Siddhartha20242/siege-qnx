@@ -13,7 +13,7 @@ import argparse, glob, json, os, subprocess, sys, webbrowser
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 G, R, Y, B, D, X = "\033[32m", "\033[31m", "\033[33m", "\033[1m", "\033[2m", "\033[0m"
-ORDER = ["none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol", "secpol-least", "secpol-minimal"]
+ORDER = ["none", "prio", "isolate", "budget", "secpol-connect", "secpol-ceiling", "secpol-names", "secpol", "secpol-least", "secpol-minimal", "secpol-lockdown", "fortress"]
 
 
 def main_files():
@@ -68,10 +68,12 @@ def render(table, order, color=True):
 
 LEGEND = {
     "none": "no hardening", "prio": "pipeline outranks its neighbours", "isolate": "pipeline on its own CPU",
-    "budget": "neighbours capped by a CPU budget",
+    "budget": "neighbours demoted after a CPU budget",
     "secpol-connect": "policy: attacker may not send to the detector", "secpol-ceiling": "policy: attacker may not raise its priority past 9",
     "secpol-names": "policy: attacker may not register a service name", "secpol": "policy: all three at once",
     "secpol-least": "all three, and the detector keeps only 5 abilities", "secpol-minimal": "all three, and the detector keeps no abilities",
+    "fortress": "everything together: priority 40, lockdown policy, supervisor with owner check",
+    "secpol-lockdown": "all three, and the detector, camera and controller all hold no abilities",
 }
 
 
@@ -95,7 +97,13 @@ def main():
         sys.exit("show: no scenario results found. Run ./siege test --json out.json first, or ./siege show with no arguments.")
     color = sys.stdout.isatty() and not a.no_color
     print(f"{B if color else ''}{title}{X if color else ''}")
-    print("failed runs / total runs; green = none failed, red = all failed, yellow = flaky\n")
+    print("failed runs / total runs" + ("; green = none failed, red = all failed, yellow = flaky" if color else "; 0/15 = no run failed, 15/15 = every run failed") + "\n")
+    head = [s for s in order if s.startswith("workflood @prio 30") and "none" in table[s]]
+    if head and not a.what:
+        t = table[head[0]]
+        parts = [f"{p}: {t[p][0]}/{t[p][1]}" for p in ("none", "prio", "isolate", "budget") if p in t]
+        print(f"{B if color else ''}Headline:{X if color else ''} an attacker using about 0.4% of the CPU ('workflood @prio 30') "
+              f"fails the pipeline in {t['none'][0]} of {t['none'][1]} runs with no hardening. Failed runs by profile: " + ", ".join(parts) + ".\n")
     print(render(table, order, color))
     used = [p for p in ORDER if any(p in row for row in table.values())]
     print("\n" + "\n".join(f"  {p:15} {LEGEND[p]}" for p in used))

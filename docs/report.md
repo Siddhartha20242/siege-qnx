@@ -57,7 +57,7 @@ _This is evidence from stress tests of a stand-in pipeline on an emulator. It is
 * **none**: default round-robin priority 10
 * **prio**: pipeline at priority 40
 * **isolate**: pipeline on CPU 1, attackers on CPU 0
-* **budget**: attackers capped by SCHED_SPORADIC (10 ms / 100 ms)
+* **budget**: attackers demoted to priority 2 by SCHED_SPORADIC after 10 ms of CPU per 100 ms
 
 ## Findings
 

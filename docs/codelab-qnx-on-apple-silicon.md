@@ -5,23 +5,37 @@ Mac, with no paid software and no spare hardware. You will cross-compile a
 native QNX program, build a bootable QNX image, boot it in QEMU on your Mac,
 and watch two threads exchange messages through the QNX kernel.
 
-**Time:** about 2 hours, mostly downloads.
-**Disk space:** about 30 GB free.
-**Cost:** nothing. QNX SDP 8.0 is free for non-commercial use through QNX
-Everywhere.
+**Time:** about 2 to 4 hours of your own time, mostly downloads, plus the wait for your QNX licence, which is
+decided by QNX and may not be instant.
+**Disk space:** about 30 GB free (the VM disk is set to 64 GB but only grows as it fills).
+**Cost:** nothing beyond the Mac you already own. UTM is free from its website (the App Store copy costs money), and QNX SDP
+8.0 is free for non-commercial use through QNX Everywhere.
+
+**What you will see at the end** (so you know the goal):
+
+```
+QNX localhost 8.0.0 2026/06/05-16:21:14EDT QEMU_virt aarch64le
+Hello from QNX 8.0.0 on QEMU_virt
+client: server got 'ping 0'
+```
 
 Every command in steps 6 to 8 was run from a clean build while writing this.
 Steps 1 to 5 were done on a real machine (macOS on an M3 Pro, Ubuntu 24.04.5,
 QNX SDP 8.0) and the fixes in the troubleshooting section are problems that
-actually came up.
+actually came up. **Not tested:** Intel Macs, other Apple chips than the M3 Pro, other Ubuntu versions, and a blank-VM run of
+`vm-setup.sh` and Step 9 from start to finish (Step 9's commands are the ones used to produce every result in this
+repository).
 
 ## Before you start
 
 You need these from the start, so nothing surprises you later:
 
-* A Mac with an M-series chip and about 30 GB of free disk.
-* [Homebrew](https://brew.sh), which Step 8 uses to install QEMU.
-* [UTM](https://mac.getutm.app) (Step 1) and the Ubuntu 24.04 Desktop for Arm64 ISO.
+* A Mac with an M-series chip, **macOS 13 or later** (Rosetta for Linux needs it), and about 30 GB of free disk. If Rosetta is not
+  installed on the Mac yet: `softwareupdate --install-rosetta --agree-to-license`.
+* [Homebrew](https://brew.sh), which Step 8 uses to install QEMU. Check with `brew --version`; if it is missing, install it from the site first.
+* [UTM](https://mac.getutm.app) (Step 1), a free app that runs virtual machines on a Mac, and the Ubuntu 24.04 Desktop for Arm64 ISO.
+  "Apple Virtualization" is Apple's built-in way to run a Linux VM at near-native speed, and "Rosetta" is Apple's translator that lets
+  that Arm Linux run the x86-64 QNX tools. UTM only offers the Rosetta option when Apple Virtualization is ticked (Step 1).
 * A free qnx.com account (Step 4). Use the Ubuntu **desktop** in the VM: the QNX
   Software Center installer is a graphical program.
 
@@ -102,6 +116,10 @@ cat /proc/sys/fs/binfmt_misc/rosetta
 It should start with `enabled` and name `/media/rosetta/rosetta` as the
 interpreter.
 
+> **Before Step 2:** run `uname -r`. The Rosetta fix in this tutorial depends on the kernel: our machine worked on the 6.8 series and broke on 7.0
+> (see the first troubleshooting row). If yours prints 7.x and Step 3's `hello` test fails, use the 6.8 kernel and adapt the exact version
+> string to what `grub` lists on your machine; the one in the table will not be the same for you.
+
 ## Step 3. Let Ubuntu install x86-64 libraries
 
 The QNX tools are x86-64 programs, so Ubuntu needs x86-64 copies of the
@@ -168,8 +186,8 @@ sudo apt install -y libgtk-3-0t64:amd64 libcanberra-gtk3-module:amd64 \
 Then run the installer **from a terminal** (double-clicking opens it as text):
 
 ```sh
-chmod +x qnx-setup-*-linux.run
-./qnx-setup-*-linux.run
+chmod +x qnx-setup-VERSION-linux.run      # use the exact file name you downloaded; a glob breaks if two files match
+./qnx-setup-VERSION-linux.run
 ```
 
 Accept the terms and install into `~/qnx`.
@@ -357,18 +375,40 @@ mkifs hello.build hello.ifs
 ls -lh hello.ifs
 ```
 
+What the board-specific lines mean, so you know what to change for a different board:
+
+| Line | Meaning |
+|---|---|
+| `[image=0x40080000]` | Where in memory the image is loaded. The QEMU `virt` machine's RAM starts at `0x40000000`. |
+| `[virtual=aarch64le,raw]` | Build a raw, bootable image for 64-bit Arm, little-endian. |
+| `startup-qemu-virt` | The board's startup code. A real board uses the startup program from its own board support package. |
+| `procnto-smp-instr` | The kernel and process manager: multi-core and instrumented, so the kernel trace in the Siege project works. The options after it are procnto options; see the QNX documentation. |
+| `devc-serpl011 -e -F 0x9000000,33` | The serial driver for the PL011 UART that QEMU `virt` provides, at address `0x9000000`, interrupt 33. This is what gives you the `#` prompt. |
+| `[+script] startup-script` | The script that runs once the kernel is up. |
+
 You should get a file of about 3.7 MB.
 
 ## Step 8. Boot it on your Mac
 
-First check that the Mac can reach the VM: `ssh youruser@VM-ADDRESS echo ok` should print `ok`. In UTM's network settings use **Shared Network**; if it hangs, see the UTM network documentation.
+Copy the image out of the VM, in this order. `youruser` is the username you chose when you installed Ubuntu.
 
-Copy the image out of the VM. Its SSH server is already running if you ran
-`vm-setup.sh`; otherwise install it once (`sudo apt install -y openssh-server`).
-Find the VM's address with `hostname -I`. Then on the Mac:
+1. **In the VM**, find its address: `hostname -I` (use the first one). Make sure the SSH server runs:
+   `systemctl is-active ssh` should print `active` (if you ran `vm-setup.sh` it already does; otherwise
+   `sudo apt install -y openssh-server`). In UTM's network settings use **Shared Network**.
+2. **On the Mac**, set up key-based login. `./siege` never asks for a password, so a password-only VM makes `./siege doctor` and `./siege setup`
+   fail later in Step 9. If you have no key yet: `ssh-keygen -t ed25519`. Then:
+
+   ```sh
+   ssh-copy-id youruser@VM-ADDRESS
+   ssh -o BatchMode=yes youruser@VM-ADDRESS echo ok      # must print ok with NO password prompt
+   ```
+
+3. **On the Mac**, install QEMU and check it, then copy the image (in the program you built, `hello` is the QNX program; the
+   Ubuntu `hello` you used in Step 3 is a different one):
 
 ```sh
 brew install qemu
+qemu-system-aarch64 --version
 scp youruser@VM-ADDRESS:hello.ifs .
 ```
 
@@ -429,6 +469,11 @@ These are the problems we hit, in the order they appeared.
 | `Host file 'startup-qemu-virt' not available` | Install **QNX SDP 8.0 QEMU Virtualization Drivers (Startup)** (step 5.3). |
 | `mkqnximage` warns that `sbin/devb-virtio` is missing | In our install the virtio disk driver was not present, so disk images from `mkqnximage` cannot mount their disk. This guide avoids it by booting a RAM-only image built with `mkifs`. If you pass `--ssh-ident` to `mkqnximage`, use `$HOME/...`, not `~/...`, because the tilde is not expanded. |
 | QEMU crashes at boot with `gic_v3.c ... ASSERT(... use_memory_mapped_callouts ...)` | You enabled hardware acceleration (`-accel hvf`). The QNX startup code takes a GIC path that HVF's interrupt controller does not support. Leave acceleration off, as in step 8. It runs in software emulation, which is slower but works. |
+| `./siege doctor` says it cannot reach the VM, or asks for a password | Key login is not set up: run `ssh-copy-id youruser@VM-ADDRESS`, then check `ssh -o BatchMode=yes youruser@VM-ADDRESS echo ok` prints `ok`. |
+| `ssh` hangs or says no route to host | Use UTM's **Shared Network**, check the VM's address with `hostname -I`, and that `systemctl is-active ssh` says `active`. |
+| `qemu-system-aarch64: command not found` | `brew install qemu`, then open a new terminal. |
+| QEMU opens but the screen stays black | It has no graphics window by design: the console is your terminal. Wait up to a minute for the `#` prompt. |
+| `mkifs` cannot find `hello` | Run it in the folder that holds the program you compiled in Step 6. |
 | Timing is jittery | Expected under emulation. Compare runs against each other, and do not treat latencies as hardware numbers. |
 
 ## Where to go next

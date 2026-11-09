@@ -11,7 +11,8 @@
     "secpol-names",
     "secpol",
     "secpol-least",
-    "secpol-minimal"
+    "secpol-minimal",
+    "secpol-lockdown"
   ],
   "scenarios": [
     {
@@ -23,7 +24,8 @@
         "secpol-names": "pass",
         "secpol": "pass",
         "secpol-least": "pass",
-        "secpol-minimal": "pass"
+        "secpol-minimal": "pass",
+        "secpol-lockdown": "pass"
       }
     },
     {
@@ -37,7 +39,8 @@
         "secpol-names": "fail",
         "secpol": "pass",
         "secpol-least": "pass",
-        "secpol-minimal": "pass"
+        "secpol-minimal": "pass",
+        "secpol-lockdown": "pass"
       },
       "note": "expectation pinned after the runs; this scenario had no prediction written beforehand"
     },
@@ -52,7 +55,8 @@
         "secpol-names": "fail",
         "secpol": "pass",
         "secpol-least": "pass",
-        "secpol-minimal": "pass"
+        "secpol-minimal": "pass",
+        "secpol-lockdown": "pass"
       }
     },
     {
@@ -71,7 +75,8 @@
         "secpol-names": "fail",
         "secpol": "pass",
         "secpol-least": "pass",
-        "secpol-minimal": "pass"
+        "secpol-minimal": "pass",
+        "secpol-lockdown": "pass"
       }
     },
     {
@@ -85,7 +90,8 @@
         "secpol-names": "fail",
         "secpol": "pass",
         "secpol-least": "pass",
-        "secpol-minimal": "pass"
+        "secpol-minimal": "pass",
+        "secpol-lockdown": "pass"
       }
     },
     {
@@ -102,7 +108,8 @@
         "secpol-names": "fail",
         "secpol": "fail",
         "secpol-least": "fail",
-        "secpol-minimal": "fail"
+        "secpol-minimal": "fail",
+        "secpol-lockdown": "fail"
       }
     },
     {
@@ -118,7 +125,8 @@
         "secpol-names": "pass",
         "secpol": "pass",
         "secpol-least": "pass",
-        "secpol-minimal": "pass"
+        "secpol-minimal": "pass",
+        "secpol-lockdown": "pass"
       }
     },
     {
@@ -132,7 +140,8 @@
         "secpol-names": "fail",
         "secpol": "pass",
         "secpol-least": "pass",
-        "secpol-minimal": "pass"
+        "secpol-minimal": "pass",
+        "secpol-lockdown": "pass"
       },
       "note": "expectation pinned after the runs; this scenario had no prediction written beforehand"
     },
@@ -147,7 +156,8 @@
         "secpol-names": "pass",
         "secpol": "pass",
         "secpol-least": "pass",
-        "secpol-minimal": "pass"
+        "secpol-minimal": "pass",
+        "secpol-lockdown": "pass"
       }
     },
     {
@@ -165,7 +175,8 @@
         "secpol-names": "pass",
         "secpol": "pass",
         "secpol-least": "pass",
-        "secpol-minimal": "pass"
+        "secpol-minimal": "pass",
+        "secpol-lockdown": "pass"
       }
     },
     {
@@ -184,7 +195,8 @@
         "secpol-names": "pass",
         "secpol": "pass",
         "secpol-least": "pass",
-        "secpol-minimal": "pass"
+        "secpol-minimal": "pass",
+        "secpol-lockdown": "pass"
       }
     }
   ]

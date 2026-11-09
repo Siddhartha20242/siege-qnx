@@ -36,7 +36,12 @@ class Verdict(unittest.TestCase):
 class Aggregate(unittest.TestCase):
     def test_sums_and_maxima(self):
         a = L.aggregate([run(), run(fail=True, late=5, mx=9000, gap=300), None])
-        self.assertEqual((a["n"], a["fails"], a["late"], a["worst"], a["gap"]), (3, 1, 5, 9000, 300))
+        # a run that gave no result counts as a failure (never as a pass), so 1 real failure + 1 missing = 2
+        self.assertEqual((a["n"], a["fails"], a["late"], a["worst"], a["gap"]), (3, 2, 5, 9000, 300))
+
+    def test_missing_runs_are_never_passes(self):
+        self.assertEqual(L.aggregate([run(), run(), None])["fails"], 1)
+        self.assertEqual(L.observed_verdict(L.aggregate([run()] * 3 + [None] * 2)["fails"], 5), "fail")
 
     def test_all_missing_is_none(self):
         self.assertIsNone(L.aggregate([None, None]))

@@ -70,3 +70,18 @@ in line with the replay's 88% mean at 14 cells (`docs/results/frontier-active.tx
   label is uncertain. The learner is scored against those noisy labels.
 * The live check is one seed, not a benchmark.
 * QEMU timing, not hardware.
+
+## What the grid says about the mechanism
+
+A QNX engineer reviewing this project objected that the priority boost of the server (it runs at its client's priority
+while serving) was never separated from the queue order and serial service of a single-threaded server. The grid helps
+a little, with the limit that each cell is only 3 runs:
+
+| Flood rate per thread | Priority 5 (below the pipeline) | Priority 10 (equal, no boost possible) |
+|---|---|---|
+| 60 to maximum (5 rates) | 0 of 15 runs failed | 9 of 15 runs failed |
+
+An equal-priority client did hurt the pipeline at high enough rates, and a lower-priority client did not. That is consistent with serial
+service of expensive requests, but it cannot separate the two causes: at priority 5 the detector is also *lowered* while it serves the
+flood, and at equal priority the queue is first-in first-out, so this shows serial-service load, not priority-ordered queuing. The real
+test is the control experiment in [`mechanism-control.md`](mechanism-control.md). A multi-threaded detector or per-client limits were not built.

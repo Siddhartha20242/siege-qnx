@@ -87,11 +87,13 @@ try:
             print(f"(booted a fresh guest after {args.reboot_every} scenarios)", flush=True)
         since_boot += 1
         res = []
-        for _ in range(runs):
+        unparsed = []                # runs with no FINAL line: keep the end of their output so the cause can be found
+        for run_i in range(runs):
             out = c.run(command(sc), dur * 8 + 30)
             m = FINAL.search(out)
             if not m:
                 res.append(None)
+                unparsed.append(dict(run=run_i, chars=len(out), tail=out[-800:]))
                 continue
             late, lost, stalls, p50, p99, mx, outages, _of, gap, aband = m.groups()
             samples = [dict(t=int(a), late=int(b), lost=int(c_), p50=int(d), p99=int(e), max=int(f_)) for a, b, c_, d, e, f_ in
@@ -110,11 +112,11 @@ try:
                             outage_ms=int(og.group(1)) if og else None))
         ok = [r for r in res if r]
         results.append(dict(target=args.target_label or (("hardware:" + args.ssh) if args.ssh else "emulator"), profile=args.profile, scenario=sc["label"], atk=sc.get("attacker", ""),
-                            atk_prio=sc.get("prio", 10), extra=sc.get("env", {}), runs=res))
-        print(f"{sc['label']:30} fail {sum(r['fail'] for r in ok)}/{len(res)}  "
+                            atk_prio=sc.get("prio", 10), extra=sc.get("env", {}), runs=res, **({"unparsed": unparsed} if unparsed else {})))
+        print(f"{sc['label']:30} fail {sum(r['fail'] for r in ok) + len(unparsed)}/{len(res)}  "
               f"worst_max_ms={max((r['max'] for r in ok), default=0)/1000:.1f}  "
               f"median_p50_ms={statistics.median([r['p50'] for r in ok])/1000 if ok else 0:.1f}  "
-              f"late_frames={sum(r['late'] for r in ok)}", flush=True)
+              f"late_frames={sum(r['late'] for r in ok)}" + (f"  UNPARSED {len(unparsed)} (counted neither as pass nor fail; see 'unparsed' in the JSON)" if unparsed else ""), flush=True)
 
 finally:
     c.__exit__(None, None, None)

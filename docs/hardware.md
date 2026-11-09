@@ -45,13 +45,24 @@ On hardware Siege switches off the emulator workaround (`IDLE_POLL=0`): the
 priority-1 spinner exists only to hide QEMU's cost of waking an idle virtual
 CPU, and real CPUs do not have that cost.
 
+## What this page does not cover
+
+* **The security-policy profiles (`secpol-*`, `fortress`) are not in this path.** They need the policy files built into
+  the boot image (`/proc/boot/secpol-*.bin`), which the QNX quick start image for the Pi does not have. They have only
+  been run in QEMU with Siege's own image.
+* **Check the target first.** The quick start image may not have `sshd` enabled or your key installed, and the
+  writable directory may not be `/data`. `./siege hw install` checks for `ksh` and `on` and reports what is missing.
+* **The ssh session itself disturbs the system under test.** Running a long matrix over ssh adds interrupt and
+  network work on the same board; keep the session idle during a run, or compare against the `baseline` scenario.
+* **`isolate` uses CPUs 0 and 1.** A Pi 4 has four, so which cores handle interrupts and networking is not controlled here.
+
 ## What to look for
 
 The claims worth testing, in order of how much they matter:
 
 1. A CPU hog at priority 20 starves the unhardened pipeline, and every profile
    restores it.
-2. `workflood` at priority 30 breaks the pipeline, and **only the `prio`
+2. `workflood` at priority 30 breaks the pipeline, and of the scheduling profiles **only the `prio`
    profile** fixes it. `isolate` and `budget` do not.
 3. The AI neighbour at priority 20 fails the unhardened pipeline and passes
    under every profile; at the default priority it is harmless.

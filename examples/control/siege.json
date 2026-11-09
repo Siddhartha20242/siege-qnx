@@ -1,0 +1,42 @@
+{
+  "deadline_ms": 20,
+  "tolerance_permille": 20,
+  "recovery_ms": 500,
+  "duration_s": 5,
+  "runs": 10,
+  "profiles": [
+    "none",
+    "prio"
+  ],
+  "scenarios": [
+    {
+      "label": "baseline (no attacker)",
+      "expect": {
+        "none": "pass",
+        "prio": "pass"
+      }
+    },
+    {
+      "label": "workflood @prio 30",
+      "attacker": "workflood",
+      "prio": 30,
+      "expect": {
+        "none": "fail",
+        "prio": "pass"
+      }
+    },
+    {
+      "label": "workflood @prio 30, detector ignores sender priority",
+      "attacker": "workflood",
+      "prio": 30,
+      "expect": {
+        "none": "fail",
+        "prio": "pass"
+      },
+      "env": {
+        "DET_FIXED_PRIO": 1
+      },
+      "note": "PREDICTION written before the run: still fails under none, because queue order and serial service (not the priority boost) do the damage"
+    }
+  ]
+}
